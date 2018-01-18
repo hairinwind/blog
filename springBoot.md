@@ -52,3 +52,17 @@ https://stackoverflow.com/questions/29322709/unable-to-use-spring-property-place
 ```
 
 ## spring cloud config
+Here is the test URL
+- /{application}/{profile}[/{label}]
+- /{application}-{profile}.yml
+- /{label}/{application}-{profile}.yml
+- /{application}-{profile}.properties
+- /{label}/{application}-{profile}.properties
+label is actually the branch, referring to **spring.cloud.config.label** in application.properties
+My properties file name is config-client-development.properties
+{application} is config-client
+{profile} is development
+so the visit URL will be 
+```
+http://localhost:8888/config-client/development/master
+```
