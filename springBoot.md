@@ -59,11 +59,20 @@ Here is the test URL
 - /{application}-{profile}.properties
 - /{label}/{application}-{profile}.properties
 
-label is actually the branch, referring to **spring.cloud.config.label** in application.properties 
-My properties file name is config-client-development.properties 
-{application} is config-client 
-{profile} is development 
-so the visit URL will be 
+Label is actually the git branch, referring to **spring.cloud.config.label** in application.properties  
+My git repository for configuration is https://github.com/hairinwind/springCloud/tree/master/cloudConfig  
+My properties file name is config-client-development.properties  
+{application} is config-client  
+{profile} is development  
+so the visit URL will be  
 ```
 http://localhost:8888/config-client/development/master
+```
+My git repository has a branch test, the URL below can get the properties from the test branch, no need to change the setting of the config server.
+```
+http://localhost:8888/config-client/development/test
+```
+- /{application}-{profile}.properties is 
+```
+http://localhost:8888/master/config-client-development.properties
 ```
