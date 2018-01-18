@@ -76,3 +76,4 @@ http://localhost:8888/config-client/development/test
 ```
 http://localhost:8888/master/config-client-development.properties
 ```
+The sample code git is here https://github.com/hairinwind/springCloud  
