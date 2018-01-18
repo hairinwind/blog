@@ -51,3 +51,25 @@ x[4] = true; // error, 'boolean' isn't 'string | number'
 For more detail 
 
 https://www.typescriptlang.org/docs/handbook/basic-types.html
+
+## Get and Set
+```
+class foo {
+    private _bar:boolean = false;
+    get bar():boolean {
+        return this._bar;
+    }
+    set bar(theBar:boolean) {
+        this._bar = theBar;
+    }
+}
+```
+So to use it,
+```
+var myFoo = new foo();
+if(myFoo.bar) {         // calls the getter
+    myFoo.bar = false;  // calls the setter and passes false
+}
+// myFoo.getBar(); // this is wrong    
+// myFoo.get('bar');  // this is wrong
+```
