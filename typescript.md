@@ -73,3 +73,11 @@ if(myFoo.bar) {         // calls the getter
 // myFoo.getBar(); // this is wrong    
 // myFoo.get('bar');  // this is wrong
 ```
+
+## print instance class name
+```
+const instance = new MyClass();
+console.log(instance.constructor.name); // MyClass
+```
+https://stackoverflow.com/questions/13613524/get-an-objects-class-name-at-runtime-in-typescript
+
