@@ -65,3 +65,12 @@ make the observable share can trigger only one service request.
 3. Communication through Service
 
 https://medium.com/dailyjs/3-ways-to-communicate-between-angular-components-a1e3f3304ecb
+
+## pass in String to angular components
+
+String literals can be passed in different ways:
+```
+<component inputField="string"></component>
+<component [inputField]="'string'"></component>
+<component inputField="{{'string'}}"></component>
+```

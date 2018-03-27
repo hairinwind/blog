@@ -15,3 +15,9 @@ cat.name = "koo"; // JavaScript will ignore it as writable is set to false
 console.log(cat.name); // foo
 ```
 https://dzone.com/articles/easy-javascript-part-7-object-property-descriptors?edition=334864&utm_source=Daily%20Digest&utm_medium=email&utm_campaign=Daily%20Digest%202017-11-10
+
+## promise vs observable
+https://yuyang041060120.github.io/2016/05/16/observable-vs-promise/
+promise does not have delay, cancel and retry
+while observalbe has these features
+

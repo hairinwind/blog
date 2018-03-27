@@ -77,3 +77,15 @@ FOR v, e, p IN 2 OUTBOUND 'airports/BIS' flights
 	RETURN { flight: p, time: flightTime }
 ```
 
+## Aggregation
+```
+FOR flight IN flightInstances
+FILTER DATE_YEAR(flight.takeoffDate) >= 2017
+COLLECT yearMonth = DATE_FORMAT(flight.takeoffDate, '%yyyy-%mm')
+AGGREGATE count=COUNT(flight)
+RETURN {yearMonth, count}
+```
+
+## AQL compares with SQL
+https://www.arangodb.com/why-arangodb/sql-aql-comparison/
+
