@@ -18,6 +18,30 @@ https://dzone.com/articles/easy-javascript-part-7-object-property-descriptors?ed
 
 ## promise vs observable
 https://yuyang041060120.github.io/2016/05/16/observable-vs-promise/
+
 promise does not have delay, cancel and retry
 while observalbe has these features
+
+## import vs require
+There are two module system you can choose in Node.js:
+
+- Importing modules using require, and exporting using CommonJS module.exports and exports.foo
+- Importing modules using ES6 import, and exporting using ES6 export.
+
+http://researchhubs.com/post/computing/javascript/nodejs-require-vs-es6-import-export.html
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
+
+https://blog.jdriven.com/2017/06/typescript-and-es6-import-syntax/
+
+article about commonJS require https://blog.risingstack.com/node-js-at-scale-module-system-commonjs-require/
+
+## template
+```
+var test = 'abc';
+var s = `this is ${test} ...`;
+console.log(s);
+//this is abc ...
+```
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
 

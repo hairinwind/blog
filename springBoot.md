@@ -77,3 +77,15 @@ http://localhost:8888/config-client/development/test
 http://localhost:8888/master/config-client-development.properties
 ```
 The sample code git is here https://github.com/hairinwind/springCloud  
+
+## configure two datasources
+https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#howto-two-datasources
+mark one of the DataSource instances as @Primary
+If it complains the bean cannot be found, you may need explicitly declare it, for example 
+```
+@Bean(name="ahaSettingDataSource")
+...
+@Qualifier("ahaSettingDataSource")
+```
+
+

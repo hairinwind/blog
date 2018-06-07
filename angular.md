@@ -74,3 +74,31 @@ String literals can be passed in different ways:
 <component [inputField]="'string'"></component>
 <component inputField="{{'string'}}"></component>
 ```
+
+## Route event 
+https://angular.io/guide/router#router-events
+
+https://toddmotto.com/dynamic-page-titles-angular-2-router-events
+
+I used to face the code like this
+```
+this.router.navigate([id, "childPage"], {queryParams: this.route.snapshot.queryParams});
+```
+Another place, 
+```
+let routeParamsObserver = Observable.combineLatest(this.route.params, this.route.queryParams,
+            (params, queryParams) => {
+                return {params, queryParams};
+        });
+routeParamsObserver.subscribe(functionA)
+```
+I guess angular change the parameters first. Then the subscriber functionA is triggered. At this moment the id was not applied to the route yet. 
+I have to use the route event to make sure both id and params changes were applied before trigger functionA
+```
+this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                routeParamsObserver.first().subscribe(functionA);
+                // first() make sure it won't trigger next time, until the NavigationEnd event happens
+            }
+        });
+```
