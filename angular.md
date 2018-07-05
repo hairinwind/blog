@@ -102,3 +102,47 @@ this.router.events.subscribe((event) => {
             }
         });
 ```
+
+## unit test HttpClient
+using HttpClientTestingModule, here is a good example 
+https://alligator.io/angular/testing-httpclient/
+
+## unit test mock router example
+https://github.com/angular/vladivostok/blob/master/test/router.spec.ts
+
+## unit test error: no component factory ... found,did you add it to @NgModule.entryComponents
+creating a testModule can help it.
+In my case, it complains no component factory SaveReportSnackbarComponent found,did you add it to @NgModule.entryComponents
+```
+const TEST_DIRECTIVES = [
+  SaveReportSnackbarComponent,
+];
+
+@NgModule({
+  imports: [
+    MatFormFieldModule,
+    ...],
+  exports: TEST_DIRECTIVES,
+  declarations: TEST_DIRECTIVES,
+  entryComponents: [
+    SaveReportSnackbarComponent
+  ],
+})
+class TestModule { }
+```
+In the test configuration
+```
+beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ...
+        TestModule
+      ],
+      providers: [
+        ...
+```
+
+## TestBed useValue: new MockNavigationService() vs useClass: MockNavigationService
+//TODO 
+
+

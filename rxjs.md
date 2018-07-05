@@ -245,11 +245,89 @@ console.log("after source2 completed...");
 "after source2 completed..."
 ```
 
-## flatMap
-
 ## exhaustMap
 
-## mergeMap
+## mergeMap/flatmap
+Here is my code. the click triggers the innerObservable. I am using the Math.random to create an instance id.
+The internalObservable emits 'foo' value right away and emits 'bar' value after 3 seconds.  
+```
+const clicks$ = Rx.Observable.fromEvent(document, 'click');
+const innerObservable$ = Rx.Observable.create(
+  observer => {
+    let id = Math.floor((Math.random() * 1000000) + 1);
+    let counter = 0 ;
+    observer.next({id:id, counter:counter++, value:'foo'});
+    setTimeout(() => observer.next({
+      id:id, counter:counter++, value:'bar'
+    }), 3000);
+  });
+
+clicks$.mergeMap(event => innerObservable$)
+                    .subscribe(val => console.log(val));
+//Click twice
+//Output
+//first mouse click
+[object Object] {
+  counter: 0,
+  id: 671767,
+  value: "foo"
+}
+//second mouse click, the second innerObservable is triggered, the id is different. 
+[object Object] {
+  counter: 0,
+  id: 95199,
+  value: "foo"
+}
+//the first innerObservable is still emitting values. 
+[object Object] {
+  counter: 1,
+  id: 671767,
+  value: "bar"
+}
+[object Object] {
+  counter: 1,
+  id: 95199,
+  value: "bar"
+}
+
+```
+
+Let's compare it with "switchMap". The code is the same, the only change is using "switchMap" to replace "mergeMap".
+```
+const clicks$ = Rx.Observable.fromEvent(document, 'click');
+const innerObservable$ = Rx.Observable.create(
+  observer => {
+    let id = Math.floor((Math.random() * 1000000) + 1);
+    let counter = 0 ;
+    observer.next({id:id, counter:counter++, value:'foo'});
+    setTimeout(() => observer.next({
+      id:id, counter:counter++, value:'bar'
+    }), 3000);
+  });
+
+clicks$.switchMap(event => innerObservable$)
+                    .subscribe(val => console.log(val));
+//Click twice
+//Output
+//first mouse click
+[object Object] {
+  counter: 0,
+  id: 763458,
+  value: "foo"
+}
+//second mouse click, we can see the first subscrption is cancelled.
+[object Object] {
+  counter: 0,
+  id: 734597,
+  value: "foo"
+}
+[object Object] {
+  counter: 1,
+  id: 734597,
+  value: "bar"
+}
+```
+Here are some comparisons:
 - flatMap/mergeMap - creates an Observable immediately for any source item, all previous Observables are kept alive
 - concatMap - waits for the previous Observable to complete before creating the next one
 - switchMap - for any source item, completes the previous Observable and immediately creates the next one
@@ -262,6 +340,31 @@ console.log("after source2 completed...");
 ## Buffer - Collect values, then emit as Array
 
 ## withLatestfrom vs combineLatest
+
+## pairwise - Let me know when the Observable emits, but also give me the previous value. ( Array )
+```
+var source = new Rx.Subject();
+
+var subscription = source.pairwise().subscribe(
+    function (x) {
+        console.log('Next: ' + JSON.stringify(x));
+    },
+    function (err) {
+        console.log('Error: ' + err);
+    },
+    function () {
+        console.log('Completed');
+    });
+
+source.next('test1');
+source.next('test2');
+source.next('test3');
+
+//Output
+// it won't trigger until there are two values, the array contains the previous and the current value.
+"Next: [\"test1\",\"test2\"]"
+"Next: [\"test2\",\"test3\"]"
+```
 
 ## Errors Handling
 ```
