@@ -28,6 +28,14 @@ There are two module system you can choose in Node.js:
 - Importing modules using require, and exporting using CommonJS module.exports and exports.foo
 - Importing modules using ES6 import, and exporting using ES6 export.
 
+```
+var fs = require('fs');
+```
+equals
+```
+import * as fs from 'fs';
+```
+
 http://researchhubs.com/post/computing/javascript/nodejs-require-vs-es6-import-export.html
 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
