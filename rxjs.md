@@ -432,13 +432,12 @@ source.next(1);
 source.next(2);
 source.next(3);
 ```
-The result is 
-"map val...1"
-"subscribe..."
-1
-"map val...2"
-"err"  // it hits the err function in subscribe
-"error, catch me!"
+The result is  
+"map val...1"  
+"subscribe..." 1    
+"map val...2"  
+"err"  // it hits the err function in subscribe  
+"error, catch me!"  
 
 It hits the err function in the subscribe but it kills the subject. The  source.next(3) was not sent to the observer. To solve this, create a disposable stream, If an error occurs only the disposable stream dies, and the main stream lives on. https://iamturns.com/continue-rxjs-streams-when-errors-occur/
 ```
@@ -466,9 +465,9 @@ source.next(2);
 source.next(3);
 ```
 The result is 
-"Success:" 1
-"Success:" "even number"
-"Success:" 3
+"Success:" 1  
+"Success:" "even number"  
+"Success:" 3  
 The pros is that it does not kill the subject. The cons is that it never hits the error function in subscribe.
 
 
