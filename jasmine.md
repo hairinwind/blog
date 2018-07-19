@@ -12,7 +12,14 @@ use "createSpy" when the implementation does not exist.
 use "createSpyObj" from the implmentation (object/function) when it exists.
 
 ## spyOn cheat sheet
-http://tobyho.com/2011/12/15/jasmine-spy-cheatsheet/
+https://daveceddia.com/jasmine-2-spy-cheat-sheet/
+
+## spy a function without object
+```
+test = jasmine.createSpy();
+or 
+test = createSpy().and.callFake(test); 
+```
 
 ## unhandledRejection
 If there is an error thrown from async functions, it is only an unhandledRejection warning and jasmine does not think the test spec is failed. 

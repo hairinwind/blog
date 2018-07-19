@@ -81,3 +81,13 @@ console.log(instance.constructor.name); // MyClass
 ```
 https://stackoverflow.com/questions/13613524/get-an-objects-class-name-at-runtime-in-typescript
 
+## enum
+example 
+```
+enum Colors {
+    Red = "RED",
+    Green = "GREEN",
+    Blue = "BLUE",
+}
+```
+you can’t write Colors["RED"] to get the string "Red"

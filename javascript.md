@@ -54,4 +54,28 @@ console.log(s);
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
 
 ## promise resolve
+//TODO
+
+## dynamic import 
+import the module at runtime.
+```
+export module PowerBiService {
+	export function getToken() {
+		...
+	}
+	...
+}
+```
+To dynamic import it and call the function
+```
+const myPowerBiService = (await import('./powerbi.service')).PowerBiService; //.PowerBiService is the moduel name, here is used as namespace
+const token = myPowerBiService.getToken();
+```
+
+## JSON parse error 
+Got error when run JSON.parse(x)
+the error is like this, “Unexpected token o in JSON at position 1”
+**It means your data is already an object.** No need to parse it. The passed in argument x shall be a JSON string. 
+
+
 

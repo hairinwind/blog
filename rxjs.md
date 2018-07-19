@@ -19,8 +19,13 @@ const myObservable1 = new Rx.Subject();
 myObservable1.map(num => Math.log(num))
   .subscribe(console.log)
 
-myObservable1.next(1000);d
+myObservable1.next(1000);
 ```
+- Observable is a function that sets up observation.
+- Observers is a list of objects which subscribe to Observable and will receive notifications.
+- Subject is Observables and also implements Observer interface. 
+https://medium.com/@benlesh/on-the-subject-of-subjects-in-rxjs-2b08b7198b93
+
 
 ## ReplaySubject - How to subscribe to RxJS event after it has been already emitted
 ```
@@ -366,7 +371,51 @@ source.next('test3');
 "Next: [\"test2\",\"test3\"]"
 ```
 
+## pipe
+
 ## Errors Handling
+Observables does not trap errors. for example, the code below won't hit the error function. 
+```
+var source = Rx.Observable.create( (observer) => {
+    observer.next(1);
+    throw new Error('test');
+});
+
+source.subscribe({
+  next: (val) => {console.log('next...', val);}, 
+  error: (e) => {
+    console.log('error function is executed...');
+    console.log('error...\n', e.message);
+  }, 
+  complete: ()=> {console.log('complete...');}
+  }
+);
+```
+You have to catch the error in the observable function and call .error() method explicitly like this. 
+```
+var source = Rx.Observable.create( (observer) => {
+    observer.next(1);
+    try {
+        // ... some code may throw out error
+        throw new Error('test___error');
+    } catch (e) {
+      observer.error(e);
+    }
+});
+
+source.subscribe({
+  next: (val) => {console.log('next...', val);}, 
+  error: (e) => {
+    console.log('error function is executed...');
+    console.log('error...\n', e.message);
+  }, 
+  complete: ()=> {console.log('complete...');}
+  }
+);
+```
+https://medium.com/@benlesh/on-the-subject-of-subjects-in-rxjs-2b08b7198b93
+
+Here is an example, if the error is thrown from the operator chain, like map/filter, it kills the Observable. 
 ```
 const source = new Rx.Subject();
 source.map(val => {
@@ -381,8 +430,51 @@ source.map(val => {
 
 source.next(1);
 source.next(2);
+source.next(3);
 ```
-catch? to be filled...
+The result is 
+"map val...1"
+"subscribe..."
+1
+"map val...2"
+"err"  // it hits the err function in subscribe
+"error, catch me!"
+
+It hits the err function in the subscribe but it kills the subject. The  source.next(3) was not sent to the observer. To solve this, create a disposable stream, If an error occurs only the disposable stream dies, and the main stream lives on. https://iamturns.com/continue-rxjs-streams-when-errors-occur/
+```
+const source = new Rx.Subject();
+
+const source2 = source.switchMap(x =>
+	Rx.Observable.of(x)
+		.map(val => {
+          if (val % 2 == 0) {
+            throw 'error, catch me!';
+          }
+          return val;
+        })
+		.catch(error => Rx.Observable.of('even number'))
+);
+
+source2.subscribe(
+	(x => console.log('Success:', x)),
+	(x => console.log('Error:', x)),
+	(() => console.log('Complete'))
+);
+
+source.next(1);
+source.next(2);
+source.next(3);
+```
+The result is 
+"Success:" 1
+"Success:" "even number"
+"Success:" 3
+The pros is that it does not kill the subject. The cons is that it never hits the error function in subscribe.
+
+
+
+
+
 
 
 
