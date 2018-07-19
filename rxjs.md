@@ -464,7 +464,7 @@ source.next(1);
 source.next(2);
 source.next(3);
 ```
-The result is 
+The result is  
 "Success:" 1  
 "Success:" "even number"  
 "Success:" 3  
