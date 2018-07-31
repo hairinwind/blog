@@ -41,3 +41,62 @@ describe('Global Unhandled Rejection Processing', () => {
 
 ```
 
+## error Expected a spy, but got Function.
+It means the method shall be spyOn but not. 
+
+## jasmine test setTimeout
+when the testing target code contains 'setTimeout', there is two ways to test it. 
+- spyOn setTimeout
+- wait for the timeout
+If the target code is js running in browser, we can spyOn 'window, setTimeout' and make the func to be executed without waiting.
+```
+spyOn(window, 'setTimeout').and.callFake((func, time) => {
+	func();
+});
+``` 
+If the code is nodejs code, there is not reference to window. The nodejs has 'setTimeout' in global and in timers module.
+I don't know how to mock the 'setTimeout' in global. spyON(global, 'setTimeout') does not work. 
+If the target code is using the timers module, here is the typescript example 
+```
+import * as timers from 'timers';
+...
+timers.setTimeout(func, 5000)
+```
+we can spyOn it
+```
+spyOn(timers, 'setTimeout').and.callFake((func, time) => {
+	func();
+});
+```
+
+The second way is to wait for the timeout. 
+By default jasmine will wait for 5 seconds for an asynchronous spec to finish before causing a timeout failure.
+If need more time, this can be adjusted by setting jasmine.DEFAULT_TIMEOUT_INTERVAL.
+Let's say targetService.targetFunction() is an async function which returns a promise. In that method, it wait for 6 seconds, longer than jasmine default. 
+We need set a new jasmine timeout in beforeEach and recover it in afterEach. 
+```
+describe("long asynchronous specs", function() {
+    let originalTimeout;
+    beforeEach(function() {
+      originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    });
+
+    it("takes a long time", function(done) {
+      targetService.targetFunction().then(() => {
+      		expect(...);
+      		//when everything is done, call done() to notify jasmine context
+      		done();
+      	})
+    });
+
+    afterEach(function() {
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+    });
+  });
+
+```
+The done() shall be called to notify the jasmine context when all work is done. Otherwise, jasmine throws out error when timeout happens. The timeout error is like this.
+```
+Error: Timeout - Async callback was not invoked within timeout specified by jasmine.DEFAULT_TIMEOUT_INTERVAL.
+```
