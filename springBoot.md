@@ -88,4 +88,9 @@ If it complains the bean cannot be found, you may need explicitly declare it, fo
 @Qualifier("ahaSettingDataSource")
 ```
 
+## be careful about the location of the SpringBootApplication class
+I used to put the SpringBootApplication class into a package. All the controllers and services not under that package stop working. The SpringBootApplication class scans the controllers and services in its package or sub-packages. 
+
+ 
+
 

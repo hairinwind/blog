@@ -16,6 +16,68 @@ add other pipes
 <div>{{ observableTime | async | date : 'mediumTime' }} </div>
 ```
 
+## UI keystroke 
+Here is a good solution for ui keystroke. One scenario is used for autocomplete
+```
+this.term.valueChanges
+   .debounceTime(400)
+   .distinctUntilChanged()
+   .subscribe(...)
+```
+The distinctUntilChanged can avoid push the same value to the service. 
+For example, the user input 'foo'. 'foo' is sent to the service. 
+Then the user append 'bar' after 'foo' and contiuously press backspace 3 times. The value is still 'foo' which shall not be sent to the service. 
+
+Here is the angular code
+```
+@Component({
+  selector: 'my-app',
+  template: `
+    <div>
+      <h2>Wikipedia Search</h2>
+      <input type="text" [formControl]="term"/>
+      <ul>
+        <li *ngFor="let item of items | async">{{item}}</li>
+      </ul>
+    </div>
+  `
+})
+export class App {
+
+  items: Observable<Array<string>>;
+  term = new FormControl();
+
+  constructor(private wikipediaService: WikipediaService) {
+    this.items = this.term.valueChanges
+                 .debounceTime(400)
+                 .distinctUntilChanged()
+                 .switchMap(term => this.wikipediaService.search(term));
+  }
+}
+```
+service code
+```
+import { Injectable } from '@angular/core';
+import { URLSearchParams, Jsonp } from '@angular/http';
+
+@Injectable()
+export class WikipediaService {
+  constructor(private jsonp: Jsonp) {}
+
+  search (term: string) {
+    var search = new URLSearchParams()
+    search.set('action', 'opensearch');
+    search.set('search', term);
+    search.set('format', 'json');
+    return this.jsonp
+                .get('http://en.wikipedia.org/w/api.php?callback=JSONP_CALLBACK', { search })
+                .toPromise()
+                .then((response) => response.json()[1]);
+  }
+}
+```
+https://blog.thoughtram.io/angular/2016/01/06/taking-advantage-of-observables-in-angular2.html  
+
 ## how to debug the subscribe triggered from async pipe
 The usual way to debug Observable is to add "do" before "subscribe"
 ```

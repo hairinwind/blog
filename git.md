@@ -14,3 +14,8 @@ Disable Git SSL verification in the server hosting FishEye/Crucible with the fol
 ```
 git config --global http.sslVerify false
 ```
+
+## remove files/dir from staging
+```
+git reset HEAD -- file/dir
+```

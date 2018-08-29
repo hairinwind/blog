@@ -8,7 +8,7 @@ https://angularfirebase.com/lessons/rxjs-quickstart-with-20-examples/
 the code example can be input here to do a quick test
 http://jsbin.com/qoxisuguke/edit?js,console,output
 
-## cold vs hot
+## cold vs hot | share
 ... to be filled...
 
 ## Subject 
@@ -31,7 +31,7 @@ https://medium.com/@benlesh/on-the-subject-of-subjects-in-rxjs-2b08b7198b93
 ```
 let subject: ReplaySubject<string> = new ReplaySubject(1);
 subject.next('test');
- 
+
 subject.subscribe((event) => {
   console.log(event);
 });
@@ -56,7 +56,7 @@ myObservable1.next('foo');
 ```
 
 ## Observable.from vs Observable.of
-"from" iterates the emmitted value, but "of" does not iterate
+"from" iterates the emitted value, but "of" does not iterate
 ```
 const myObservable1 = Rx.Observable.from([1,2,3,4]);
 myObservable1.subscribe(console.log);
@@ -79,7 +79,7 @@ equals
 Rx.Observable.of(1,2,3,4)
 ```
 
-## map - convert the emmitted value
+## map - convert the emitted value
 ```
 const myObservable1 = new Rx.Subject();
 
@@ -109,7 +109,7 @@ last is vice versa.
 Sometimes you might be dealing with a stream that that is emitting values crazy fast - such as mouse move events in the browser. You might only want to handle these events every so often.
 
 1. Throttle - Give me the first value, then wait X time.
-2. Debounce - Wait X time, then give me the last value.
+2. Debounce - Wait X time after the last value emitted, if no more value emitted, then give me the last value.
 ```
 mouseEvents
   .throttleTime(1000)
@@ -124,6 +124,60 @@ mouseEvents
 // wait 1 second...
 // MouseEvent<data>
 ```
+
+Here is another good example of debounce. Autocomplete, you don't want to hit the server every keystroke.
+```
+this.searchSubscription = this.searchFormControl.valueChanges
+    .debounceTime(500)
+    .subscribe(inputValue => {
+        // console.log('inputValue...', inputValue);
+        this.doSearch(inputValue);
+    });
+```
+
+When does it start debounce time? The debounce is started every time there is a value emitted.  
+Here is the code to help me understand it. 
+```
+const source = new Rx.Subject();
+source
+  .debounceTime(3000)
+  .subscribe(val => {
+    console.log(val, new Date().toLocaleString());
+    console.log('======================')
+  });
+
+setTimeout(()=>{
+  source.next(1);
+}, 500);
+source.next(2);
+setTimeout(()=>{
+  console.log('next(3)', new Date().toLocaleString())
+  source.next(3);
+}, 600);
+
+setTimeout(()=>{
+  console.log('next(4)', new Date().toLocaleString())
+  source.next(4);
+}, 5000);
+```
+The console output is like this
+```
+next(3) 8/1/2018, 2:54:02 PM
+3 "8/1/2018, 2:54:05 PM"
+======================
+next(4) 8/1/2018, 2:54:06 PM
+4 "8/1/2018, 2:54:09 PM"
+======================
+```
+Here is what it happens. 
+- 2 is the first emitted value
+- debounce 3 seconds 
+- 1 is emitted after 500 ms
+- debounce 3 seconds after 1 is emitted
+- 3 is emitted after 600 ms
+- debounce 3 seconds after 3 is emitted
+- as no other values are emitted in these 3 seconds, the subscribe function is triggered with the latest value emmited, which is 3. From the console output, we can see the subscribe function is executed 3 seconds after the value is emitted. And the 3 seconds is the debounce time. 
+- 4 is emiited after 5 seconds and the subscription function is executed 3 seconds later. 
 
 ## scan - keep a running total
 Scan is like "reduce" for arrays in javascript. It keeps track of the accumulated total of emitted values. 
@@ -338,7 +392,48 @@ Here are some comparisons:
 - switchMap - for any source item, completes the previous Observable and immediately creates the next one
 - exhaustMap - source items are ignored while the previous Observable is not completed
 
+Here is another scenario to use the flatmap.  
+let's say we have this code. The internal service call 'this.wikipediaService.search(term)' also returns an Observable. 
+```
+this.term.valueChanges
+   .debounceTime(400)
+   .distinctUntilChanged()
+   .subscribe(term => this.wikipediaService.search(term).subscribe(items => this.items = items))
+```
+If you have a subscribe inside another subscribe, this shall be avoided. It can be refactored by flatMap or switchMap.
+The above code shall be refactored to this
+```
+this.term.valueChanges
+	.debounceTime(400)
+	.distinctUntilChanged()
+	.flatMap(term => this.wikipediaService.search(term))
+	.subscribe(items => this.items = items);
+```
+
 ## TakeUntil - Get values until you’re told not to
+Basically, it stops the subscription from the outer observable once the inner observable emit a value. 
+Example: mouse drag and drop 
+html
+```
+<body style="height: 500px;">
+  <div id="widget" style="position: absolute;">AABBCC...</div>
+</body>
+```
+javascript
+```
+var widget = document.getElementById("widget");
+var parent = document.getElementsByTagName("BODY")[0];
+
+var mouseDowns = Rx.Observable.fromEvent(widget, "mousedown");
+var parentMouseMoves = Rx.Observable.fromEvent(parent, "mousemove");
+var parentMouseUps = Rx.Observable.fromEvent(parent, "mouseup");
+mouseDowns.switchMap( e => parentMouseMoves.takeUntil(parentMouseUps))
+	.subscribe(e => {
+		widget.style.left = e.clientX + "px";
+		widget.style.top = e.clientY + "px";
+	});
+```
+Once the parentMouseUps event happens, it completes the subscription to the parentMouseMoves, so the target div is not moving any more. 
 
 ## TakeWhile - Get values while the conditions are right
 
@@ -469,6 +564,21 @@ The result is
 "Success:" "even number"  
 "Success:" 3  
 The pros is that it does not kill the subject. The cons is that it never hits the error function in subscribe.
+
+## subscribe vs forEach
+the code below compares forEach vs subscribe. They actually do the same work
+```
+const clicks$ = Rx.Observable.fromEvent(document, 'click');
+
+clicks$.map(e => {
+  return {x:e.clientX, y:e.clientY}
+}).forEach(point => {
+  alert(JSON.stringify(point));
+});
+
+clicks$.subscribe( e => alert(e.clientX+"|"+e.clientY));
+```
+The difference is the return type, forEach returns Promise while subscribe returns ISubscription.
 
 
 

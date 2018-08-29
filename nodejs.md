@@ -17,3 +17,18 @@ https://medium.com/@iaincollins/how-not-to-create-a-singleton-in-node-js-bd7fde5
 var helloWorldA = require(‘./hello-world’)(),
     helloWorldB = require(‘./hello-world’)();
 ```
+
+## let request-promise return full response
+By default, the request-promise only return the json object in the body, it does not have the status code. In my case, I need propagate the status. I need set this option
+```
+const requestOptions = {
+    ...
+    resolveWithFullResponse: true, // to propagate the status, the full response shall be returned
+    json: true, 
+};
+
+const results = await request.post(url, requestOptions);
+const parsedResults = results.body;
+```
+the json:true option would return json obejct in results.body, so you don't need parse it. 
+
