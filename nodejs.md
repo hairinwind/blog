@@ -32,3 +32,29 @@ const parsedResults = results.body;
 ```
 the json:true option would return json obejct in results.body, so you don't need parse it. 
 
+## script by nodejs 
+This is like the main class in java, can be run standalone. 
+```
+function exit(message) {
+    logger.error(message);
+    process.exit();
+}
+
+program
+    .option('-o, --orgId <orgId>', 'Organization ID')
+    .option('-c, --capacityId <capacityId>', 'Capacity ID')
+    .parse(process.argv);
+
+if (!program.orgId) {
+    exit('-o must have a value');
+}
+
+logger.info('release version', {
+    orgId: program.orgId,
+    capacityId: program.capacityId,
+});
+
+
+// the real logic.......
+```
+
