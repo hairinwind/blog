@@ -77,5 +77,13 @@ Got error when run JSON.parse(x)
 the error is like this, “Unexpected token o in JSON at position 1”
 **It means your data is already an object.** No need to parse it. The passed in argument x shall be a JSON string. 
 
+## await 
+The await operator is used to wait for a Promise. It can only be used inside an async function.  
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await  
 
+Observable and Promise are both asynchronous. But await only works for Promise. I used to make a mistake to put await in front of Observable and nothing was triggered. 
+To use before Observable, call the toPromise function on observable
+```
+await observable.toPromise();
+```
 

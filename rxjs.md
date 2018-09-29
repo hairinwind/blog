@@ -26,6 +26,29 @@ myObservable1.next(1000);
 - Subject is Observables and also implements Observer interface. 
 https://medium.com/@benlesh/on-the-subject-of-subjects-in-rxjs-2b08b7198b93
 
+## Observable.from vs Observable.of
+"from" iterates the emitted value, but "of" does not iterate
+```
+const myObservable1 = Rx.Observable.from([1,2,3,4]);
+myObservable1.subscribe(console.log);
+//1
+//2
+//3
+//4
+```
+```
+const myObservable1 = Rx.Observable.of([1,2,3,4]);
+myObservable1.subscribe(console.log);
+//[1,2,3,4]
+```
+Actually, 
+```
+Rx.Observable.from([1,2,3,4])
+```
+equals 
+```
+Rx.Observable.of(1,2,3,4)
+```
 
 ## ReplaySubject - How to subscribe to RxJS event after it has been already emitted
 ```
@@ -53,30 +76,6 @@ combine.subscribe(([param1, param2])=> {
 
 myObservable2.next('bar');
 myObservable1.next('foo');
-```
-
-## Observable.from vs Observable.of
-"from" iterates the emitted value, but "of" does not iterate
-```
-const myObservable1 = Rx.Observable.from([1,2,3,4]);
-myObservable1.subscribe(console.log);
-//1
-//2
-//3
-//4
-```
-```
-const myObservable1 = Rx.Observable.of([1,2,3,4]);
-myObservable1.subscribe(console.log);
-//[1,2,3,4]
-```
-Actually, 
-```
-Rx.Observable.from([1,2,3,4])
-```
-equals 
-```
-Rx.Observable.of(1,2,3,4)
 ```
 
 ## map - convert the emitted value
@@ -125,7 +124,7 @@ mouseEvents
 // MouseEvent<data>
 ```
 
-Here is another good example of debounce. Autocomplete, you don't want to hit the server every keystroke.
+Here is another good example of debounce. Autocomplete, you don't want to send query to the server on every keystroke.
 ```
 this.searchSubscription = this.searchFormControl.valueChanges
     .debounceTime(500)
@@ -205,6 +204,11 @@ source.next({age:25}); //{age:25, name:"john"}
 ```
 
 ## switchMap - Get value from Observable A, then emit Observable B
+```
+observable1.switchMap(observer1 => {
+	return observable2
+	}).subscribe(observer2 => {...})
+```
 switchMap is commonly required when dealing with async data from a database or API call. For example, you need to get a user ID from an observable, then use it to query the database.
 switchMap likes mergeMap but when the source Observable emits, cancel any previous subscriptions of the inner Observable and a new one will start.
 ```
@@ -581,11 +585,24 @@ clicks$.subscribe( e => alert(e.clientX+"|"+e.clientY));
 The difference is the return type, forEach returns Promise while subscribe returns ISubscription.
 
 
+## observer is an array VS osbserver emitted multiple times
+The subscribe triggers a function which may return an array, e.g. a service call to fetch data from database usually returns an array.  
+Then the array is the observer and wrapped in the Observable. 
+```
+observableInstance.subscribe((val) => {
+		//the val is an array
+	})  
+``` 
+We cannot apply operator like groupBy, filter, map on the observable. Those are the operators applied on the values form multiple values emitted. It is confusing that these values feel like an array. Actually, they are not. They are values in an stream and arriving in different time.  
 
-
-
-
-
+if you need to do filter on the array returned from one value emit. do this
+```
+observableInstance
+	.map(val => val.filter(...)) // the val here is just an array
+	.subscribe((val) => {
+		//the val is an array
+	})
+``` 
 
 
 

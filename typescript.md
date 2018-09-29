@@ -91,3 +91,26 @@ enum Colors {
 }
 ```
 you can’t write Colors["RED"] to get the string "Red"
+
+
+## optional argument
+add ? after the argument
+```
+class X {
+    error(message: string, title?: string, autoHideAfter?: number) {
+        console.log(message, title, autoHideAfter);
+    }
+}
+
+new X().error("hi there", undefined, 1000);
+```
+also a property in interface can be optional
+```
+export interface IErrorParams {
+  message: string;
+  title?: string;
+  autoHideAfter?: number;
+}
+```
+
+

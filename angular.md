@@ -126,7 +126,14 @@ make the observable share can trigger only one service request.
 2. Communication through parent component @Input/@Output
 3. Communication through Service
 
-https://medium.com/dailyjs/3-ways-to-communicate-between-angular-components-a1e3f3304ecb
+https://medium.com/dailyjs/3-ways-to-communicate-between-angular-components-a1e3f3304ecb  
+
+## Pass Async Data to Child Components
+1. ngIf
+2. ngOnchanges
+3. Subject
+
+https://scotch.io/tutorials/3-ways-to-pass-async-data-to-angular-2-child-components  
 
 ## pass in String to angular components
 
@@ -206,5 +213,43 @@ beforeEach(async(() => {
 
 ## TestBed useValue: new MockNavigationService() vs useClass: MockNavigationService
 //TODO 
+
+## angular meterial: cursor cannot see when the background is dark
+If the background is dark, the cursor in the matInput cannot be seen. To change that, in the css 
+```
+.mat-input-element {
+    caret-color: auto;
+}
+```
+If auto does not work, explicitly set it to be "white".
+https://developer.mozilla.org/en-US/docs/Web/CSS/caret-color
+
+## How can I watch for changes to localStorage in Angular2?
+https://stackoverflow.com/questions/35397198/how-can-i-watch-for-changes-to-localstorage-in-angular2  
+
+## angular proxy the backend service
+In dev mode, we may want to proxy the backend service. For example, inject userId in http header.
+here is the command to start the ng server with proxy
+```
+ng serve --proxy-config proxy-backend.conf.json
+```
+Here is the prxoy-backend.conf.json
+```
+{
+    "/api": {
+        "target": "http://localhost:3000",  //backend service to be proxy
+        "secure": false,
+        "logLevel": "debug",
+        "headers": {
+            "ifs_organizationid": "123456789",
+            "ifs_subject": "123456" //injected values...
+        }
+    }
+}
+```
+
+## angualr material menu not overlap the trigger icon
+By default, the menu overlaps the trigger menu icon. To avoid that, using [overlapTrigger]="false" attribute.
+https://material.angular.io/components/menu/overview  
 
 

@@ -100,3 +100,6 @@ The done() shall be called to notify the jasmine context when all work is done. 
 ```
 Error: Timeout - Async callback was not invoked within timeout specified by jasmine.DEFAULT_TIMEOUT_INTERVAL.
 ```
+In conclusion: Because we’re testing an async call, in beforeEach or it block, don’t forget to call done. The test runner will wait until the done() function is called before moving to the next test.
+
+
