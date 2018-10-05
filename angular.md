@@ -1,5 +1,83 @@
 # angular
 
+## model view data bind
+### single direction: model to view
+```
+<input type="text" [ngModel]="myInput" />
+```
+if the myInput on the component is changed, the browser can see the change right away.  
+Change the value in the browser won't change the property of the component.  
+
+### single direction: view to model
+```
+<input type="text" (ngModelChange)="modelChange($event)" [ngModel]="input" />
+```
+ngModelChange is an event. modelChange is a function on the component.
+
+### dual directions
+```
+<input type="text"  [(ngModel)]="myInput" />
+```
+
+### [] in angular template
+https://angular.io/guide/template-syntax#property-binding-or-interpolation
+[] tells angular it is expression.  
+The items below are the same
+```
+<p><img src="{{heroImageUrl}}"> is the <i>interpolated</i> image.</p>
+<p><img [src]="heroImageUrl"> is the <i>property bound</i> image.</p>
+
+<p><span>{{title}}</span></p>
+<p><span [innerHTML]="title"></span></p>
+```
+
+### content security
+https://angular.io/guide/template-syntax#content-security
+```
+evilTitle = '<script>alert("evil never sleeps")</script>';
+```
+```
+<p><span>{{title}}</span></p>
+<p><span [innerHTML]="title"></span></p>
+```
+Here is the result
+```
+"<script>alert("evil never sleeps")</script>" //only displayed, the script was not executed
+
+alert("evil never sleeps")  //<script> was filtered out
+```
+
+### []() between parent and child 
+The code below is a child inside the parent html file
+```
+<hero-detail (deleteRequest)="deleteHero($event)" [hero]="currentHero"></hero-detail>
+```
+[hero] means pass "currentHero" from the parent component into the child component hero-detail. In the child component there is @Input hero to receive the passed in object/value.    
+
+(deleteRequest)="deleteHero($event)" is passing an event from the child to the parent. deleteRequest is an EventEmitter on child component and it is annotated with @Output 
+```
+@Output
+deleteRequest = new EventEmitter<Hero>();
+
+delete() {
+  this.deleteRequest.emit(this.hero);
+}
+```
+When the deleteRequest emit a value, it is going to trigger "deleteHeo" function on the parent component. The event is passed from the child component to the parent component.
+
+## safe navigation operator ?.
+```
+The current hero's name is {{currentHero?.name}}
+```
+
+## $any type cast
+Sometimes a binding expression will be reported as a type error and it is not possible or difficult to fully specify the type. To silence the error, you can use the $any
+```
+<div>
+  The hero's marker is {{$any(hero).marker}}
+</div>
+```
+
 ## async pipe
 https://www.concretepage.com/angular-2/angular-2-async-pipe-example
 ```
@@ -251,5 +329,17 @@ Here is the prxoy-backend.conf.json
 ## angualr material menu not overlap the trigger icon
 By default, the menu overlaps the trigger menu icon. To avoid that, using [overlapTrigger]="false" attribute.
 https://material.angular.io/components/menu/overview  
+
+
+## view real error for unit test 
+I used to get this error when running unit test. 
+```
+Error: Failed to execute 'send' on 'XMLHttpRequest': Failed to load 'ng:///DynamicTestModule/DatasetCategoryComponent.ngfactory.js'
+```
+to view the real error, try this 
+```
+ng test -sm=false
+```
+or --source-map=false
 
 
