@@ -1,0 +1,64 @@
+https://medium.freecodecamp.org/how-to-pick-the-best-learning-rate-for-your-machine-learning-project-9c28865039a8 | How to pick the best learning rate for your machine learning project
+https://miguel-data-sc.github.io/2017-11-05-first/ | Visualizing Learning rate vs Batch size
+http://teleported.in/posts/decoding-resnet-architecture/ | Decoding the ResNet architecture // teleported.in
+https://medium.com/@apiltamang/yet-another-resnet-tutorial-or-not-f6dd9515fcd7 | Yet Another ResNet Tutorial (or not) – Apil Tamang – Medium
+https://hackernoon.com/convolutional-neural-network-in-5-minutes-8f867eb9ca39 | Convolutional Neural Network in 5 minutes – Hacker Noon
+https://www.kaggle.com/c/planet-understanding-the-amazon-from-space/data | Planet: Understanding the Amazon from Space | Kaggle
+https://keras.io/ | Keras Documentation
+https://techburst.io/improving-the-way-we-work-with-learning-rate-5e99554f163b | Improving the way we work with learning rate. – techburst
+https://medium.com/@apiltamang/case-study-a-world-class-image-classifier-for-dogs-and-cats-err-anything-9cf39ee4690e | Case Study: A world class image classifier for dogs and cats (err.., anything)
+https://blog.csdn.net/sscc_learning/article/details/79814146 | 【CNN】理解卷积神经网络中的通道 channel - scxyz的博客 - CSDN博客
+https://mooc.study.163.com/learn/2001281004?tid=2001392030#/learn/announce | 卷积神经网络 - 网易云课堂
+https://study.163.com/my#/smarts | 我的学习 - 网易云课堂
+https://www.youtube.com/watch?v=ghEmQSxT6tw | Visualizing and Understanding Deep Neural Networks by Matt Zeiler - YouTube
+https://arxiv.org/pdf/1311.2901.pdf | Visualizing and Understanding Convolutional Networks
+https://study.163.com/course/courseLearn.htm?courseId=1004774010#/learn/live?lessonId=1050399116&courseId=1004774010 | 人工智能系列直播课 - 网易云课堂
+http://neuralnetworksanddeeplearning.com/chap4.html | Neural networks and deep learning
+
+https://docs.google.com/document/d/1Iq5bqP9ooY36ZbYJ1JCla7_nN-FugM95MJFS4JiPVwA/edit | Amazon Lab: Intro to Hadoop Ecosystem on CDH 5.2 - Google Docs
+https://docs.google.com/document/d/1hBjUfQHttWL565WbDDod14K70Ph04jXQq2OrJjupuNI/edit | Amazon Lab (Dec version): Intro to Spark 1.1 on DSE 4.6 - Google Docs
+https://spark.apache.org/docs/latest/sql-programming-guide.html | https://spark.apache.org/docs/latest/sql-programming-guide.html
+https://github.com/spirom/learning-spark-with-java | spirom/learning-spark-with-java: Self-contained examples using Apache Spark with the functional features of Java 8
+https://github.com/databricks/Spark-The-Definitive-Guide/tree/master/code | Spark-The-Definitive-Guide/code at master · databricks/Spark-The-Definitive-Guide
+https://github.com/apache/spark/blob/master/examples/src/main/java/org/apache/spark/examples/JavaHdfsLR.java | spark/JavaHdfsLR.java at master · apache/spark
+https://spark.apache.org/docs/latest/sql-programming-guide.html | Spark SQL and DataFrames - Spark 2.3.1 Documentation
+http://course.fast.ai/lessons/lesson1.html | Deep Learning For Coders—36 hours of lessons for free
+
+https://blog.csdn.net/forezp | 方志朋的专栏 - CSDN博客
+http://cloud.spring.io/spring-cloud-static/Finchley.RELEASE/single/spring-cloud.html | Spring Cloud
+
+https://rxjs-dev.firebaseapp.com/api/operators/zip | RxJS - zip
+https://gist.github.com/staltz/868e7e9bc2a7b8c1f754 | The introduction to Reactive Programming you've been missing
+https://gist.github.com/btroncone/d6cf141d6f2c00dc6b35#zip | RxJS 5 Operators By Example
+https://www.learnrxjs.io/operators/combination/combineall.html | combineAll · learn-rxjs
+https://gist.github.com/auth/github/callback?return_to=https://gist.github.com/btroncone/d6cf141d6f2c00dc6b35&browser_session_id=94290e6b55f5e4fa0c3339c96a604b01e392aa7d&code=0fd99e6d0d5ae9220aa6&state=95097ef6e22aa91fba0700eabb309cfa9371b289730a467f140438fc6eb09848#mapto
+http://jsbin.com/nosagukoli/edit?js,console,output | JS Bin - Collaborative JavaScript Debugging
+
+https://zhuanlan.zhihu.com/p/23128483 | 量化投资策略的研发流程
+https://www.quantopian.com/posts/machine-learning-on-quantopian | Machine Learning on Quantopian
+https://www.quantopian.com/posts/getting-yesterdays-bar-open-high-low-and-close-using-history | Getting Yesterdays Bar - Open, High, Low, and Close using history?
+https://developer.teradata.com/tools/reference/teradata-python-module#Installing | Teradata Python Module | Teradata Downloads
+http://testerlife.com/2018/04/30/f0dd54f04893974e76c1a36a8f0afb99/index.html | Python金融学第10课----pipeline的使用 | Raymond's Blog
+https://www.quantopian.com/tutorials | Quantopian Tutorials
+https://www.quantopian.com/posts/confused-with-order-execution-time | confused with order execution time
+https://www.quantopian.com/posts/current-open-position | Current open position
+https://www.quantopian.com/posts/how-to-iterate-over-positions-and-sell-some-of-them | How to iterate over positions and sell some of them?
+https://www.quantopian.com/posts/help-intraday-backtest-how-to-get-highest-high-of-today-and-yesterday | Help(Intraday backtest): How to get Highest high of today and yesterday ?
+https://www.quantopian.com/help#ide-ordering | Quantopian Help
+https://pythonprogramming.net/python-programming-creating-automated-trading-strategy/ | Python Programming Tutorials
+https://www.youtube.com/watch?v=NjSlj95lliM | Sentdex Live - TensorFlow.js Introduction - YouTube
+https://www.youtube.com/watch?v=vmK35Va-XsQ&list=PLRFLF1OxMm_WUX97SE1HwQQIpkcWLVCvB&index=11 | Getting Started Lesson 11: Putting It All Together - YouTube
+
+https://github.com/mawrkus/js-unit-testing-guide#review-test-code-first | mawrkus/js-unit-testing-guide: 📙 A guide to unit testing in JavaScript
+https://github.com/angular/vladivostok/blob/master/test/router.spec.ts | vladivostok/router.spec.ts at master · angular/vladivostok
+https://chariotsolutions.com/blog/post/unit-testing-angular-2-0-x-components-using-testbed-testfixture/ | Unit Testing Angular 2.0.x Components using TestBed and ComponentFixture – Chariot Solutions
+https://angular.io/guide/dynamic-component-loader | Angular - Dynamic Component Loader
+https://angular.io/api/core/testing/fakeAsync | Angular - fakeAsync
+
+https://apihandyman.io/writing-openapi-swagger-specification-tutorial-part-1-introduction/ | https://apihandyman.io/writing-openapi-swagger-specification-tutorial-part-1-introduction/
+https://www.gitbook.com/book/huangwenchao/swagger/details | Swagger从入门到精通 · GitBook
+https://springframework.guru/spring-boot-restful-api-documentation-with-swagger-2/ | Spring Boot RESTful API Documentation with Swagger 2 - Spring Framework Guru
+https://www.jianshu.com/p/39f145c6eb29 | 8.5 Spring Boot集成Swagger2构建自动化Rest API文档 - 简书
+https://insite.web.boeing.com/culture/service/boeingUserWebServiceJSON/bemsid?query=2595727 | https://insite.web.boeing.com/culture/service/boeingUserWebServiceJSON/bemsid?query=2595727
+https://git.web.boeing.com/bca-analytics/In-Plane-Site/merge_requests/473/diffs?view=inline | WIP: Add AMOS WORK_ORDER and WORK_PACKAGE views (!473) · Merge Requests · bca-analytics / in-plane-site · GitLab
+https://www.youtube.com/watch?v=Hq612XJBmIw | (1) Webinar - Getting started with Foxx in 2.6 - YouTube
