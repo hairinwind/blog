@@ -58,3 +58,7 @@ logger.info('release version', {
 // the real logic.......
 ```
 
+## req.params vs req.query
+req.params contains route parameters (in the path portion of the URL)  
+req.query contains the URL query parameters (after the ? in the URL)
+
