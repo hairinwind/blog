@@ -68,6 +68,9 @@ docker run \
    --net=host \
    --rm \
    confluentinc/cp-kafka:3.1.2 \
-   kafka-topics --describe --zookeeper localhost:32181
+   kafka-topics --describe --zookeeper 
+
+
+setup kafka argument, e.g. delete.topic.enable to true, when create container
 
 
