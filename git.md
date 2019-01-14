@@ -23,4 +23,15 @@ git reset HEAD -- file/dir
 ## rename local and remote branch 
 https://multiplestates.wordpress.com/2015/02/05/rename-a-local-and-remote-branch-in-git/
 
+## undo last commit before push
+```
+git reset --soft d93bd7879ca0f8e8bc0866660022b43098b63390
+```
+The last part is the commit log ID which you want to go back to.
+
+## git log latest n commit
+```
+git log -10
+```
+
 

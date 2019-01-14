@@ -42,6 +42,17 @@ D['food']
 ```
 https://bdhacker.wordpress.com/2010/02/27/python-tutorial-dictionaries-key-value-pair-maps-basics/  
 
+## merge two dict
+```
+>>> x = {'a': 1, 'b': 2}
+>>> y = {'b': 3, 'c': 4}
+
+>>> z = {**x, **y}
+
+>>> z
+{'c': 4, 'a': 1, 'b': 3}
+```
+
 ## numpy sub-array 
 for example, a is a 2 dimension array.
 ```
@@ -189,6 +200,31 @@ df[['columnA', 'columnB']]
 output is 'dlrow olleh'  
 This is extended slice syntax. It works by doing [begin:end:step] - by leaving begin and end off and specifying a step of -1, it reverses a string.
 https://docs.python.org/2/whatsnew/2.3.html#extended-slices
+
+## which directory are the third party packages installed
+There are a few different locations where third party packages can be installed on your system. 
+```
+>>> import sys
+>>> sys.prefix
+```
+The third party packages installed using easy_install or pip are typically placed in one of the directories pointed to by site.getsitepackages:
+```
+>>> import site
+>>> site.getsitepackages()
+```
+https://realpython.com/python-virtual-environments-a-primer/
+
+## create virtual environment
+```
+python -m venv TARGET_FOLDER_NAME
+```
+Or 
+```
+py -3 -m venv TARGET_FOLDER_NAME
+```
+https://realpython.com/python-virtual-environments-a-primer/
+
+
 
 
 

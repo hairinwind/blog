@@ -342,4 +342,7 @@ ng test -sm=false
 ```
 or --source-map=false
 
+## How to Modularize an Angular Application
+Here is the article about how to create modules in angular project.  
+https://dzone.com/articles/howto-modularize-an-angular-application-by-example?edition=435195&utm_source=Daily%20Digest&utm_medium=email&utm_campaign=Daily%20Digest%202019-01-07
 

@@ -87,3 +87,13 @@ To use before Observable, call the toPromise function on observable
 await observable.toPromise();
 ```
 
+The benefit of await
+- Async/await improves code readability
+- Async/await gives us synchronous-like syntax for asynchronous behavior
+- Async/await can be used with and in place of promises
+- Async/await enables try...catch error handling for asynchronous operations
+- Async/await is supported by Node.js and all major browser vendors
+- Async/await officially arrives in the ES2018 language spec
+https://appendto.com/2017/06/asyncawait-come-use/
+
+
