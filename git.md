@@ -34,4 +34,14 @@ The last part is the commit log ID which you want to go back to.
 git log -10
 ```
 
+## git stash 
+```
+git stash save "message"
+git stash pop [–index] [stash_id]
+or 
+git stash apply [–index] [stash_id]
+```
+other stash commands
+https://blog.csdn.net/daguanjia11/article/details/73810577
+
 

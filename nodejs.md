@@ -62,3 +62,31 @@ logger.info('release version', {
 req.params contains route parameters (in the path portion of the URL)  
 req.query contains the URL query parameters (after the ? in the URL)
 
+## sequalize query specify return fields
+```
+mdsSequelize.datacatalog.findAll({
+            raw: true,
+            attributes: [
+                'id', 'name', 'description', 'datasourceId',
+                [Sequelize.col('datasource.name'), 'datasourceName'],
+                [Sequelize.col('dataset.name'), 'datasetName'],
+                [Sequelize.col('dataset->group.organizationId'), 'organizationId'],
+            ],
+            include: [
+                {model: mdsSequelize.datasource, required: true, attributes: []},
+                {model: mdsSequelize.dataset, required: true,
+                    attributes: [],
+                    include: [
+                        {model: mdsSequelize.group, required: true, where,
+                            attributes: []},
+                    ]},
+            ],
+            order: [[Sequelize.col('datasource.name')], [Sequelize.col('dataset.name')]],
+        });
+```
+- raw: true tells sequalize to return the result in flat json instead of a tree structure
+- attributes in the top level specify the fields returned. 
+- [Sequelize.col('datasource.name'), 'datasourceName'] is for the field in a joined table
+- [Sequelize.col('dataset->group.organizationId'), 'organizationId'] is for the field in a joined joined table
+- attributes with empty array [] in "include" tells sequalize don't return fields of that table
+- required: true tells sequalize to do inner join instead of left join

@@ -224,7 +224,14 @@ py -3 -m venv TARGET_FOLDER_NAME
 ```
 https://realpython.com/python-virtual-environments-a-primer/
 
+run this command to activate the virtualenv
+```
+bin/activate
+```
 
-
-
+## return first item or None
+https://stackoverflow.com/questions/363944/python-idiom-to-return-first-item-or-none
+```
+next(iter(your_list), None)
+```
 
