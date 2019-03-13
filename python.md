@@ -82,6 +82,18 @@ a_copy5 = a[np.isnan(a), :]  # fancy indexing
 
 https://zhuanlan.zhihu.com/p/28626431  
 
+## substring is similar to sub-array
+https://guide.freecodecamp.org/python/is-there-a-way-to-substring-a-string-in-python/
+
+string[start:end]: Get all characters from index start to end-1
+
+string[:end]: Get all characters from the beginning of the string to end-1
+
+string[start:]: Get all characters from index start to the end of the string
+
+string[start:end:step]: Get all characters from start to end-1 discounting every step character
+
+
 ## numpy determine if tow arrays share the memory
 ```
 a = np.arange(50)
@@ -228,6 +240,49 @@ run this command to activate the virtualenv
 ```
 bin/activate
 ```
+Here is the article talking about the steps of recover the virtual env on another developer's machine 
+https://developer.akamai.com/blog/2017/06/21/how-building-virtual-python-environment 
+
+## pipenv to manage virtual environment and dependencies
+pipenv can manage virtual environment and dependencies, so you don't need create virtual env by yourself. 
+https://packaging.python.org/tutorials/managing-dependencies/
+Here are the steps to make the project 
+```
+python -m pip install --user pipenv
+cd myproject
+python -m pipenv install lxml
+```
+pipfile and pipfile.lock are created  
+Now, create main.py to import lxml
+```
+from lxml import etree
+
+root = etree.Element("root")
+print(root.tag)
+
+root.append( etree.Element("child1") )
+child2 = etree.SubElement(root, "child2")
+child3 = etree.SubElement(root, "child3")
+print(etree.tostring(root, pretty_print=True))
+```
+Here is the command to run the main.py
+```
+python -m pipenv run python main.py
+```
+Check in the files to git, when you check it out in another place, run 
+```
+python -m pipenv install
+```
+It creates a new virtual env and install all dependencies. Then run 
+```
+python -m pipenv run python main.py
+```
+Here is the command options of pipenv. https://pipenv.readthedocs.io/en/latest/#cmdoption-pipenv-rm  
+The virtual env will be saved in C:\Users\yao.dong\.virtualenvs. To remove one virtual environment created by pipenv 
+```
+cd myproject
+python -m pipenv --rm
+```
 
 ## return first item or None
 https://stackoverflow.com/questions/363944/python-idiom-to-return-first-item-or-none
@@ -235,3 +290,79 @@ https://stackoverflow.com/questions/363944/python-idiom-to-return-first-item-or-
 next(iter(your_list), None)
 ```
 
+## python function arguments
+https://stackoverflow.com/questions/817087/call-a-function-with-argument-list-in-python  
+```
+def func(*args, **kvargs):
+	for arg in args:
+		print(arg)
+	for k,v in kvargs.items():
+		print(k, v)
+```
+\*args means take the rest non-key/value arguments and put them in a list called args
+\*\*kvargs means take the rest key/value arguments and put them in a dict called kvargs
+
+## python scheduler
+APScheduler https://lz5z.com/Python%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/
+
+## python requirements.txt
+to create requirements.txt
+```
+pip freeze > requirements.txt
+```
+install the dependencies from requirements.txt
+```
+pip install -r requirements.txt
+```
+
+## Applying Functions to List Items
+http://damianmingle.com/applying-functions-to-list-items/  
+List Comprehension Example
+```
+result = [x.upper() for x in dataList]
+```
+
+## list comprehension with if condition expression
+https://docs.python.org/3/tutorial/datastructures.html?highlight=list%20comprehension#list-comprehensions  
+https://docs.python.org/3/reference/expressions.html#conditional-expressions  
+https://www.python.org/dev/peps/pep-0308/  
+https://stackoverflow.com/questions/4260280/if-else-in-pythons-list-comprehension
+```
+appMainScript = [len(x.string) if x.string is not None else 0 for x in scriptsFound]
+```
+without else, the if expression has to be put at the end
+```
+appMainScript = [len(x.string) for x in scriptsFound if x.string is not None]
+```
+
+## convert string to int if it is not None
+```
+n = int(s) if s else None
+```
+
+## Packaging Python and install it 
+Follow this tutorial to package your module. https://packaging.python.org/tutorials/packaging-projects/  
+
+If you upload to pypi, you can pip install it directly.  
+An alternative way is to install from git repository. For example https://github.com/hairinwind/pemail.git is the repository of my gmail module. 
+I can install it 
+```
+pip install git+https://github.com/hairinwind/pemail.git#egg=pemail
+```
+after install, I can import it
+```
+from pemail install gmail
+gmail.send_email_text(subject,text, password='gmail_password')
+```
+
+## How to access environment variable values?
+```
+import os
+print(os.environ['PATH'])
+```
+
+## iterate for loop with index
+```
+for idx, val in enumerate(ints):
+    print(idx, val)
+```
