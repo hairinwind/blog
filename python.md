@@ -361,8 +361,98 @@ import os
 print(os.environ['PATH'])
 ```
 
+## get absolute path by relative path
+```
+import os
+os.path.abspath("mydir/myfile.txt")
+```
+
+## mkdir if it already exists
+```
+import os
+os.makedirs(path, exist_ok=True)
+```
+
+## copy multiple files 
+```
+import os
+import shutil
+src_files = os.listdir(src)
+for file_name in src_files:
+    full_file_name = os.path.join(src, file_name)
+    if (os.path.isfile(full_file_name)):
+        shutil.copy(full_file_name, dest)
+```
+
+
 ## iterate for loop with index
 ```
 for idx, val in enumerate(ints):
     print(idx, val)
 ```
+
+## print in the same line
+```
+print('.', end='', flush=True)
+```
+
+## bytes to string
+need decode
+```
+>>> b"abcde".decode("utf-8") 
+'abcde'
+```
+
+## run system command 
+```
+import os
+import subprocess
+path = os.path.abspath(dir + "/" + file_name)
+output= subprocess.Popen(('certutil.exe', '-hashfile', path), stdout=subprocess.PIPE).stdout
+result = []
+for line in output:
+    result.append(line.decode("utf-8").replace('\r\n', ''))
+output.close()
+```
+
+## dump yaml in its preserved order
+https://stackoverflow.com/questions/31605131/dumping-a-dictionary-to-a-yaml-file-while-preserving-order  
+Run the below setup code at the start.
+```
+def setup_yaml():
+  represent_dict_order = lambda self, data:  self.represent_mapping('tag:yaml.org,2002:map', data.items())
+  yaml.add_representer(OrderedDict, represent_dict_order)    
+setup_yaml()
+```
+Use an OrderedDict instead of dict.
+```
+with open(dir+'/'+yamlFileName, 'w') as outfile:
+	yaml.dump(OrderedDict(data), outfile, default_flow_style=False)
+```
+data type is dict.
+
+## string format
+```
+>>> 'abc {0} aaa {1} float {2:9.3f}'.format('1st', '2nd', 234.456789)
+'abc 1st aaa 2nd float   234.457'
+```
+or C-style
+```
+>>> "%s is %d years old." % ('john', 17)
+'john is 17 years old.'
+```
+
+## getopt to get command options
+https://docs.python.org/3.1/library/getopt.html  
+```
+getopt.getopt(args, shortopts, longopts=[])
+```
+with options that require an argument followed by a colon  
+for example
+```
+opts, args = getopt.getopt(sys.argv[1:], "ho:v", ["help", "output="])
+```
+a possible command is like this:  
+python main.py -h -oabc -v --help --output=abc
+
+
