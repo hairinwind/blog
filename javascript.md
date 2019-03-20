@@ -96,4 +96,42 @@ The benefit of await
 - Async/await officially arrives in the ES2018 language spec
 https://appendto.com/2017/06/asyncawait-come-use/
 
+## Throw Errors From Async Functions
+https://www.valentinog.com/blog/throw-errors-async-functions-javascript/  
+if you see this error, it means an error was thrown in async functions and it is not caught.
+```
+UnhandledPromiseRejectionWarning: Unhandled promise rejection...
+```
+Async functions and async methods always return a Promise, either resolved or rejected.  
+When exception is thrown, a rejected Promise will propagate up in the stack unless you catch it.  
+
+throwing exception is same in sync and async functions
+```
+async getData(url) {
+    if (typeof url !== "string") {
+      throw TypeError("url must be a string");
+    }
+    // const response = await fetch(url)
+    // do stuff
+}
+```  
+To catch the excpetion from async method 
+use .catch() method
+```
+getData(url).then(res => ...).catch(err => console.error(err));
+```
+Or use try/catch with await
+```
+try{
+	await getData(url);
+}catch(error) {
+	console.error(error);
+}
+```
+
+## slice() vs splice()
+- The slice( ) method copies a given part of an array and returns that copied part as a new array. It doesn’t change the original array.
+- The splice( ) method changes an array, by adding or removing elements from it.
+https://medium.freecodecamp.org/lets-clear-up-the-confusion-around-the-slice-splice-split-methods-in-javascript-8ba3266c29ae
+
 

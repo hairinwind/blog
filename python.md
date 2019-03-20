@@ -455,4 +455,42 @@ opts, args = getopt.getopt(sys.argv[1:], "ho:v", ["help", "output="])
 a possible command is like this:  
 python main.py -h -oabc -v --help --output=abc
 
+## timezone
+```
+import time
+time.tzname[time.localtime().tm_isdst]
+```
+time.localtime().tm_isdst indicates that dst is active.
+
+## regular expression search vs findall vs match 
+- search is to scan through string looking for the first location where the regular expression pattern produces a match, and return a corresponding match object.
+- findall returns all matches.
+- match returns match object when the beginning of string matches the regular expression
+
+## python except 
+From this example we can know the syntax of python exception
+```
+import sys
+
+try:
+    f = open('myfile.txt')
+    s = f.readline()
+    i = int(s.strip())
+except OSError as err:
+    print("OS error: {0}".format(err))
+except ValueError:
+    print("Could not convert data to an integer.")
+except:
+    print("Unexpected error:", sys.exc_info()[0])
+    raise
+```
+raising exceptions
+```
+raise NameError('the name is wrong')
+```
+
+## multiple threads 
+https://www.novixys.com/blog/updating-file-multiple-threads-python/  
+
+
 
