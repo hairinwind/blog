@@ -245,7 +245,8 @@ https://developer.akamai.com/blog/2017/06/21/how-building-virtual-python-environ
 
 ## pipenv to manage virtual environment and dependencies
 pipenv can manage virtual environment and dependencies, so you don't need create virtual env by yourself. 
-https://packaging.python.org/tutorials/managing-dependencies/
+https://packaging.python.org/tutorials/managing-dependencies/  
+https://jcutrer.com/python/pipenv-pipfile  
 Here are the steps to make the project 
 ```
 python -m pip install --user pipenv
@@ -491,6 +492,27 @@ raise NameError('the name is wrong')
 
 ## multiple threads 
 https://www.novixys.com/blog/updating-file-multiple-threads-python/  
+```
+def runner(fname):
+    global lck
+    lck.acquire()
+    with open(fname, 'r') as f:
+        for ln in f:
+            n = int(ln)
+    n += 1
+    with open(fname, 'a') as f:
+        f.write(str(n) + '\n')
+    lck.release()
+```
 
-
+## dict key error
+get "key error" when getting non-exist key from a dict
+```
+dict['path']
+```
+If the dict does not have the key 'path', you will get the 'key error'.
+Use dict get method, if the key 'path'does not exist, returns None.
+```
+dict.get('path', None)
+```
 

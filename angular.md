@@ -346,3 +346,34 @@ or --source-map=false
 Here is the article about how to create modules in angular project.  
 https://dzone.com/articles/howto-modularize-an-angular-application-by-example?edition=435195&utm_source=Daily%20Digest&utm_medium=email&utm_campaign=Daily%20Digest%202019-01-07
 
+## unit test observable, fakeAsync and flush
+the code to be tested is like this. It does not change anything on the UI.
+```
+saveReport() {
+    this.abcService.postReport(report.id, report.dataSetId, reportName)
+      .subscribe(async() => {
+          await this.removeAutoSavedReport(this).toPromise();
+          this.navigateToViewMode();
+      });
+}
+
+```
+The function call inside the subscribe is async and you don't know when it is executed.  
+To test it, angular provids fakeAsync and flush.
+https://alligator.io/angular/testing-async-fakeasync/
+flush basically simulates the passage of time until the macrotask queue is empty. 
+```
+it('test saveReport', fakeAsync(() => {
+    spyOn...
+    component.saveReport();
+    flush();
+    expect...;
+  }));
+```
+
+## What is the difference between declarations, providers, and import in NgModule?
+https://stackoverflow.com/questions/39062930/what-is-the-difference-between-declarations-providers-and-import-in-ngmodule  
+Components are declared, Modules are imported, and Services are provided.  
+- imports makes the exported declarations of other modules available in the current module
+- declarations are to make directives (including components and pipes) from the current module available to other directives in the current module. Selectors of directives, components or pipes are only matched against the HTML if they are declared or imported.
+- providers are to make services and values known to DI (dependency injection). They are added to the root scope and they are injected to other services or directives that have them as dependency.

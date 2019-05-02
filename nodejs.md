@@ -1,3 +1,45 @@
+## Nodejs express typescript first project
+In the project directory
+```
+npm init
+npm install express body-parser request
+npm install --save-dev typescript @types/node @types/express
+npm install -g ts-node
+```
+add src directory, add index.js in the src dir.
+```
+import express from "express";
+
+const app = express();
+const port = 8080; // default port to listen
+
+// define a route handler for the default home page
+app.get( "/", ( req, res ) => {
+    res.send( "Hello world!" );
+} );
+
+// start the Express server
+app.listen( port, () => {
+    console.log( `server started at http://localhost:${ port }` );
+} );
+``` 
+
+add "start" in the package.json
+```
+"start": "ts-node src/index.ts"
+```
+To start the server, run "npm run start"
+
+https://developer.okta.com/blog/2018/11/15/node-express-typescript
+https://www.cnblogs.com/chyingp/p/nodejs-learning-express-body-parser.html
+
+## enable enable CORS.
+```
+app.use(function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	next();
+});
+```
 
 ## Express error handling
 https://expressjs.com/en/guide/error-handling.html
@@ -31,6 +73,16 @@ const results = await request.post(url, requestOptions);
 const parsedResults = results.body;
 ```
 the json:true option would return json obejct in results.body, so you don't need parse it. 
+
+## debug nodejs in vscode
+https://itnext.io/the-absolute-easiest-way-to-debug-node-js-with-vscode-2e02ef5b1bad  
+for ts-node, just use 
+```
+ts-node --inspect src/index.ts
+```
+
+
+
 
 ## script by nodejs 
 This is like the main class in java, can be run standalone. 
@@ -90,3 +142,14 @@ mdsSequelize.datacatalog.findAll({
 - [Sequelize.col('dataset->group.organizationId'), 'organizationId'] is for the field in a joined joined table
 - attributes with empty array [] in "include" tells sequalize don't return fields of that table
 - required: true tells sequalize to do inner join instead of left join
+
+## error [nodemon] app crashed - waiting for file changes before starting...
+You may need to run 'npm install'. 
+
+## allow fiddler to capture network traffic
+http://blog.knor.net/2016/12/capture-network-traffic-in-nodejs-with-fiddler/
+```
+set https_proxy=http://127.0.0.1:8888
+set http_proxy=http://127.0.0.1:8888
+set NODE_TLS_REJECT_UNAUTHORIZED=0
+```

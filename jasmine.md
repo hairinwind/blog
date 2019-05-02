@@ -102,4 +102,12 @@ Error: Timeout - Async callback was not invoked within timeout specified by jasm
 ```
 In conclusion: Because we’re testing an async call, in beforeEach or it block, don’t forget to call done. The test runner will wait until the done() function is called before moving to the next test.
 
-
+## mock moment.js
+https://deepakpixel.com/mock-date-with-moment-js-jasmine-unit-test/  
+```
+beforeEach(() => {
+    const mockedDateAndTime  = '2019-01-10 00:00:00';
+    const today = moment(mockedDateAndTime).toDate();
+    jasmine.clock().mockDate(today);
+});
+```

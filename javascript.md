@@ -134,4 +134,18 @@ try{
 - The splice( ) method changes an array, by adding or removing elements from it.
 https://medium.freecodecamp.org/lets-clear-up-the-confusion-around-the-slice-splice-split-methods-in-javascript-8ba3266c29ae
 
+## javascript sleep function
+```
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function demo() {
+  console.log('Taking a break...');
+  await sleep(2000);
+  console.log('Two seconds later');
+}
+```
+https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep  
+
 

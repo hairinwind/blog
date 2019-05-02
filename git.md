@@ -29,6 +29,12 @@ git reset --soft d93bd7879ca0f8e8bc0866660022b43098b63390
 ```
 The last part is the commit log ID which you want to go back to.
 
+## undo add
+```
+git reset filename
+```
+will reove the file from index
+
 ## git log latest n commit
 ```
 git log -10
