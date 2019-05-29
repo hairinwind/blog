@@ -28,6 +28,11 @@ class Car implements Vehicle {
    }
 }
 ```
+The differences between default method and static method:
+- Default methods can be overriden in implementing class, while static cannot.
+- Static method belongs only to Interface class, so you can only invoke static method on Interface class, not on class implementing this Interface. In the above example, Car.blowHorm() is not valid.
+- Both class and interface can have static methods with same names, and neither overrides other!
+https://stackoverflow.com/questions/27833168/difference-between-static-and-default-methods-in-interface
 
 ## What are functional interfaces?
 
@@ -63,4 +68,25 @@ public static <T> Supplier<T> lazy(Supplier<T> supplier) {
 }
 ```
 http://tutorials.jenkov.com/java-util-concurrent/atomicreference.html
+
+## stream terminal functions vs intermediate operations
+Stream operations are divided into intermediate (Stream-producing) operations and terminal (value- or side-effect-producing) operations. Intermediate operations are always lazy.  
+https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html 
+Terminal operations include:
+- forEach
+- toArray
+- reduce
+- collect
+- finAny or findFirst
+- ...
+https://www.leveluplunch.com/java/examples/stream-terminal-operations-example/  
+
+## Function.identity
+```
+Stream<String> stream = Stream.of("I", "love", "you", "too");
+Map<String, Integer> map = stream.collect(Collectors.toMap(Function.identity(), String::length));
+```
+- identity is a static method on Function 
+- It returns the input parameter
+http://www.importnew.com/24245.html  
 

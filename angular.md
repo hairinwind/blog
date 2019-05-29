@@ -1,5 +1,53 @@
 # angular
 
+## benefit to use angular
+coding in structure, so easy to maintain and test
+typescript
+unit test ready
+
+## angular concepts
+- Modules: a collection of components, directives ... can be exported and used by externally. For example HttpClientModule or a lot of material modules
+- Components - basic UI build block. It is a subset of directives, associated with template. 
+- Services - 
+- Directives - ngIf, ngFor
+- Templates - html 
+- Metadata - Annotations like @Component
+- Pipes and filters - pipes is to transform data.
+- Routing - navigate from one view to another 
+- Forms
+- Data binging
+  - interpolation {{value}}
+  - propery binding: [property] = "value"
+  - Event binding: (onclick) = "function"
+  - Two-way data bindiing: <input ...[(ngModel)]="value" 
+- Dependency injection
+
+## Pipe example
+
+## filter example
+
+## eager and lazy loading 
+eager loading is loading all modules at application startup.  
+lazy loading is loading module only when required. The compiled js files are separated
+
+## lifecycle hooks
+most used ones
+- ngOninit  
+- ngOnDestroy - unsubscribe Observables to avoid memory leak 
+
+## What is observable
+Observable provide support to passing messages between publishers and subscribers. It is asychronous.
+
+## Observable vs Promise
+Observable is from Rxjs. Promise is from javascript. TODO
+
+## security in Angular 
+TODO
+JWT (JSON web token)
+
+## Interceptors
+Intercept all requests and responses, useful for caching, error handling and logging...
+
 ## model view data bind
 ### single direction: model to view
 ```

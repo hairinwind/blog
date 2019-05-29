@@ -1,3 +1,51 @@
+## kafka basic concept
+https://blog.csdn.net/shangmingtao/article/details/79567921  
+- Broker : Kafka集群包含一个或多个服务器，这种服务器被称为broker
+- Topic : 每条发布到Kafka集群的消息都有一个类别，这个类别被称为Topic。（物理上不同Topic的消息分开存储，逻辑上一个Topic的消息虽然保存于一个或多个broker上但用户只需指定消息的Topic即可生产或消费数据而不必关心数据存于何处）
+- Partition : Partition是物理上的概念，每个Topic包含一个或多个Partition.
+- Producer : 负责发布消息到Kafka broker
+- Consumer : 消息消费者，向Kafka broker读取消息的客户端。
+- Consumer Group : 每个Consumer属于一个特定的Consumer Group（可为每个Consumer指定group name，若不指定group name则属于默认的group）。
+
+## consumer and partitions
+一个Consumer(消费者)的一个线程在某个时刻只能接收一个partition(分区)的数据,一个partition(分区)某个时刻也只会把消息发给一个Consumer(消费者).我们设计出来几种场景:
+
+场景一: topic-1 下有partition-1和partition-2 
+group-1 下有consumer-1和consumer-2和consumer-3 
+所有consumer只有一个线程,且都消费topic-1的消息. 
+消费情况 : consumer-1只消费partition-1的数据 
+consumer-2只消费partition-2的数据 
+consumer-3不会消费到任何数据 
+原因 : 只能接受一个partition(分区)的数据
+
+场景二: topic-1 下有partition-1和partition-2 
+group-1 下有consumer-1 
+consumer只有一个线程,且消费topic-1的消息. 
+消费情况 : consumer-1先消费partition-1的数据 
+consumer-1消费完partition-1数据后开始消费partition-2的数据 
+原因 : 这里是kafka检测到当前consumer-1消费完partition-1处于空闲状态,自动帮我做了负载.所以大家看到这里在看一下上边那句话的”某个时刻” 
+特例: consumer在消费消息时必须指定topic,可以不指定partition,场景二的情况就是发生在不指定partition的情况下,如果consumer-1指定了partition-1,那么consumer-1消费完partition-1后哪怕处于空闲状态了也是不会消费partition-2的消息的.  
+
+进而我们总结出了一条经验,同组内的消费者(单线程消费)数量不应多于topic下的partition(分区)数量,不然就会出有消费者空闲的状态,此时并发线程数=partition(分区)数量.反之消费者数量少于topic下的partition(分区)数量也是不理想的,原因是此时并发线程数=消费者数量,并不能完全发挥kafka并发效率.
+
+## specify partition in ProducerRecord
+https://kafka.apache.org/10/javadoc/org/apache/kafka/clients/producer/ProducerRecord.html
+```
+ProducerRecord(java.lang.String topic, java.lang.Integer partition, K key, V value)  
+Creates a record to be sent to a specified topic and partition
+```
+For the consumer, to specify partitions
+https://kafka.apache.org/10/javadoc/org/apache/kafka/clients/consumer/KafkaConsumer.html
+```
+consumer.assign(Arrays.asList(partition0, partition1));
+```
+
+## consumer read record from specific offset
+
+
+## kafka consumer is offline for a while, when it comes back, does it continue from the previous offset? Or it will miss thhe messages when it is offline? 
+TODO  
+https://stackoverflow.com/questions/42572795/kafka-does-not-retrieve-messages-which-are-sent-when-it-is-offline  
 
 ## confluent jdbc source configuratin options
 https://docs.confluent.io/current/connect/connect-jdbc/docs/source-connector/source_config_options.html#jdbc-source-configs  
@@ -31,8 +79,6 @@ curl -X DELETE http://localhost:28083/connectors/my-jdbc-source
 kafka-consumer-groups --bootstrap-server localhost:19092,localhost:29092,localhost:39092 --list
 ### view groups/consumers offset
 kafka-consumer-groups --bootstrap-server localhost:19092,localhost:29092,localhost:39092 --describe --group console-consumer-34641
-
-
 
 ## kafka connector sink tutorial
 I followed this tutorial online and found there were some errors. 

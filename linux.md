@@ -19,24 +19,25 @@ https://janikarhunen.fi/how-to-install-python-3-6-1-on-centos-7
 I found the third link is perfect. I did not get any error.
 Here are my commands
 ```
-yum update
-yum install yum-utils
-yum groupinstall development
-yum install https://centos7.iuscommunity.org/ius-release.rpm
-yum install python36u
-yum install python36u-pip
-yum install python36u-devel
-yum install git
+sudo yum -y update
+sudo yum -y install yum-utils
+sudo yum -y groupinstall development
+sudo yum -y install https://centos7.iuscommunity.org/ius-release.rpm
+sudo yum -y install python36u
+sudo yum -y install python36u-pip
+sudo yum -y install python36u-devel
+sudo yum -y install git
 '''
 Now python3.6 is installed.
 '''
-update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
-update-alternatives --install /usr/bin/pip3 pip3 /usr/bin/pip3.6 1
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
+sudo update-alternatives --install /usr/bin/pip3 pip3 /usr/bin/pip3.6 1
 ```
 Now you can run python3 and pip3 directly
 ```
-pip3 install --upgrade pi
-pip3 install pipenv
+
+sudo pip3 install --upgrade pip
+sudo pip3 install pipenv
 ```
 
 
@@ -53,6 +54,19 @@ Then
 sudo update-alternatives --config python3
 ```
 select the index of the python version
+
+## setup DNS server
+add below into /etc/sysconfig/network-scripts/ifcfg-<YOUR Adapter>
+
+DNS1="127.0.0.1"
+DNS2="8.8.8.8"
+DNS3="8.8.4.4"
+
+##CentOS 7 / RHEL 7 restart network service
+```
+sudo systemctl restart network.service
+```
+
 
 
 
