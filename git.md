@@ -19,6 +19,10 @@ git config --global http.sslVerify false
 ```
 git reset HEAD -- file/dir
 ```
+for removing all files from the git index.
+```
+git reset HEAD 
+```
 
 ## rename local and remote branch 
 https://multiplestates.wordpress.com/2015/02/05/rename-a-local-and-remote-branch-in-git/
