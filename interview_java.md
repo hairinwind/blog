@@ -1,5 +1,63 @@
 
+## JVM memroy and garbage collection
+The JVM uses different types of memory to store different types of objects. The heap memory space, which is what you will usually be watching for memory leaks, contains two distinct areas: young generation and old generation. Non–heap memory is used by the JVM to store loaded classes and methods, and other low-level data. Memory leaks are usually only an issue in Heap memory. Without going into too much detail, it is useful to know how these zones are used when tracking down memory-related issues.
+
+The young generation area is split into three distinct zones. The first zone, known as the Eden Space, is where the JVM places newly created objects (hence the name), and is mainly used for short-lived variables such as local variables within a method. When this space becomes too crowded, a fast, lightweight garbage collection process cleans it up and reclaims any unreferenced objects. Objects that are not freed by garbage collections in the Eden space are placed in a second zone, called the Survivor space. In fact, there are two, identically sized survivor spaces. When the first survivor space starts to fill up, a garbage collection frees dead objects and copies live ones into the second survivor space. Objects that stand the test of time and are not recycled from the second survivor space are placed in the old generation, also know as the Tenured Generation. This zone is usually reserved for long-lived objects such as static variables or frequently used cached objects. This space is usually much bigger than the others (by an order of magnitude or two), and memory can only be recycled here by a particularly expensive operation called a "mark and sweep" garbage collection.
+
+When old generation space is running low, a longer, full-scale garbage collection process scans the entire heap space for recyclable objects. Again, this "mark and sweep" garbage collection is a particularly expensive operation and is the sort of thing that can bring your server to its knees if it happens too frequently.
+
+## garbage collection 
+https://detailfocused.blogspot.com/2008/03/garbage-collection.html
+
+## Java 8 Lambda shall not modify external data
+Lambda is a function. It shall only manipulate the passed in variable. It shall not modify the external data/variable. 
+
+## ConcurrentModificationException 
+Essentially, the ConcurrentModificationException is used to fail-fast when something we are iterating on is modified.   
+https://www.baeldung.com/java-concurrentmodificationexception
+Regarding the item is removed when iterating, this article introduces how to avoid ConcurrentModificationException
+- iterator.remove
+- add remove item to another list, then call removeAll with that list
+- java 8 removeIf
+- java 8 filter
+
+## ArrayIndexOutOfBoundsException
+The code below can throw ArrayIndexOutOfBoundsException
+```
+List<Integer> matched = new ArrayList<>();
+List<Integer> elements = new ArrayList<>();
+public void sampleFunction() {
+    for (int i=0; i< 10000; i++) {
+        elements.add(i)
+    }
+
+    elements.parallelStream().forEach(
+        e -> {
+            if (e>=100) {
+                matched.add(e); // this throws ArrayIndexOutOfBoundsException
+                // also, here the lambda tries to modify the external data "matched" 
+                // which shall be avoided
+            }
+        }
+    );
+    System.out.println(matched.size()) 
+}
+```
+The good solution is like this
+```
+matched = elements.parallelStream().filter(e -> e>=100).collect(Collectors.toList()); 
+```
+Why ArrayList causes java.lang.ArrayIndexOutOfBoundsException when multiple threads are adding Items.  
+List increases its space when it finds out the space is not enough. When mulitple threads access one list, let's say list has one room, both threads think the list still have room, so it does not increase the room before add the item into the arraylist. When the later thread add the object, actually the list has no room. So it throws out ArrayIndexOutOfBoundsException.
+
+## how does java 8 stream parallel work
+When a stream executes in parallel, the Java runtime partitions the stream into multiple sub-streams. Aggregate operations iterate over and process these sub-streams in parallel and then combine the results.
+https://examples.javacodegeeks.com/core-java/java-8-parallel-streams-example/
+
 ## final 
+final variable - create constant variable 
+final methods - prevent method overriding
+final classes - prevent class extension/inheritance 
 
 ## multiple threads 
 - thread states http://detailfocused.blogspot.com/2008/03/thread-states-and-transitions.html 
