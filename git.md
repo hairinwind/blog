@@ -33,6 +33,11 @@ git reset --soft d93bd7879ca0f8e8bc0866660022b43098b63390
 ```
 The last part is the commit log ID which you want to go back to.
 
+## undo all local changes
+```
+git reset --hard
+```
+
 ## undo add
 ```
 git reset filename
@@ -76,4 +81,14 @@ git push origin --delete <tag_name>
 https://git-scm.com/book/en/v2/Git-Basics-Tagging  
 https://www.atlassian.com/git/tutorials/inspecting-a-repository/git-tag  
 
+## git add all modified 
+the command to do git add all modified files, excluding the new files
+```
+git add -u
+```
+
+## rename a file
+```
+git mv old_filename new_filename
+```
 

@@ -91,6 +91,177 @@ If it complains the bean cannot be found, you may need explicitly declare it, fo
 ## be careful about the location of the SpringBootApplication class
 I used to put the SpringBootApplication class into a package. All the controllers and services not under that package stop working. The SpringBootApplication class scans the controllers and services in its package or sub-packages. 
 
- 
+ ## @ConditionalOnProperty or @ConditionalOnExpression
+conditional create the bean when the property value matches
+ ```
+ @Bean(name="processLines")
+    @ConditionalOnProperty(
+            value="inbound.filename.type",
+            havingValue = "decm-customers-rules",
+            matchIfMissing = false)
+public Step processCustomerRuleLines(...) {
+    ...
+}
+```
+conditional create the bean when the expression is satisfied 
+```
+@Bean(name="processLines")
+    @ConditionalOnExpression("'${inbound.filename.type}'.equals('AFT') || '${inbound.filename.type}'.equals('BILLBATCH')")
+public Step processTransactionLines(...) {
+    ...
+}
+```
 
+## @ConfigurationProperties
+This is an alternative of @Value on each properties. 
+It can map the properties in a java class with the prefix.
+https://www.baeldung.com/configuration-properties-in-spring-boot  
+https://www.concretepage.com/spring-5/spring-value
+
+properties file is like this 
+```
+#Simple properties
+mail.hostname=host@mail.com
+mail.port=9000
+mail.from=mailer@mail.com
+```
+The java class is like this
+```
+@Configuration
+@PropertySource("classpath:configprops.properties")
+@ConfigurationProperties(prefix = "mail")
+public class ConfigProperties {
+     
+    private String hostName; //this will take the property mail.hostname
+    private int port;
+    private String from;
+ 
+    // standard getters and setters
+}
+```
+https://reflectoring.io/spring-boot-conditionals/
+
+## @Value
+https://www.baeldung.com/spring-value-annotation
+```
+@Value("${value.from.file}")
+private String valueFromFile;
+```
+With default value
+```
+@Value("${unknown.param:some default}")
+private String someDefault;
+```
+With empty default value, someDefault will be empty string if unknown.param cannot be found.
+```
+@Value("${unknown.param:}")
+private String someDefault;
+```
+split
+```
+@Value("#{'${listOfValues}'.split(',')}")
+private List<String> valuesList;
+```
+split with default empty value 
+```
+@Value("#{'${some.key:}'.split(',')}")
+Set<String> someKeySet;
+```
+@Value with Maps
+```
+# properties file 
+valuesMap={key1: '1', key2: '2', key3: '3'}
+
+// Java 
+@Value("#{${valuesMap}}")
+private Map<String, Integer> valuesMap;
+```
+
+## Spring Boot - Generating Random Properties
+to generate a random property in property file
+```
+#random int with max
+app.user-age=${random.int(100)}
+
+#random int range
+app.max-users=${random.int[1,10000]}
+
+#random long with max
+app.refresh-rate-milli=${random.long(1000000)}
+
+#random long range
+app.initial-delay-milli=${random.long[100,90000000000000000]}
+```
+https://www.logicbig.com/tutorials/spring-framework/spring-boot/random-properties.html
+
+## Circular Dependencies
+https://www.baeldung.com/circular-dependencies-in-spring
+
+## @Autowired on property vs @Autowired on set method
+We can put @Autowired on property
+```
+@Autowired
+private ServiceA serviceA;
+```
+This actually adds serviceA as an argument of the constructor.
+
+Or 
+```
+private ServiceA serviceA;
+@Autowired
+public void setServiceA(...) {
+    //set ...
+}
+```
+This actually injects the bean when it needed. The previous one may have the issue that when the bean is initialized the injected bean is not ready yet.   
+https://www.baeldung.com/circular-dependencies-in-spring
+
+## spring unit test dirtyContext
+DirtiesContext.classMode  
+https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.ClassMode.html
+
+## spring boot display sql with argument
+put this in pom
+```
+<dependency>
+    <groupId>com.integralblue</groupId>
+    <artifactId>log4jdbc-spring-boot-starter</artifactId>
+    <version>1.0.2</version>
+</dependency>
+```
+https://github.com/candrews/log4jdbc-spring-boot-starter  
+To disable some logging, put this in application.properties
+```
+logging.level.jdbc.sqlonly=INFO
+logging.level.jdbc.sqltiming=WARN
+logging.level.jdbc.audit=WARN
+logging.level.jdbc.resultset=WARN
+logging.level.jdbc.resultsettable=WARN
+logging.level.jdbc.connection=WARN
+```
+I hope it could filter the sql by table name. For example I don't want to see the sql to spring batch tables.  There is one option "log4jdbc.debug.stack.prefix", but seems not working for me.
+
+## spring override property at runtime
+In one of my test, I need start the activmq. To avoid the port competition on the build server (multiple builds from different branches could be triggered at the same moement), I want the activemq broker is started on different port.
+
+Here is the code in BeforeClass
+```
+    public static String BROKER_ADDRESS = "tcp://localhost:" + (new Random().nextInt(89999)+10000);
+    
+    @BeforeClass
+    public static void startupActiveMq() throws Exception {
+        //set the dynamic port URL into system property and jmsTemplate can get that
+        System.setProperty("spring.activemq.broker-url", BROKER_ADDRESS);
+
+        BROKER = new BrokerService();
+        BROKER.addConnector(new URI(BROKER_ADDRESS));
+        BROKER.setPersistent(false);
+        BROKER.setUseJmx(false);
+
+        BROKER.start();
+    }
+``` 
+The BeforeClass is a static method. So, it cannot get the spring property value. I let the BROKER_ADDRESS start on a random port. Then use System.setProperty "spring.activemq.broker-url" to let the jmsTemplate listen on the port randomly generated. 
+
+https://stackoverflow.com/questions/17353327/populating-spring-value-during-unit-test
 

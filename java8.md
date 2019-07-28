@@ -90,3 +90,77 @@ Map<String, Integer> map = stream.collect(Collectors.toMap(Function.identity(), 
 - It returns the input parameter
 http://www.importnew.com/24245.html  
 
+## java command line parse
+http://jcommander.org/
+
+## Optional orElse vs orElseGet
+orElse takes a default value as parameter 
+orElseGet takes a function as parameter
+orElseGet has better performance than orElse
+// TODO
+
+## var to declare local variables
+https://dzone.com/articles/finally-java-10-has-var-to-declare-local-variables
+
+## get last element after split
+```
+String last = string.substring(string.lastIndexOf('-') + 1);
+```
+
+## Collections.synchronizedList() 
+https://docs.oracle.com/javase/7/docs/api/java/util/Collections.html#synchronizedList(java.util.List)  
+Collections.synchronizedList() Returns a synchronized (thread-safe) list backed by the specified list. In order to guarantee serial access, it is critical that all access to the backing list is accomplished through the returned list.
+
+It is imperative that the user manually synchronize on the returned list when iterating over it:
+```
+  List list = Collections.synchronizedList(new ArrayList());
+      ...
+  synchronized (list) {
+      Iterator i = list.iterator(); // Must be in synchronized block
+      while (i.hasNext())
+          foo(i.next());
+  }
+``` 
+Failure to follow this advice may result in non-deterministic behavior.
+
+https://howtodoinjava.com/java/collections/arraylist/synchronize-arraylist/
+No explicit synchronization is needed to add, remove elements from synchronized arraylist.
+
+I used to need call "contains" function. It actually needs to do the iteration inside the function, so it has to be in the synchronized block.
+
+## java Volatile/synchronization on arraylist
+Volatile on arraylist cannot make arraylist to be synchronized. 
+https://stackoverflow.com/questions/32549628/java-volatile-synchronization-on-arraylist
+The meaning of volatile is that changes made by thread A to a shared variable are visible to thread B immediately. Usually such changes may be in some cache visible only to the thread that made them, and volatile just tells the JVM not to do any caching or optimization that will result in the value update being delayed.
+
+So it is not a means of synchronization. It's just a means of ensuring visibility of change. Moreover, it's change to the variable, not to the object referenced by that variable. That is, if you mark list as volatile, it will only make any difference if you assign a new list to list, not if you change the content of the list!
+
+## spring jdbcTemplate to retrieve database auto-generated keys
+https://www.logicbig.com/tutorials/spring-framework/spring-data-access-with-jdbc/key-holder.html
+
+```
+String sql = "insert into CUSTOMER (NAME, PHONE, ADDRESS) values (?, ?, ?)";
+      KeyHolder keyHolder = new GeneratedKeyHolder();
+
+      jdbcTemplate.update(
+              connection -> {
+                  PreparedStatement ps = connection.prepareStatement(sql, new String[]{"ID"});
+                  ps.setString(1, "Jake");
+                  ps.setString(2, "234-333-627");
+                  ps.setString(3, "345 Move Dr, Shine Hill");
+                  return ps;
+              }, keyHolder);
+
+      Number key = keyHolder.getKey();
+      System.out.println("Newly persisted customer generated id: " + key.longValue());
+```
+
+## create list with value
+```
+List<String> places = Arrays.asList("Buenos Aires", "Córdoba", "La Plata");
+```
+
+## SimpleDateFormat is not thread-safe
+I used to work on a spring-batch project. Multiple threads read data chunk at the same moment and try to parse them. Somebody put the SimpleDateFormat as final static class variable. Under multiple threads, it throw some weird exception, like cannot parse the date.  
+The solution is to move the SimpleDateFormat into method so it is not shared by different threads.
+
