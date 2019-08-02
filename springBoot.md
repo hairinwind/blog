@@ -265,3 +265,13 @@ The BeforeClass is a static method. So, it cannot get the spring property value.
 
 https://stackoverflow.com/questions/17353327/populating-spring-value-during-unit-test
 
+## actuator
+https://www.callicoder.com/spring-boot-actuator/  
+https://www.callicoder.com/spring-boot-actuator-metrics-monitoring-dashboard-prometheus-grafana/  
+https://docs.spring.io/spring-boot/docs/2.0.x/actuator-api/html/  
+```
+management.endpoints.web.exposure.include=* 
+management.endpoints.web.exposure.exclude=
+management.endpoint.health.show-details=always
+```
+
