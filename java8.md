@@ -81,6 +81,20 @@ Terminal operations include:
 - ...
 https://www.leveluplunch.com/java/examples/stream-terminal-operations-example/  
 
+## faltten nested collection
+```
+public <T> List<T> flattenListOfListsStream(List<List<T>> list) {
+    return list.stream()
+      .flatMap(Collection::stream)
+      .collect(Collectors.toList());    
+}
+```
+https://www.baeldung.com/java-flatten-nested-collections
+
+## collection groupby
+https://www.baeldung.com/java-groupingby-collector
+
+
 ## Function.identity
 ```
 Stream<String> stream = Stream.of("I", "love", "you", "too");
@@ -98,6 +112,43 @@ orElse takes a default value as parameter
 orElseGet takes a function as parameter
 orElseGet has better performance than orElse
 // TODO
+
+## Optinal or() Method 
+Here is one example
+```
+Optional<Something> opt3 = opt1.or(()->opt2)
+```
+if opt1 is provided (not empty), opt3.get() is doing opt1.get()
+if opt1 is not provided (empty), opt3.get() is doing opt2.get()
+https://www.baeldung.com/java-9-optional
+
+## Optional ifPresentOrElse() Method
+We used to have code like this
+```
+if (a != null) {
+   doSomething();
+} else {
+   doSomethingElse();
+}
+```
+Now a is wrapped by an Optional<a>, how to implement the if...else... here. The method ifPresentOrElse() is created for this. The method ifPresentOrElse() has two consumer arguments, the first one is executed when the if condition is satisfied and the second one is executed when the else condition is satisfied.
+```
+optionalA.ifPrsentOrElse(
+   () -> doSomething(),
+   () -> doSomethingElse()
+)
+```
+//TODO
+what if it needs to return something 
+```
+if (a != null) {
+   return 1;
+} else {
+   return 2;
+}
+```
+https://www.baeldung.com/java-9-optional
+
 
 ## var to declare local variables
 https://dzone.com/articles/finally-java-10-has-var-to-declare-local-variables
@@ -163,4 +214,28 @@ List<String> places = Arrays.asList("Buenos Aires", "Córdoba", "La Plata");
 ## SimpleDateFormat is not thread-safe
 I used to work on a spring-batch project. Multiple threads read data chunk at the same moment and try to parse them. Somebody put the SimpleDateFormat as final static class variable. Under multiple threads, it throw some weird exception, like cannot parse the date.  
 The solution is to move the SimpleDateFormat into method so it is not shared by different threads.
+
+## parallelStream set thread number
+```
+txList.parallelStream().forEach(this::handleTx);
+```
+This code does the job in parallel stream. The threads number by default is processor number - 1.  
+If you want to specify the thread number, the code is like this 
+```
+ForkJoinPool customThreadPool = new ForkJoinPool(10);
+customThreadPool.submit(
+         () -> txList.parallelStream().forEach(this::handleTx)
+).get();
+```
+the .get() is to wait all parallelStream to complete.  
+https://www.baeldung.com/java-executor-service-tutorial  
+https://www.baeldung.com/java-8-parallel-streams-custom-threadpool
+
+## jdbc database deadlock exception takes long time
+If deadlock happens on database side, it takes long time to return. In my test, it may take 10 seconds to return, depending on database setting.   
+If we have the retry policy, we shall not wait that long. We shall fail the transaction and let it retry.  
+In Sql server, the lock timeout of the session can be set like this 
+```
+SET LOCK_TIMEOUT 1000;  --set it to 1 second  
+```
 

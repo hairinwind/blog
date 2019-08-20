@@ -227,7 +227,7 @@ put this in pom
     <groupId>com.integralblue</groupId>
     <artifactId>log4jdbc-spring-boot-starter</artifactId>
     <version>1.0.2</version>
-</dependency>
+</dependency>	
 ```
 https://github.com/candrews/log4jdbc-spring-boot-starter  
 To disable some logging, put this in application.properties
@@ -240,6 +240,47 @@ logging.level.jdbc.resultsettable=WARN
 logging.level.jdbc.connection=WARN
 ```
 I hope it could filter the sql by table name. For example I don't want to see the sql to spring batch tables.  There is one option "log4jdbc.debug.stack.prefix", but seems not working for me.
+
+To filter some messages, add janino dependency in pom.xml
+```
+<dependency>
+    <groupId>org.codehaus.janino</groupId>
+    <artifactId>janino</artifactId>
+    <version>3.0.15</version>
+</dependency>
+```
+logback.xml, I don't want to see two polling sql statements.
+```
+<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+        <evaluator>
+            <matcher>
+                <Name>DECM_INIT_polling_query</Name>
+                <!-- filter out odd numbered statements -->
+                <regex>SELECT \* FROM DECM_INIT WHERE ATTR_DOMAIN='DATE_PROC'</regex>
+            </matcher>
+            <expression>DECM_INIT_polling_query.matches(formattedMessage)</expression>
+        </evaluator>
+        <OnMismatch>NEUTRAL</OnMismatch>
+        <OnMatch>DENY</OnMatch>
+    </filter>
+    <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+        <evaluator>
+            <matcher>
+                <Name>TXNS_polling_query</Name>
+                <!-- filter out odd numbered statements -->
+                <regex>SELECT TOP(100) \* FROM TXNS WHERE PROCESSED_TS IS NULL and STATUS IN ('PROC','STOP','DIRTY','REJ') order by TSEQ</regex>
+            </matcher>
+            <expression>TXNS_polling_query.matches(formattedMessage)</expression>
+        </evaluator>
+        <OnMismatch>NEUTRAL</OnMismatch>
+        <OnMatch>DENY</OnMatch>
+    </filter>
+    <encoder>
+        <pattern>%-4relative [%thread] %-5level %logger - %msg%n</pattern>
+    </encoder>
+</appender>
+```
 
 ## spring override property at runtime
 In one of my test, I need start the activmq. To avoid the port competition on the build server (multiple builds from different branches could be triggered at the same moement), I want the activemq broker is started on different port.
@@ -274,4 +315,45 @@ management.endpoints.web.exposure.include=*
 management.endpoints.web.exposure.exclude=
 management.endpoint.health.show-details=always
 ```
+
+## disable error page 
+```
+server.error.whitelabel.enabled=false
+```
+
+## activemq trust all package
+http://activemq.apache.org/objectmessage.html
+The error is like 
+```
+Caused by: java.lang.ClassNotFoundException: Forbidden class com.central1.psa.core.paymentmessage.shared.dto.impl.PaymentMessageTraceEventImpl! This class is not trusted to be serialized as ObjectMessage payload. Please take a look at http://activemq.apache.org/objectmessage.html for more information on how to configure trusted classes.
+```
+It needs set the activeMq factory trust packages. 
+```
+factory.setTrustedPackages(new ArrayList(Arrays.asList("org.apache.activemq.test,org.apache.camel.test".split(","))));
+or 
+factory.setTrustAllPackages(true);
+```
+In spring boot, we can do it through properties
+```
+spring.activemq.packages.trusted=<package1>,<package2>,<package3>
+or 
+spring.activemq.packages.trust-all=true
+```
+
+## activemq fail over url configuration
+```
+broker1=tcp://Vahclq01pss123:61616
+broker2=tcp://Vahclq01pss:61616
+spring.activemq.broker-url=failover:(${broker1},${broker2})?randomize=false&priorityBackup=true
+```
+
+## spring boot custom error page with images
+Here is the file structure. 
+![file structure](/images/springbootErrorPageImage.PNG "spring boot file structure")
+The "static" is tricky here. In the 404.html, we shall only have 
+```
+<img src="/images/logo.png" alt="logo">
+``` 
+Any files/folders under static folder are in the root of the web context. If you run the spring boot project, you can find the image by the url http://your_springboot_url/images/logo.png
+
 
