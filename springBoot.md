@@ -348,8 +348,10 @@ spring.activemq.broker-url=failover:(${broker1},${broker2})?randomize=false&prio
 ```
 
 ## spring boot custom error page with images
-Here is the file structure. 
+Here is the file structure.
+
 ![file structure](/images/springbootErrorPageImage.PNG "spring boot file structure")
+
 The "static" is tricky here. In the 404.html, we shall only have 
 ```
 <img src="/images/logo.png" alt="logo">
