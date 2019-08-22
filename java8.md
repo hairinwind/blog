@@ -239,3 +239,14 @@ In Sql server, the lock timeout of the session can be set like this
 SET LOCK_TIMEOUT 1000;  --set it to 1 second  
 ```
 
+## parallel GC
+I was facing some memory issue after running spring batch job to load big file into database. The allocated memory is much bigger then the memory is using.  
+After investigating by jProfiler, I can see a lot of JDBC preparedStatement and parameter instances stay in memory. If I ran GC manually, the allocated memory shrined a lot, which means the objects are ready to be collected by GC.  
+Adding the argument "-XX:+UseParallelGC" actually helps.  
+https://stackoverflow.com/questions/2101518/difference-between-xxuseparallelgc-and-xxuseparnewgc
+- Apply -XX:+UseParallelGC when you require parallel collection method over YOUNG generation ONLY, (but still) use serial-mark-sweep method as OLD generation collection
+- Apply -XX:+UseParallelOldGC when you require parallel collection method over YOUNG generation (automatically sets -XX:+UseParallelGC) AND OLD generation collection  
+Here is the article help me to understand the connection leak
+https://raul8804.wordpress.com/2019/03/31/spring-boot-project-db-connection-leak-investigation/
+Eventually, I found this option "-XX:+UseSerialGC" works better.
+
