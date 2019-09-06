@@ -9,6 +9,8 @@ Variables allocated on the heap have their memory allocated at run time and acce
 
 In a multi-threaded situation each thread will have its own completely independent stack but they will share the heap. Stack is thread specific and Heap is application specific. 
 
+## 
+
 
 ![test](/images/ba3b0c7858e3.jpg)
 
