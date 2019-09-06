@@ -148,4 +148,9 @@ async function demo() {
 ```
 https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep  
 
+## !! in javascript 
+it converts 0, false, undefined or null to false and any other value provided to true.
+https://stackoverflow.com/questions/784929/what-is-the-not-not-operator-in-javascript
+
+
 

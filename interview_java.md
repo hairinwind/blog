@@ -171,3 +171,10 @@ functional interface only contains one abstract (non-default) method.
 ### Function.Identity()
   
 ### Java new types to support function programming...
+
+## java compares two null returns true
+```
+Objects.equals(o1, o2);
+```
+If o1 and o2 are both null, it returns true.
+

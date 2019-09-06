@@ -67,6 +67,12 @@ DNS3="8.8.4.4"
 sudo systemctl restart network.service
 ```
 
+## port listening
+```
+sudo lsof -i -P -n | grep LISTEN
+```
+sudo is mandatory here.
+
 
 
 

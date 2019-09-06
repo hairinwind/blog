@@ -425,3 +425,70 @@ Components are declared, Modules are imported, and Services are provided.
 - imports makes the exported declarations of other modules available in the current module
 - declarations are to make directives (including components and pipes) from the current module available to other directives in the current module. Selectors of directives, components or pipes are only matched against the HTML if they are declared or imported.
 - providers are to make services and values known to DI (dependency injection). They are added to the root scope and they are injected to other services or directives that have them as dependency.
+
+## run lodash function from console
+Sometimes I need run lodash functions from console when debugging angular project. The code is like this
+```
+_.filter(customers, {'id':636});
+```
+
+## ngrx 
+- action: In the most common scenario, everything starts in the component view. Some interaction made by a user may cause the component to dispatch an action.
+- states: readonly. The state of your whole application is stored in an object tree within a single store.
+- store: A store is an object (an instance of the ngrx Store class) that brings the things we mentioned before (Actions, Reducers, Selectors) together. For example, when an action is dispatched (using the store object dispatch function), the store is the one finding and executing the appropriate reducer. It is also the one holding the application state.
+- selectors: obtain slices of our store.
+- effects: The Effects listen if any action is dispatched, then, similar to what reducers do, it checks if the action is one of the actions type it has a case for.
+Then is going to perform a side-effect, usually getting or sending data to an API. Finally is going to emit another action, usually, an action referring to the result-state of the side effect (success, error, etc), then a reducer is going to enter in the scene as we already mention in the ngrx flow.
+- reducers: pure function. The operation triggered by dispatching an action is called reducers. These reducers receive an action and the state, depending on the action dispatched (usually with a switch statement) they execute an operation and return a new state object.
+
+Benefit
+- Since we have a single source of truth and you can’t directly change the state, applications are going to behave more consistently.
+- Using the redux pattern gives us a lot of cool features to make debugging easier.
+- Applications become easier to test since we are introducing pure functions to handle changes in the state and also because both, ngrx and rxjs, have a lot’s great features for testing.
+- As soon as you feel comfortable with using ngrx, understanding the flow of data in your applications becomes incredibly easy and predictable.
+
+https://medium.com/frontend-fun/angular-ngrx-a-clean-and-clear-introduction-4ed61c89c1fc
+
+## ngrx adapter
+
+
+
+
+## angular support IE11
+polyfills.ts, add this
+```
+if (!Object.values) { Object.values = o => Object.keys(o).map(k => o[k]); }
+```
+angular.json  
+add this under "budgets"
+```
+"es5": {
+          "tsConfig": "./tsconfig-es5.app.json"
+        }
+```
+add this under "serve"."configurations"
+```
+"es5": {
+          "browserTarget": "decm:build:es5"
+        }
+```
+browserslist
+```
+not IE 9-10 # For IE 9-10 support, remove 'not'.
+IE 11
+```
+package.json
+```
+"start": "ng serve --configuration es5",
+...
+"build:prod": "ng build --prod --extractCss --statsJson",
+```
+tsconfig-es5.app.json
+```
+{
+    "extends": "./tsconfig.app.json",
+    "compilerOptions": {
+        "target": "es5" 
+    }
+}
+```
