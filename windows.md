@@ -10,3 +10,11 @@ All the files would be copied into one file
 ```
 netstat -noa |findstr "8080"
 ```
+
+## WSL (windows subsystem linux)
+run ubuntu as root 
+```
+C:\> ubuntu config --default-user root
+```
+https://docs.microsoft.com/en-us/windows/wsl/user-support
+

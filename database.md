@@ -50,3 +50,15 @@ WHERE resource_associated_entity_id > 0
 ORDER BY request_session_id, resource_associated_entity_id
 ```
 https://www.cnblogs.com/CoderAyu/p/11375088.html
+
+## sql injection
+don't use the string concating to compose the sql
+```
+sql = "SELECT transaction_user, transaction_amount FROM transaction WHERE transaction_id = " + transactionId;
+```
+the transactionId here can be injected with '123; drop table transaction;'  
+It shall be replaced with 
+```
+sql = "SELECT transaction_user, transaction_amount FROM transaction WHERE transaction_id = ?";
+Transaction transaction = jdbcTemplate.query(sql, new TransactionRowMapper(), transactionId);
+```

@@ -52,7 +52,10 @@ docker exec -it name-of-container bash
 ```
 to quit the container, press "ctrl+d" or type "exit"
 
-
+## view docker log
+```
+docker logs <container_name>
+```
 
  ## TBD 
  docker run \
@@ -73,4 +76,9 @@ docker run \
 
 setup kafka argument, e.g. delete.topic.enable to true, when create container
 
+## install docker on WSL (windows subsystem linux)
+https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly
+
+## Setting Up Docker for Windows and WSL
+https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly
 

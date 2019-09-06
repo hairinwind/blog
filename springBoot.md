@@ -281,6 +281,20 @@ logback.xml, I don't want to see two polling sql statements.
     </encoder>
 </appender>
 ```
+Here is one filter to only show log with specific text, e.g. accountNumber, mutliple threads may access the same account, outputting the actions only related to that account is helpful to detect the issue.
+```
+<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+    <evaluator>
+        <matcher>
+            <Name>redis_log</Name>
+            <regex>82838482</regex>
+        </matcher>
+        <expression>redis_log.matches(formattedMessage)</expression>
+    </evaluator>
+    <OnMismatch>DENY</OnMismatch>
+    <OnMatch>ACCEPT</OnMatch>
+</filter>
+```
 
 ## spring override property at runtime
 In one of my test, I need start the activmq. To avoid the port competition on the build server (multiple builds from different branches could be triggered at the same moement), I want the activemq broker is started on different port.

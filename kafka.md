@@ -127,3 +127,85 @@ curl -X POST -H "Content-Type: application/json" \
 
 ## confluent Docker configuration parameters
 https://docs.confluent.io/current/installation/docker/docs/config-reference.html#c3-configuration  
+
+## run confluent on  (windows subsystem linux)
+download the latest version and extract it  
+https://nielsberglund.com/2018/07/10/install-confluent-platform-kafka-on-windows/  
+
+Now the confluent CLI need be installed separately  
+https://docs.confluent.io/current/cli/installing.html  
+```
+curl -L https://cnfl.io/cli | sh -s -- -b /<path-to-directory>/bin
+```
+Then you can run 
+```
+bin/confluent local start
+```
+gerenate data example, https://www.confluent.io/blog/easy-ways-generate-test-data-kafka
+
+## running confluent 
+### port listening
+zookeeper: 2181
+kafka: 9092
+schema-registry: 8081
+connect: 9021
+
+### start
+cd confluent-5.3.0
+rm -f zookeeper.out && nohup sudo bin/zookeeper-server-start etc/kafka/zookeeper.properties > zookeeper.out &
+rm -f kafka.out && nohup sudo bin/kafka-server-start etc/kafka/server.properties > kafka.out &
+rm -f schema.out && nohup sudo bin/schema-registry-start etc/schema-registry/schema-registry.properties > schema.out &
+rm -f connect.out && nohup sudo bin/control-center-start etc/confluent-control-center/control-center-dev.properties > connect.out &
+rm -f avro.out && nohup sudo bin/connect-distributed etc/schema-registry/connect-avro-distributed.properties > avro.out &
+rm -f kafkaRest.out && nohup sudo bin/kafka-rest-start etc/kafka-rest/kafka-rest.properties > kafkaRest.out &
+rm -f ksql.out && nohup sudo bin/ksql-server-start etc/ksql/ksql-server.properties > ksql.out &
+
+### stop 
+sudo bin/zookeeper-server-stop
+sudo bin/kafka-server-stop
+sudo bin/schema-registry-stop
+sudo bin/control-center-stop
+
+### feed data
+nohup bin/ksql-datagen quickstart=users format=avro topic=users maxInterval=100 &
+
+
+## ksql
+prepare the environment, extract confluent platform, install confluent CLI
+```
+confluent local start
+```
+For small testing data, you can feed in through input
+```
+confluent local produce pageview
+> input your data here...
+```
+
+create datagen-pageviews.json file, this is the config file to load data 
+```
+{
+  "name": "datagen-pageviews",
+  "config": {
+    "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
+    "kafka.topic": "pageviews",
+    "quickstart": "pageviews",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "max.interval": 1000,
+    "iterations": 1000,
+    "tasks.max": "1"
+  }
+}
+```
+The command below starts pushing data to the topic
+```
+confluent local config datagen-pageviews -- -d datagen-pageviews.json
+```
+the data is loading now, to have a look, add a console consumer
+```
+confluent local consume pageviews
+OR
+confluent local consume pageviews -- --from-beginning
+```
+

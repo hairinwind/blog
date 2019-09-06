@@ -42,7 +42,11 @@ git reset --hard
 ```
 git reset filename
 ```
-will reove the file from index
+will reove the file from index  
+or 
+```
+git rm --cached [file]
+```
 
 ## git log latest n commit
 ```

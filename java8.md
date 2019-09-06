@@ -250,3 +250,35 @@ Here is the article help me to understand the connection leak
 https://raul8804.wordpress.com/2019/03/31/spring-boot-project-db-connection-leak-investigation/
 Eventually, I found this option "-XX:+UseSerialGC" works better.
 
+## Future
+https://www.baeldung.com/java-future  
+
+the Future class represents a future result of an asynchronous computation – a result that will eventually appear in the Future after the processing is complete.  
+
+To implement Future
+```
+public Future<Integer> calculate(Integer input) {        
+   return executor.submit(() -> {
+      Thread.sleep(1000);
+      return input * input;
+   });
+}
+```
+To consume Future
+```
+while(!future.isDone()) {
+    System.out.println("Calculating...");
+    Thread.sleep(300);
+}
+ 
+Integer result = future.get();
+```
+
+## java.util.concurrent.RejectedExecutionException
+If there are a lot of async threads, you may see this exception. Basically it means the queue to receive the tasks is full and it rejects to receive new tasks.  
+https://examples.javacodegeeks.com/core-java/util/concurrent/rejectedexecutionexception/java-util-concurrent-rejectedexecutionexception-how-to-solve-rejectedexecutionexception/  
+For spring boot project, we can use this property to set the capacity
+```
+spring.task.execution.pool.queue-capacity= # Queue capacity. An unbounded capacity does not increase the pool and therefore ignores the "max-size" property.
+```
+
