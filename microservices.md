@@ -139,3 +139,5 @@ zuul:
 ```
 
 ## spring cloud bus
+
+## spring actuator
