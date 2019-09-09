@@ -153,3 +153,29 @@ set https_proxy=http://127.0.0.1:8888
 set http_proxy=http://127.0.0.1:8888
 set NODE_TLS_REJECT_UNAUTHORIZED=0
 ```
+
+## nodejs get environment variables
+### issue
+The business wants to display bamboo_buildNumber as part of angular project vesion on UI. For example, 1.0.0-build100.
+### solution
+bamboo_buildNumber is a env varaible on the build server. To get the env variable "bamboo_buildNumber". here is the nodejs code
+```
+process.env.bamboo_buildNumber
+```
+In my angular project, we have a prebuild.js to setup the project version. The prebuild.js is configured in package.json like this 
+```
+"prebuild": "node ./prebuild.js",
+```
+The prebuild.js is running in nodejs and I can get the bamboo_buildnumber and update the angular project version when the build is executed on the build server.  
+Here is the code in prebuild.js to update the app.version
+```
+const buildNumber = process.env.bamboo_buildNumber;
+pkg.version = pkg.version + "-build" + buildNumber;
+const fs = require('fs');
+fs.writeFile(
+    './package.json',
+    JSON.stringify(pkg, null, 2),
+    { flat: 'w' },
+    () => null
+);
+```
