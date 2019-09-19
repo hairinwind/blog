@@ -152,5 +152,14 @@ https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sle
 it converts 0, false, undefined or null to false and any other value provided to true.
 https://stackoverflow.com/questions/784929/what-is-the-not-not-operator-in-javascript
 
+## javascript three dots ...
+https://medium.com/@oprearocks/what-do-the-three-dots-mean-in-javascript-bc5749439c9a
+Basically, ...a means clone all properties from a.  
+If a is an array, it clones all items from a. 
+When used within the signature of a function, like function (...numbers){}, the three dots are also called the rest operator. The rest operator enables the developer to create functions that can take an indefinite number of arguments.
+
+https://dmitripavlutin.com/how-three-dots-changed-javascript/
+
+
 
 

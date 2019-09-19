@@ -372,4 +372,13 @@ The "static" is tricky here. In the 404.html, we shall only have
 ``` 
 Any files/folders under static folder are in the root of the web context. If you run the spring boot project, you can find the image by the url http://your_springboot_url/images/logo.png
 
+## spring externalization of property file 
+put in this command line argument
+```
+--spring.config.name=<the property file name, with out properties suffix>
+```
+or set up the env variable
+```
+export SPRING_CONFIG_NAME = ...
+```
 

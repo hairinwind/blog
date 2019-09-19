@@ -179,3 +179,13 @@ fs.writeFile(
     () => null
 );
 ```
+
+## send command line arguments to npm script
+### issue 
+pass in the arguments to npm script
+### solution 
+```
+npm run [command] [-- <args>]
+```
+https://stackoverflow.com/questions/11580961/sending-command-line-arguments-to-npm-script
+

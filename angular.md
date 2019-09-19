@@ -492,3 +492,23 @@ tsconfig-es5.app.json
     }
 }
 ```
+
+## angular bundle size anglyzing
+https://alligator.io/angular/angular-webpack-bundle-analyzer/
+```
+npm i webpack-bundle-analyzer -D
+```
+Add this to package.json
+```
+"scripts": {
+  ...
+  "build:stats": "ng build --stats-json",
+  "analyze": "webpack-bundle-analyzer dist/www/stats.json"
+}
+```
+Then 
+```
+npm run build:stats
+npm run analyze
+```
+Webpack Bundle Analyzer is started at http://127.0.0.1:8888
