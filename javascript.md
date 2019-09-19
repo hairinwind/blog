@@ -154,9 +154,38 @@ https://stackoverflow.com/questions/784929/what-is-the-not-not-operator-in-javas
 
 ## javascript three dots ...
 https://medium.com/@oprearocks/what-do-the-three-dots-mean-in-javascript-bc5749439c9a  
-Basically, ...a means clone all properties from a.  
-If a is an array, it clones all items from a. 
-When used within the signature of a function, like function (...numbers){}, the three dots are also called the rest operator. The rest operator enables the developer to create functions that can take an indefinite number of arguments.
+- Basically, ...a means clone all properties from a.  
+```
+const adrian = {
+    fullName: 'Adrian Oprea',
+    occupation: 'Software developer',
+    age: 31,
+    website: 'https://oprea.rocks'
+};
+const bill = {
+    ...adrian,
+    fullName: 'Bill Gates',
+    website: 'https://microsoft.com'
+};
+console.log('bill', bill); // bill has the properties from adrian and overwrite fullname and website
+bill.age=32
+console.log('bill.age', bill.age); //32
+console.log('adrian.age', adrian.age); //31
+```
+- If a is an array, it clones all items from a.   
+```
+const numbers1 = [1, 2, 3, 4, 5];
+const numbers2 = [ ...numbers1, 1, 2, 6,7,8]; // this will be [1, 2, 3, 4, 5, 1, 2, 6, 7, 8]
+```
+- When used within the signature of a function, the three dots are also called the rest operator. The rest operator enables the developer to create functions that can take an indefinite number of arguments.
+```
+function sum(...numbers) {
+    return numbers.reduce((accumulator, current) => {
+        return accumulator += current
+    });
+};
+sum(1, 2, 3, 4) // 10
+```
 
 https://dmitripavlutin.com/how-three-dots-changed-javascript/
 
