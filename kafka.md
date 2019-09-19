@@ -162,13 +162,13 @@ connect: 9021
 
 ### start
 cd confluent-5.3.0
-rm -f zookeeper.out && nohup sudo bin/zookeeper-server-start etc/kafka/zookeeper.properties > zookeeper.out &
-rm -f kafka.out && nohup sudo bin/kafka-server-start etc/kafka/server.properties > kafka.out &
-rm -f schema.out && nohup sudo bin/schema-registry-start etc/schema-registry/schema-registry.properties > schema.out &
-rm -f connect.out && nohup sudo bin/control-center-start etc/confluent-control-center/control-center-dev.properties > connect.out &
-rm -f avro.out && nohup sudo bin/connect-distributed etc/schema-registry/connect-avro-distributed.properties > avro.out &
-rm -f kafkaRest.out && nohup sudo bin/kafka-rest-start etc/kafka-rest/kafka-rest.properties > kafkaRest.out &
-rm -f ksql.out && nohup sudo bin/ksql-server-start etc/ksql/ksql-server.properties > ksql.out &
+sudo rm -f zookeeper.out && nohup sudo bin/zookeeper-server-start etc/kafka/zookeeper.properties > zookeeper.out &
+sudo rm -f kafka.out && nohup sudo bin/kafka-server-start etc/kafka/server.properties > kafka.out &
+sudo rm -f schema.out && nohup sudo bin/schema-registry-start etc/schema-registry/schema-registry.properties > schema.out &
+sudo rm -f connect.out && nohup sudo bin/control-center-start etc/confluent-control-center/control-center-dev.properties > connect.out &
+sudo rm -f avro.out && nohup sudo bin/connect-distributed etc/schema-registry/connect-avro-distributed.properties > avro.out &
+sudo rm -f kafkaRest.out && nohup sudo bin/kafka-rest-start etc/kafka-rest/kafka-rest.properties > kafkaRest.out &
+sudo rm -f ksql.out && nohup sudo bin/ksql-server-start etc/ksql/ksql-server.properties > ksql.out &
 
 ### stop 
 sudo bin/zookeeper-server-stop
