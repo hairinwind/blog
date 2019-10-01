@@ -170,6 +170,9 @@ sudo rm -f avro.out && nohup sudo bin/connect-distributed etc/schema-registry/co
 sudo rm -f kafkaRest.out && nohup sudo bin/kafka-rest-start etc/kafka-rest/kafka-rest.properties > kafkaRest.out &
 sudo rm -f ksql.out && nohup sudo bin/ksql-server-start etc/ksql/ksql-server.properties > ksql.out &
 
+## create topic
+bin/kafka-topics --create --zookeeper localhost:2181 --partitions 1 --replication-factor 1 --topic bank_transaction 
+
 ### stop 
 sudo bin/zookeeper-server-stop
 sudo bin/kafka-server-stop
