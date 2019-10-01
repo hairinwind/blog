@@ -178,3 +178,10 @@ Objects.equals(o1, o2);
 ```
 If o1 and o2 are both null, it returns true.
 
+## Pessimistic Locking vs. Optimistic Locking
+optimistic locking is based on detecting changes on entities by checking their version attribute/column.  
+On the contrary, pessimistic locking mechanism involves locking entities on the database level.  
+
+https://www.baeldung.com/jpa-optimistic-locking  
+https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/optimistic-concurrency  
+

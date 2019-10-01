@@ -96,3 +96,11 @@ git add -u
 git mv old_filename new_filename
 ```
 
+## to elete multiple branches
+in Git bash
+```
+git branch | grep "<pattern>" | xargs git br
+```
+https://medium.com/@rajsek/deleting-multiple-branches-in-git-e07be9f5073c
+
+
