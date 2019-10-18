@@ -91,7 +91,7 @@ If it complains the bean cannot be found, you may need explicitly declare it, fo
 ## be careful about the location of the SpringBootApplication class
 I used to put the SpringBootApplication class into a package. All the controllers and services not under that package stop working. The SpringBootApplication class scans the controllers and services in its package or sub-packages. 
 
- ## @ConditionalOnProperty or @ConditionalOnExpression
+## @ConditionalOnProperty or @ConditionalOnExpression
 conditional create the bean when the property value matches
  ```
  @Bean(name="processLines")
@@ -330,7 +330,8 @@ management.endpoints.web.exposure.exclude=
 management.endpoint.health.show-details=always
 ```
 
-## disable error page 
+## disable spring boot error page 
+in application.properties, add
 ```
 server.error.whitelabel.enabled=false
 ```
@@ -388,61 +389,57 @@ https://www.baeldung.com/java-spring-mockito-mock-mockbean
 Mockito.mock() and @Mock are the same.  
 @MockBean adds the mock objects to spring application context.
 
-## spring batch sql server dead lock
-I have mutliple spring batch instances which are sharing the same mssql database. When they start creating jobExcecution at the same moment. They are competing on the id of the table. I saw "deadlock" error and "Could not increment identity".  
-The reason is that spring is not using SQL server IDENTITY as they are not supported before SQL server 2012.  
-Eventually the solution is factory.setIsolationLevelForCreate(ISOLATION_REPEATABLE_READ);  
+## spring aop concepts
+- joinPoints
+- pointcut
+- advice
+https://www.javainuse.com/spring/spring-boot-aop  
+https://www.journaldev.com/2583/spring-aop-example-tutorial-aspect-advice-pointcut-joinpoint-annotations  
+
+## spring aop pointcut
 ```
-    private static final String ISOLATION_REPEATABLE_READ = "ISOLATION_REPEATABLE_READ";
-
-    @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    private PlatformTransactionManager platformTransactionManager;
-
-    @Bean
-    public JobRepository jobRepository() throws Exception {
-        JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
-        factory.setDataSource(dataSource);
-        factory.setTransactionManager(platformTransactionManager);
-        factory.setValidateTransactionState(true);
-        factory.setIsolationLevelForCreate(ISOLATION_REPEATABLE_READ);
-        factory.afterPropertiesSet();
-        return factory.getObject();
-    }
+@Pointcut("execution(* org.baeldung.dao.FooDao.*(..))")
 ```
-That helps a bit. But it does not get rid of dead lock. I have to add AOP around advice to do the retry if deadlock happens. 
+Here the first wildcard matches any return value.  
+The second matches any method name.  
+The (..) pattern matches any number of parameters (zero or more). It is two dots here, not three. 
+
+Within limits matching to join points of certain types
 ```
-@Aspect
-@Component
-public class MyAspect {
+@Pointcut("within(org.baeldung..*)")
+```
 
-    private static final Logger log = LoggerFactory.getLogger(MyAspect.class);
-
-    @Around(value = "execution(* org.springframework.batch.core.repository.JobRepository.createJobExecution(..)) and args(jobName, jobParameters)")
-    public Object aroundCreateJob(ProceedingJoinPoint joinPoint, String jobName, JobParameters jobParameters) throws Throwable {
-        int maxRetry = 5;
-        int retryCount = 0;
-        while (retryCount < maxRetry) {
-            try {
-                Object retVal = joinPoint.proceed(new Object[]{jobName, jobParameters});
-                return retVal;
-            } catch (Throwable e) {
-                retryCount ++;
-                if (retryCount > maxRetry) {
-                    throw e;
-                } else {
-                    log.warn("...error when creating jobExecution \n{}\n{}\n{}", jobName, jobParameters, e.getMessage());
-                }
+In the around advice, here is one example. I need the reference of the arguments to do joinPoint.proceed(new Object[]{jobName, jobParameters}); in the try/catch. 
+```
+@Around(value = "execution(* org.springframework.batch.core.repository.JobRepository.createJobExecution(..)) and args(jobName, jobParameters)")
+public Object aroundCreateJob(ProceedingJoinPoint joinPoint, String jobName, JobParameters jobParameters) throws Throwable {
+    int maxRetry = 5;
+    int retryCount = 0;
+    while (retryCount < maxRetry) {
+        try {
+            Object retVal = joinPoint.proceed(new Object[]{jobName, jobParameters});
+            return retVal;
+        } catch (Throwable e) {
+            retryCount ++;
+            if (retryCount > maxRetry) {
+                throw e;
+            } else {
+                log.warn("...error when creating jobExecution \n{}\n{}\n{}", jobName, jobParameters, e.getMessage());
             }
-            try {
-                Thread.sleep(1000 * retryCount);
-                log.warn("...sleep {} seconds before recreate jobExecution", retryCount);
-            } catch (Exception e) {}
         }
-        return null;
+        try {
+            Thread.sleep(1000 * retryCount);
+            log.warn("...sleep {} seconds before recreate jobExecution", retryCount);
+        } catch (Exception e) {}
     }
+    return null;
 }
-``` 
+```
+For more pointcut, like pointcut for annotation, look into this https://www.baeldung.com/spring-aop-pointcut-tutorial
+
+
+
+
+
+
 

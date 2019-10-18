@@ -103,4 +103,37 @@ git branch | grep "<pattern>" | xargs git br
 ```
 https://medium.com/@rajsek/deleting-multiple-branches-in-git-e07be9f5073c
 
+## stash selected files 
+```
+git stash push -u -k -m <stash_message> <file_list>
+```
+-u|--include-untracked : include untracked files
+-k|--keep-index: the file in index is still in index after it is added to stash
+--no-keep-index: the file in index is removed from index after it is added to stash
+
+## view local commit history
+The changes was committed to local but not pushed yet. To view the local commit history
+```
+git log --branches --not --remotes -n
+```
+or 
+```
+git cherry -v
+```
+
+## git get current branch name
+```
+git symbolic-ref --short HEAD
+```
+to only assign the version to a linux env variable 
+```
+version=$(git symbolic-ref --short HEAD | cut -d '/' -f2)
+```
+
+## git get current tag name
+```
+version=$(git describe --exact-match --tags)
+```
+
+
 

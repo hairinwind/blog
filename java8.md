@@ -282,3 +282,21 @@ For spring boot project, we can use this property to set the capacity
 spring.task.execution.pool.queue-capacity= # Queue capacity. An unbounded capacity does not increase the pool and therefore ignores the "max-size" property.
 ```
 
+## Get generic type of class at runtime
+https://stackoverflow.com/questions/3403909/get-generic-type-of-class-at-runtime
+I don't like the way to pass in Abc.class through constructor. It seems redundant. For example
+```
+new MyClass<String>(String.class)
+```
+The suggestion from stackoverflow seems not working for me. I got exceptions. 
+```
+private Class<T> persistentClass;
+
+public Constructor() {
+    this.persistentClass = (Class<T>) ((ParameterizedType) getClass()
+                            .getGenericSuperclass()).getActualTypeArguments()[0];
+}
+```
+https://www.geeksforgeeks.org/different-ways-create-objects-java/
+
+
