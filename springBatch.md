@@ -119,3 +119,29 @@ CompositeResultBean Processor0.process(Item item) {
 ```
 https://stackoverflow.com/questions/18999724/spring-batch-one-reader-multiple-processors-and-writers
 
+## get StepExecution in Listener
+I need get the StepExecution in my listener, then I can save some states into the context.  
+I have a SkipListener which need reference of StepExecution. I made my SkipListener implements both SkipListener and StepExecutionListener. But spring does not inject the StepExecutionListener to my class. Later I found I have to register the listener twice. One is to regiester it as SkipListener and the other one is to regiester it as a StepExecutionListener. 
+```
+@Bean
+public Step processCustomerLines(ItemWriter<Customer> customerWriter,
+                                        ItemReader<Customer> customerReader,
+                                        SkipListener<Customer, Customer> customerThrowableSkipListener,
+                                        @Value("${batch.chunk.size}") int chunkSize) {
+    return stepBuilderFactory.get("processCustomerRuleLines")
+            .<Customer, Customer> chunk(chunkSize)
+            .faultTolerant()
+            .skip(Throwable.class)
+            .skipLimit(Integer.MAX_VALUE)
+            .listener(customerThrowableSkipListener)
+            .reader(customerReader)
+            .writer(customerWriter)
+            .listener((StepExecutionListener) customerThrowableSkipListener)
+            .build();
+}
+```
+Above is the sample code to build the step. The same customerThrowableSkipListener was regiestered twice. The first listener(customerThrowableSkipListener) is to regiester it as skipListener and the second listener((StepExecutionListener) customerThrowableSkipListener) is to regiester it as StepExecutionListener. Now Spring knows it needs StepExecution being injected.  
+https://stackoverflow.com/questions/43987089/issue-retrieving-a-executioncontext-from-a-skiplistener
+
+
+
