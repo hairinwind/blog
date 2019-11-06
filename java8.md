@@ -126,6 +126,7 @@ Map<Pair<String, Date>, AccountTotalSummary> accountTotalSummaryMap = accountTot
 ```
 The Stream.collect() allows to perform mutable fold operations (repackaging elements to some data structures and applying some additional logic, concatenating them, etc.) on data elements held in a Stream instance. For example, the source stream has N items, and the result after collect has M items, M <= N. Collect is different from filter. Filter generates the similar number of records in result but it does not change the orgininal item in the stream. Collect can merge several items into one by groupingBy.  
 https://www.baeldung.com/java-8-collectors  
+https://www.logicbig.com/how-to/code-snippets/jcode-java-8-streams-collectors-reducing.html  
 
 ## java command line parse
 http://jcommander.org/
