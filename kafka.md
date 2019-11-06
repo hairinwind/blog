@@ -179,6 +179,12 @@ sudo bin/kafka-server-stop
 sudo bin/schema-registry-stop
 sudo bin/control-center-stop
 
+## purge topic
+bin/kafka-configs.sh --zookeeper localhost:2181 --entity-type topics --entity-name <topic-name> --describe
+bin/kafka-configs.sh --zookeeper localhost:2181 --entity-type topics --entity-name <topic-name> --alter --add-config retention.ms=1000
+bin/kafka-configs.sh --zookeeper localhost:2181 --entity-type topics --entity-name <topic-name> --alter --delete-config retention.ms
+Note: I found purging topic can cause the kafka broker shutdown on windows embedded ubuntu. 
+
 ### feed data
 nohup bin/ksql-datagen quickstart=users format=avro topic=users maxInterval=100 &
 

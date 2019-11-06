@@ -104,6 +104,28 @@ Map<String, Integer> map = stream.collect(Collectors.toMap(Function.identity(), 
 - It returns the input parameter
 http://www.importnew.com/24245.html  
 
+## stream groupingBy and reducing
+accountTotalSummaryList is a list of accountTotalSummary.  
+accountTotalSummary has ppsName and dateProcessed.  
+The requirement is to aggreate the settledDebitsAmount of accountTotalSummary objects which have same ppsName and dateProcessed  
+The code below did the grouping by and reducing(aggregation) 
+```
+Map<Pair<String, Date>, AccountTotalSummary> accountTotalSummaryMap = accountTotalSummaryList.stream().collect(
+   groupingBy(
+         accountTotalSummary -> Pair.of(accountTotalSummary.getPpsName(), accountTotalSummary.getDateProcessed()), // this is the composite key to groupby
+         Collectors.reducing(null, (left, right) -> { //left is the object from previous iteration, right is the current one
+               if (left != null) { 
+                  left.setSettledDebitsAmount(left.getSettledDebitsAmount().add(right.getSettledDebitsAmount()));
+                  return left;
+               } else {
+                  return right;
+               }
+         })
+   )
+);
+```
+The Stream.collect() allows to perform mutable fold operations (repackaging elements to some data structures and applying some additional logic, concatenating them, etc.) on data elements held in a Stream instance. For example, the source stream has N items, and the result after collect has M items, M <= N. Collect is different from filter. Filter generates the similar number of records in result but it does not change the orgininal item in the stream. Collect can merge several items into one by groupingBy. 
+
 ## java command line parse
 http://jcommander.org/
 

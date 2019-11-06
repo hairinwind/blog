@@ -27,7 +27,7 @@ git reset HEAD
 ## rename local and remote branch 
 https://multiplestates.wordpress.com/2015/02/05/rename-a-local-and-remote-branch-in-git/
 
-## undo last commit before push
+## revert/undo last commit before push
 ```
 git reset --soft d93bd7879ca0f8e8bc0866660022b43098b63390
 ```

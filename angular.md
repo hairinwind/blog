@@ -513,3 +513,10 @@ npm run analyze
 ```
 Webpack Bundle Analyzer is started at http://127.0.0.1:8888
 
+## currency pipe, 2 digit
+```
+{{ customerDetails.futureDay3Funds | currency : 'CAD' : 'symbol-narrow' : '.2-2' }}
+```
+https://angular.io/api/common/CurrencyPipe
+
+
