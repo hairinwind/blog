@@ -214,3 +214,9 @@ sudo yum install -y yum-utils device-mapper-persistent-data lvm2 && sudo yum-con
 ```
 docker run -d ...
 ```
+
+## docker for python pipenv
+https://pythonspeed.com/articles/pipenv-docker/  
+- Use pipenv lock to create the requirements.txt
+- Run pip install -r requirements.txt
+now all you depencecies are ready, you can run your python in docker directly. Pipenv shell or Pipenv run is not necessary now. 
