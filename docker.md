@@ -82,3 +82,12 @@ https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-fla
 ## Setting Up Docker for Windows and WSL
 https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly
 
+## install docker on CentOS 
+https://github.com/NaturalHistoryMuseum/scratchpads2/wiki/Install-Docker-and-Docker-Compose-(Centos-7)
+
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2 && sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && sudo yum install -y docker-ce && sudo usermod -aG docker $(whoami) && sudo systemctl enable docker.service && sudo systemctl start docker.service && docker version
+
+## docker run detached with shell
+```
+docker run -d ...
+```
