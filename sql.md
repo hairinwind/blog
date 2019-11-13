@@ -40,3 +40,14 @@ WHERE c1.order_No = 1
 ```
 https://docs.microsoft.com/en-us/sql/t-sql/queries/with-common-table-expression-transact-sql?view=sql-server-2017
 
+## random number for each row
+```
+update TOTALS 
+set AMT_CDT_DR_SET=ABS(CHECKSUM(NewId())) % 10000,
+AMT_CDT_CR_SET=ABS(CHECKSUM(NewId())) % 10000,
+AMT_CDT_DR_UNSET=ABS(CHECKSUM(NewId())) % 10000,
+AMT_CDT_CR_UNSET=ABS(CHECKSUM(NewId())) % 10000
+WHERE DATE_PROC>'2019-10-05' AND DATE_PROC<=DATEADD(DAY, 3, '2019-10-05');
+```
+https://stackoverflow.com/questions/1045138/how-do-i-generate-random-number-for-each-row-in-a-tsql-select  
+

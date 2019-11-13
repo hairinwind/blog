@@ -2,7 +2,13 @@
 ## design principles
 SOLID
 
+## real example of Liskov 
+TODO
+https://stackify.com/solid-design-liskov-substitution-principle/  
+
 ## design pattern
+TODO
+vistor vs strategy
 
 ## get rid of if/else
 use strategy https://juejin.im/post/5c5172d15188256a2334a15d  
