@@ -203,3 +203,14 @@ docker push <tag_name>
 The tag name shall be like <dockerhub_username>/<image_name> https://hackernoon.com/publish-your-docker-image-to-docker-hub-10b826793faf 
 
 The commands above are to publish the image to the dockerhub. To pull the image, you only need "docker run...", it checks the local repository first. If it does not exist, it downloads it from dockerhub. 
+
+## install docker on CentOS 
+https://github.com/NaturalHistoryMuseum/scratchpads2/wiki/Install-Docker-and-Docker-Compose-(Centos-7)
+```
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2 && sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && sudo yum install -y docker-ce && sudo usermod -aG docker $(whoami) && sudo systemctl enable docker.service && sudo systemctl start docker.service && docker version
+```
+
+## docker run detached with shell
+```
+docker run -d ...
+```
