@@ -10,6 +10,10 @@ You can think a container is a virtual machine.
 - FROM tells Docker which image you base your image on (in the example, Python 3).
 - RUN tells Docker which additional commands to execute.
 - CMD tells Docker to execute the command when the image loads.
+- VOLUME 使容器中的一个目录具有持久化存储数据的功能，该目录可以被容器本身使用，也可以共享给其他容器。当容器中的应用有持久化数据的需求时可以在Dockerfile中使用该指令。
+- ADD copy files from src to the target dir in container
+- ENTRYPOINT the start command of the container, only last one works
+- EXPOSE expose the port to external
 ```
 FROM python:3
 
@@ -24,6 +28,10 @@ CMD [ "python", "./my_script.py" ]
 ### build image
 ```
 docker build --rm=true . --no-cache --file=Dockerfile.server --tag=config-server:latest
+```
+build image with maven without changing pom.xml
+```
+mvn com.google.cloud.tools:jib-maven-plugin:dockerBuild -Dimage=yao/eureka-server
 ```
 ### create volume
 ```
@@ -220,3 +228,14 @@ https://pythonspeed.com/articles/pipenv-docker/
 - Use pipenv lock to create the requirements.txt
 - Run pip install -r requirements.txt
 now all you depencecies are ready, you can run your python in docker directly. Pipenv shell or Pipenv run is not necessary now. 
+
+## get a Docker container's IP address
+https://stackoverflow.com/questions/17157721/how-to-get-a-docker-containers-ip-address-from-the-host
+```
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name_or_id
+```
+old syntax
+```
+docker inspect --format '{{ .NetworkSettings.IPAddress }}' container_name_or_id
+```
+

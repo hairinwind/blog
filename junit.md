@@ -56,4 +56,36 @@ public class BatchResultFileExportorTest {
 ```
 This example also verifies the arguments by ArgumentCaptor.
 
+## mockito agument matchers
+https://www.baeldung.com/mockito-argument-matchers  
+I have the code like 
+```
+myService.call(new Date(), "abc");
+```
+When mock its return, how to match the new Date() argument?  
+I implemented my own DateMatcher  
+```
+class DateMatcher implements ArgumentMatcher<Date> {
+
+    private Date left;
+
+    public DateMatcher(Date left) {
+        this.left = left;
+    }
+
+    @Override
+    public boolean matches(Date right) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String leftText = sdf.format(left);
+        String rightText = sdf.format(right);
+        long dateDiff = Math.abs(right.getTime() - left.getTime());
+        return leftText.equals(rightText) || dateDiff < 10000; 
+    }
+}
+``` 
+The "when" code is like this 
+```
+when(myService.call(argThat(new DateMatcher(calendarDate)), eq("abc"))).thenReturn(...);
+```
+Note: In case of a method has more than one argument, it isn't possible to use ArgumentMatchers for only some of the arguments. Mockito requires you to provide all arguments either by matchers or by exact values.
 

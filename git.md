@@ -63,6 +63,14 @@ git stash apply [–index] [stash_id]
 other stash commands
 https://blog.csdn.net/daguanjia11/article/details/73810577
 
+## stash selected files 
+```
+git stash push -u -k -m <stash_message> <file_list>
+```
+-u|--include-untracked : include untracked files
+-k|--keep-index: the file in index is still in index after it is added to stash
+--no-keep-index: the file in index is removed from index after it is added to stash
+
 ## tag
 create tag
 ```
@@ -102,14 +110,6 @@ in Git bash
 git branch | grep "<pattern>" | xargs git br
 ```
 https://medium.com/@rajsek/deleting-multiple-branches-in-git-e07be9f5073c
-
-## stash selected files 
-```
-git stash push -u -k -m <stash_message> <file_list>
-```
--u|--include-untracked : include untracked files
--k|--keep-index: the file in index is still in index after it is added to stash
---no-keep-index: the file in index is removed from index after it is added to stash
 
 ## view local commit history
 The changes was committed to local but not pushed yet. To view the local commit history
