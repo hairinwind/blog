@@ -383,12 +383,6 @@ or set up the env variable
 export SPRING_CONFIG_NAME = ...
 ```
 
-## Mockito.mock() vs @Mock vs @MockBean
-https://www.baeldung.com/java-spring-mockito-mock-mockbean
-
-Mockito.mock() and @Mock are the same.  
-@MockBean adds the mock objects to spring application context.
-
 ## spring aop concepts
 - joinPoints
 - pointcut

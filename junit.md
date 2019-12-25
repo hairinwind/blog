@@ -89,3 +89,28 @@ when(myService.call(argThat(new DateMatcher(calendarDate)), eq("abc"))).thenRetu
 ```
 Note: In case of a method has more than one argument, it isn't possible to use ArgumentMatchers for only some of the arguments. Mockito requires you to provide all arguments either by matchers or by exact values.
 
+Here is another way to overwrite System.currentTimeMillis(), it needs Powermock and PowerMockito
+```
+whenNew(Date.class).withNoArguments().thenReturn(NOW);
+```
+https://stackoverflow.com/questions/11887799/how-to-mock-new-date-in-java-using-mockito
+
+
+## use PowerMockRunner with SpringJUnit4ClassRunner
+https://blog.jayway.com/2014/11/29/using-another-junit-runner-with-powermock/
+```
+@RunWith(PowerMockRunner.class)
+@PowerMockRunnerDelegate(SpringJUnit4ClassRunner.class)
+```
+
+## Mockito.mock() vs @Mock vs @MockBean
+https://www.baeldung.com/java-spring-mockito-mock-mockbean
+
+Mockito.mock() and @Mock are the same.  
+@MockBean adds the mock objects to spring application context.
+
+## overwrite spring properties in test
+https://www.baeldung.com/spring-tests-override-properties
+```
+@SpringBootTest(properties = { "example.firstProperty=annotation" })
+```

@@ -42,7 +42,8 @@ docker volume create --name=spring-cloud-config-repo
 docker run --name=config-server config-server:latest
 ```
 you may need --volume=spring-cloud-config-repo:/var/lib/spring-cloud/config-repo to map the directory, https://docs.docker.com/storage/volumes/  
-or -p 8080:8080 to map the port
+or -p 8080:8080 to map the port  
+the first 8080 is the port of the local machine, the second 8080 is the port of docker container
 
 ## debug Dockerfile
 when generating Dockerfile, you may want to look into the image.  
@@ -237,5 +238,10 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' con
 old syntax
 ```
 docker inspect --format '{{ .NetworkSettings.IPAddress }}' container_name_or_id
+```
+
+## Error: Couldn't connect to Docker daemon at http+docker://localunixsocket - is it running?
+```
+export DOCKER_HOST=tcp://localhost:2375
 ```
 

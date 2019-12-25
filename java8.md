@@ -324,3 +324,10 @@ public Constructor() {
 https://www.geeksforgeeks.org/different-ways-create-objects-java/
 
 
+## list to subLists by properties
+```
+Collection<List<BankTransaction>> byTypeBankTransactions =
+                bankTransactions.stream().collect(Collectors.groupingBy(BankTransaction::getType)).values();
+```
+https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html
+
