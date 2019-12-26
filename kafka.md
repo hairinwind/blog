@@ -235,6 +235,10 @@ confluent local consume pageviews -- --from-beginning
 This is not doable for now. Ksql does not support interactive query at this moment. 
 https://github.com/confluentinc/ksql/issues/530
 
-# KStream and KTable
- https://kafka.apache.org/23/documentation/streams/developer-guide/dsl-api
+## KStream and KTable
+https://kafka.apache.org/23/documentation/streams/developer-guide/dsl-api
+
+## code examples
+https://github.com/confluentinc/kafka-streams-examples.git
+
  

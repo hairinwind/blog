@@ -520,3 +520,6 @@ Webpack Bundle Analyzer is started at http://127.0.0.1:8888
 https://angular.io/api/common/CurrencyPipe
 
 
+## ngx-easy-table
+https://github.com/ssuperczynski/ngx-easy-table.git
+

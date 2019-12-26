@@ -143,5 +143,12 @@ public Step processCustomerLines(ItemWriter<Customer> customerWriter,
 Above is the sample code to build the step. The same customerThrowableSkipListener was regiestered twice. The first listener(customerThrowableSkipListener) is to regiester it as skipListener and the second listener((StepExecutionListener) customerThrowableSkipListener) is to regiester it as StepExecutionListener. Now Spring knows it needs StepExecution being injected.  
 https://stackoverflow.com/questions/43987089/issue-retrieving-a-executioncontext-from-a-skiplistener
 
+## spring integration file polling example 
+https://github.com/iainporter/spring-file-poller.git   
+
+https://github.com/xpadro/spring-integration.git 
+
+https://github.com/spring-projects/spring-integration-samples.git
+
 
 
