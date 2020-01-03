@@ -92,5 +92,16 @@ Centralizing your application's state
 - if package size is too big, use lazy loading
 - 
 
+## tutorial 
+https://www.taniarascia.com/getting-started-with-react/  
+https://www.valentinog.com/blog/redux/  
+https://www.valentinog.com/blog/hooks/  
+https://react-redux.js.org/api/hooks  
+https://www.valentinog.com/blog/babel/ 
+https://github.com/reduxjs/redux-thunk  
+https://redux-saga.js.org/  
+
+
+
 
 

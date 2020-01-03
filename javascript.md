@@ -189,6 +189,20 @@ sum(1, 2, 3, 4) // 10
 
 https://dmitripavlutin.com/how-three-dots-changed-javascript/
 
-
+## Destructuring
+Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays.
+From array
+```
+const iterable = ['a', 'b'];
+const [x, y] = iterable;
+// x = 'a'; y = 'b'
+```
+From Object
+```
+const obj = { first: 'Jane', last: 'Doe' };
+const {first: f, last: l} = obj;
+// f = 'Jane'; l = 'Doe'
+```
+https://exploringjs.com/es6/ch_destructuring.html  
 
 
