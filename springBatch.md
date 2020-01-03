@@ -151,4 +151,26 @@ https://github.com/xpadro/spring-integration.git
 https://github.com/spring-projects/spring-integration-samples.git
 
 
+## SQL to get batch job status
+```
+-- JOB related SQL
+select ex.start_time, ex.end_time, datediff(second, ex.start_time, ex.end_time) as diff,
+    ex.status, string_val, read_count, write_count, commit_count, filter_count,
+    read_skip_count, write_skip_count, process_skip_count, rollback_count,
+    ex.exit_message, ex.last_updated, ex.job_execution_id, create_time, job_instance_id, ex.exit_code, key_name
+from BATCH_JOB_EXECUTION ex
+inner join
+BATCH_JOB_EXECUTION_PARAMS job_params
+on ex.job_execution_id = job_params.JOB_EXECUTION_ID
+and job_params.JOB_EXECUTION_ID in (
+    select distinct JOB_EXECUTION_ID from BATCH_JOB_EXECUTION_PARAMS
+    )
+and job_params.key_name='file.path'
+inner join batch_step_execution exe_result
+on exe_result.job_execution_id = job_params.JOB_EXECUTION_ID
+where string_val like '%-103.csv'
+order by START_TIME
+;
+```
+
 
