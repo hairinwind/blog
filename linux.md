@@ -73,6 +73,15 @@ sudo lsof -i -P -n | grep LISTEN
 ```
 sudo is mandatory here.
 
+## install docker on centos
+```
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install docker-ce
+sudo usermod -aG docker $(whoami)
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
+```
+
 
 
 
