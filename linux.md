@@ -55,6 +55,21 @@ sudo update-alternatives --config python3
 ```
 select the index of the python version
 
+##  change centos ip address 
+http://www.mustbegeek.com/configure-static-ip-address-in-centos/#.XjYp0WhKiUk
+```
+vi /etc/sysconfig/network-scripts/ifcfg-eth0
+
+DEVICE=ens192
+BOOTPROTO=static
+ONBOOT=yes
+IPADDR=45.62.247.182
+NETMASK=255.255.255.0
+GATEWAY=45.62.247.1
+DNS1=8.8.8.8
+DNS2=8.8.4.4
+```
+
 ## setup DNS server
 add below into /etc/sysconfig/network-scripts/ifcfg-<YOUR Adapter>
 
