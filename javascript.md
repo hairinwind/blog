@@ -205,4 +205,23 @@ const {first: f, last: l} = obj;
 ```
 https://exploringjs.com/es6/ch_destructuring.html  
 
+## multiple arrow functions in javascript?
+https://stackoverflow.com/questions/32782922/what-do-multiple-arrow-functions-mean-in-javascript
+```
+const add = x => y => x + y
+```
+convert to es5, it is 
+```
+const add = function (x) {
+  return function (y) {
+    return x + y
+  }
+}
+```
+to call function a, it is like this 
+```
+a(x)(y)
+```
+For the es6 style javascript code, use the babel online website to covnert it to es5  
+https://babeljs.io/en/repl
 
