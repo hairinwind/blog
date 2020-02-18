@@ -331,3 +331,26 @@ Collection<List<BankTransaction>> byTypeBankTransactions =
 ```
 https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html
 
+## how to check JRE is unlimited
+https://gist.github.com/evaryont/6786915
+by command
+```
+unzip -c ${JAVA_HOME}/jre/lib/security/local_policy.jar default_local.policy | grep -q javax.crypto.CryptoAllPermission && echo "unlimited JCE" || echo "vanilla JCE"
+```
+or by java class
+```
+import javax.crypto.Cipher;
+
+class Test {
+  public static void main(String[] args) {
+    try {
+      System.out.println("Hello World!");
+      int maxKeyLen = Cipher.getMaxAllowedKeyLength("AES");
+      System.out.println(maxKeyLen);
+    } catch (Exception e){
+      System.out.println("Sad world :(");
+    }
+  }
+}
+```
+if output is 128, it is limited. If the output is 2147483647, it is unlimited.

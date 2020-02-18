@@ -431,9 +431,15 @@ public Object aroundCreateJob(ProceedingJoinPoint joinPoint, String jobName, Job
 ```
 For more pointcut, like pointcut for annotation, look into this https://www.baeldung.com/spring-aop-pointcut-tutorial
 
+## prevent bean overriding
+```
+spring.main.allow-bean-definition-overriding: false
+```
 
-
-
-
+## refresh properties by actuator
+enable actuator, add dependency in pom.xml 
+POST to 'http://<spring_boot_app>:<port>/acutator/refresh', it can refresh 
+By default, the property coming from class annotated with @ConfigurationProperties has been updated but the property annotated with @Value has not been updated. To update property annotated with @Value, we need to annotate the class with @RefreshScope.  
+https://www.devglan.com/spring-cloud/refresh-property-config-runtime
 
 
