@@ -15,5 +15,12 @@ Here is the regex to match the xml section, which is self closed and does not ha
 regex=<((?!na=\"true\")[^\/])+\/>  
 ```
 Here is the text   
+```
 <a>a</a><10020120822/><aEMT na="true" /><abc efg/>  
-The matched section is <10020120822/> and <abc efg/>  
+```
+The matched section is 
+```
+<10020120822/> 
+and 
+<abc efg/>
+```  
