@@ -354,3 +354,18 @@ class Test {
 }
 ```
 if output is 128, it is limited. If the output is 2147483647, it is unlimited.
+
+## jackson serialize enum
+By default, jackson is using the enum name when serializing object to json.  
+If you want a different value to be used when serializing, use the annotation @JsonValue  
+https://www.baeldung.com/jackson-serialize-enums 
+```
+public enum Distance { 
+    ... 
+    @JsonValue
+    public String getMeters() {
+        return meters;
+    }
+}
+```
+
