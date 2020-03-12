@@ -217,8 +217,9 @@ This actually injects the bean when it needed. The previous one may have the iss
 https://www.baeldung.com/circular-dependencies-in-spring
 
 ## spring unit test dirtyContext
-DirtiesContext.classMode  
-https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.ClassMode.html
+DirtiesContext.classMode, usually used on unit test to guarantee a brand new context
+https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.ClassMode.html  
+https://www.baeldung.com/spring-dirtiescontext
 
 ## spring boot display sql with argument
 put this in pom
