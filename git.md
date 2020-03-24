@@ -135,5 +135,18 @@ version=$(git symbolic-ref --short HEAD | cut -d '/' -f2)
 version=$(git describe --exact-match --tags)
 ```
 
+## git reset credential
+Somehow I found git remembered my credential and did not ask me to input the credential anymore. After 3 months, the company policy enforced to change the password. The remembered credential did not work any more. Git did not popup for re-inputting password. It just failed and was showing authorization failed.  
+Here is the command to list all git attributes 
+```
+git config -l
+```
+if you see "credential.helper=osxkeychain", it means git remembers your credential.  
+To reset that 
+```
+git config --global credential.helper osxkeychain
+```
+In next git command like pull or push, git prompts username and password. 
+
 
 
