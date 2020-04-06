@@ -24,3 +24,10 @@ The matched section is
 and 
 <abc efg/>
 ```  
+
+## search something not end with specific text
+I need search the text which contains "cipher" but not ends with "PFEv2"
+Here is the reg ex to do the search
+```
+cipher.*(?<!PFEv2)$
+```
