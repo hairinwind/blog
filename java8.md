@@ -404,7 +404,8 @@ System.out.println(Arrays.toString("Hello World".getBytes()));
 ```
 ## Currying in Java
 It is quite hard for Java using Currying. Here is one example  
-[https://www.baeldung.com/java-currying](https://www.baeldung.com/java-currying) . 
+[https://www.baeldung.com/java-currying](https://www.baeldung.com/java-currying) 
+
 Let's say we have one function need 3 arguments. Curry allows us to partially feed the arguments, like step by step.  
 For example, we feed in first argument, it returns us a function which expects the rest 2 arguments. Then if we feed the 2nd argument. It returns the function which expects the 3rd argument and the first two arguments are already fed.  
 Basically, for each curry, you need create an Interface. 
