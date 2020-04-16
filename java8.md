@@ -387,10 +387,12 @@ public enum Distance {
 
 ## use scanner to get text by regex
 ```
-Scanner scanner = new Scanner("abc'{cipher}1234'xyz");
-return scanner.findInLine(Pattern.compile("'\\{cipher\\}.*'"));
+try (Scanner scanner = new Scanner("abc'{cipher}1234'xyz")) {
+	return scanner.findInLine(Pattern.compile("'\\{cipher\\}.*'"));
+}finally {}
 ```
-The output would be '{cipher}1234'
+The output would be '{cipher}1234' . 
+Remember Scanner need to be closed.
 
 ## JsonNode vs JsonObject
 JsonNode is the object from Jackson API while JsonObject is from Java.   
