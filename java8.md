@@ -393,8 +393,9 @@ return scanner.findInLine(Pattern.compile("'\\{cipher\\}.*'"));
 The output would be '{cipher}1234'
 
 ## JsonNode vs JsonObject
-JsonNode is the object from Jackson API while JsonObject is from Java.  
-The JsonNode can be instanciated by json string or java bean... Here is the ref
+JsonNode is the object from Jackson API while JsonObject is from Java.   
+The JsonNode can be instanciated by json string or java bean...   
+Here is the ref  
 [https://attacomsian.com/blog/jackson-json-node-tree-model](https://attacomsian.com/blog/jackson-json-node-tree-model)
 
 ## print string into byte array
@@ -402,11 +403,14 @@ The JsonNode can be instanciated by json string or java bean... Here is the ref
 System.out.println(Arrays.toString("Hello World".getBytes()));
 ```
 ## Currying in Java
-It is quite hard for Java using Currying. Here is one example
-[https://www.baeldung.com/java-currying](https://www.baeldung.com/java-currying)
-Let's say we have one function need 3 arguments. Curry allows us to partially feed the arguments, like step by step. For example, we feed in first argument, it returns us a function which expects the rest 2 arguments. Then if we feed the 2nd argument. It returns the function which expects the 3rd argument and the first two arguments are already fed. 
+It is quite hard for Java using Currying. Here is one example  
+[https://www.baeldung.com/java-currying](https://www.baeldung.com/java-currying) . 
+Let's say we have one function need 3 arguments. Curry allows us to partially feed the arguments, like step by step.  
+For example, we feed in first argument, it returns us a function which expects the rest 2 arguments. Then if we feed the 2nd argument. It returns the function which expects the 3rd argument and the first two arguments are already fed.  
 Basically, for each curry, you need create an Interface. 
 
 ## pgp encrypt byte array example
 [https://github.com/payneteasy/superfly/blob/master/superfly-crypto/src/main/java/com/payneteasy/superfly/crypto/pgp/PGPUtils.java](https://github.com/payneteasy/superfly/blob/master/superfly-crypto/src/main/java/com/payneteasy/superfly/crypto/pgp/PGPUtils.java)
-another doc [http://sloanseaman.com/wordpress/2011/08/11/pgp-encryptiondecryption-in-java/](http://sloanseaman.com/wordpress/2011/08/11/pgp-encryptiondecryption-in-java/)
+
+another doc  
+[http://sloanseaman.com/wordpress/2011/08/11/pgp-encryptiondecryption-in-java/](http://sloanseaman.com/wordpress/2011/08/11/pgp-encryptiondecryption-in-java/)
