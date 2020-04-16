@@ -81,7 +81,7 @@ Terminal operations include:
 - ...
 https://www.leveluplunch.com/java/examples/stream-terminal-operations-example/  
 
-## faltten nested collection
+## flat nested collection
 ```
 public <T> List<T> flattenListOfListsStream(List<List<T>> list) {
     return list.stream()
@@ -90,6 +90,22 @@ public <T> List<T> flattenListOfListsStream(List<List<T>> list) {
 }
 ```
 https://www.baeldung.com/java-flatten-nested-collections
+
+Another example here. 
+```
+		List<File> files = new ArrayList<>();
+		for (String fileNamePatten : fileNamePatterns) {
+			files.addAll(getFiles(fileNamePatten));
+		}
+		return files;
+```
+It iterates fileNamePatterns, for each fileNamePattern, the getFiles function returns a list of files. The code above can be converted stream code like this 
+```
+		fileNamePatterns.stream()
+				.flatMap(fileNamePattern -> getFiles(fileNamePattern).stream())
+				.collect(Collectors.toList());
+```
+The faltMap is dealing with Stream of Stream, like Stream<Stream<List<>>>. I need convert the return of getFiles() to stream. And then flatMap it would combine all those returned list into one. 
 
 ## collection groupby
 https://www.baeldung.com/java-groupingby-collector
