@@ -71,3 +71,8 @@ Then in the arguments or exception, the reference of the type can be used, like
 (... ThrowingSupplier<T, E> supplier) throws E
 ```
 
+for the class needs to use generic, the type declaration is right after class name
+```
+public interface ThrowingSupplier<T, E extends Exception>
+```
+
