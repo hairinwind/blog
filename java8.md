@@ -189,6 +189,18 @@ if (a != null) {
 ```
 https://www.baeldung.com/java-9-optional
 
+## Optinal to replace null check
+Java null sometimes is quite annoying. For example, if I want to get a.b.c.d and a,b,c can be null. The code is ugly
+```
+if (a != null) {
+    if(a.b != null) {
+        if(a.b.c != null) {
+	    ....
+```
+Use Optional can make it neat. 
+```
+Optional.ofNullable(a).map(A::getB).map(B::getC).map(C::getD).orElse(null)
+```
 
 ## var to declare local variables
 https://dzone.com/articles/finally-java-10-has-var-to-declare-local-variables
