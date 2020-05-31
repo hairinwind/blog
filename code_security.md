@@ -177,7 +177,8 @@ Another example is "reset password". On the page to reset password, it shall add
 	- Are passwords sent in cleartext to the user
 
 ## Insufficient Session Expiration
-Web.xml session-timeout
+Web.xml session-timeout. 
+session-timeout in web.xml was set to 0, leaving the session open indefinitely
 
 The session isn't properly invalidated after logout. Only the client's cookie gets removed, which would still allow for a longshot of session hijacking.
 
