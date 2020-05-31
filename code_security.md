@@ -179,6 +179,8 @@ Another example is "reset password". On the page to reset password, it shall add
 ## Insufficient Session Expiration
 Web.xml session-timeout
 
+The session isn't properly invalidated after logout. Only the client's cookie gets removed, which would still allow for a longshot of session hijacking.
+
 ## Authentication - Forceful Browsing
 An attacker can use Brute Force techniques to search for unlinked contents in the domain directory, such as temporary directories and files, and old backup and configuration files.
 
