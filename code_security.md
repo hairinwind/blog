@@ -67,13 +67,31 @@ Avoid to use param
 <jsp:include page="${user.role}_heading.jsp" />
 ```
 
-## File path
+## File path or path traversal
+By manipulating variables that reference files with “dot-dot-slash (../)”
 ```
 private void save(MultipartFile file, String path) {
         String realPathToUploads = request.getServletContext().getRealPath(path);
        // save file to that path
 ```
-It allows user input to point to some system path which you don't want the user to save file to.  For example, the path is ../../../systemPath
+It allows user input to point to some system path which you don't want the user to save file to.  For example, the path is ../../../systemPath. 
+Fix
+```
+File file = new File(userDir + "/src/main/resources/log/" + logFile).getCanonicalFile();  
+File containerDirectory = new File(userDir + "/src/main/resources");
+if (isInDirectory(containerDirectory, file)) {.  //need verify this 
+	InputStream fileStream = new FileInputStream(file);
+	IOUtils.copy(fileStream, response.getOutputStream());
+	response.flushBuffer();
+}
+```
+Or 
+```
+File file = new File(analysisBaseDir, filename);
+            if (!file.exists() || !file.getCanonicalPath().startsWith(analysisBaseDir)) {
+                throw new NoSuchFileException(file.getAbsolutePath());
+            }
+```
 
 
 ## Injection Flaws - XPath Injection
