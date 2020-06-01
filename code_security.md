@@ -237,6 +237,21 @@ For example
 ```
 But server side does not check if the current user has the access to that document.
 
+---
+avoid writing files to diskes  
+Here is an example to write file content directly to response instead of writing files on disks
+```
+response.setHeader("Content-Disposition", "attachment; filename="+reportFile);
+try (Writer writer = response.getWriter()) {
+	for (User user : users) {
+		writer.write("\""+user.getUsername()+"\",");
+		writer.write("\""+user.getFirstName()+"\",");
+		writer.write("\""+user.getLastName()+"\"\n");
+	}
+}
+```
+
+
 ## Unvalidated Redirects and Forwards - Unvalidated Redirects and Forwards
 Find instances where a redirection or forward is performed by the application. This will usually manifest when redirecting a user after certain actions such as login, or when forwarding to a given view handler that could change dynamically based on the user role. Identify any external inputs used in the redirection or forward and check whether sufficient validation or sanitisation was performed to ensure it cannot be abused to redirect users to another site without warning, or to forward to unintended internal handlers.
 For example, redirect URL shall not be a input parameter
@@ -337,4 +352,25 @@ Fix is
 appenders=console
 Console only is not enough 
 
+## Cross Site Request Forgery
+Cross-Site Request Forgery (CSRF) is an attack that forces an end user to execute unwanted actions on a web application. It has another name "fishing".  
+Cookies aren't a safe repository for CSRF tokens.  
+One fix is to compare the token in the session. 
+code to create token in session
+```
+SecureRandom rand = new SecureRandom();
+byte[] bytes = new byte{32};
+rand.nextBytes(bytes);
+final String token = tokenEncoder.encode(bytes.toString());
+session.setAttribute(CSRF_TOKEN_SESSION_KEY, token);
+```
+Here is checking the token from request
+```
+final String found = request.getParameter(CSRF_TOKEN_REQUEST_KEY);
+final String expected = (String) session.getAttribute(CSRF_TOKEN_SESSION_KEY);
 
+if (found==null || !found.equals(expected)) {
+    if (found==null) throw new SecurityException("No CSRF token was found in request parameter on CSRF protected resource.");
+    throw new SecurityException("Possible CSRF attack identified. [found "+found+" , expected "+expected+"]" );
+}
+```
