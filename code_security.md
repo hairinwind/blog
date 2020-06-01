@@ -88,9 +88,9 @@ if (isInDirectory(containerDirectory, file)) {.  //need verify this
 Or 
 ```
 File file = new File(analysisBaseDir, filename);
-            if (!file.exists() || !file.getCanonicalPath().startsWith(analysisBaseDir)) {
-                throw new NoSuchFileException(file.getAbsolutePath());
-            }
+if (!file.exists() || !file.getCanonicalPath().startsWith(analysisBaseDir)) {
+    throw new NoSuchFileException(file.getAbsolutePath());
+}
 ```
 
 
