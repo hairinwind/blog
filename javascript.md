@@ -225,3 +225,20 @@ a(x)(y)
 For the es6 style javascript code, use the babel online website to covnert it to es5  
 https://babeljs.io/en/repl
 
+## diff between two array
+Intersection, in both arr1 and arr2
+```
+let intersection = arr1.filter(x => arr2.includes(x));
+```
+not in intersection, the items are either in arr1 or arr2
+```
+let difference = arr1
+                 .filter(x => !arr2.includes(x))
+                 .concat(arr2.filter(x => !arr1.includes(x)));
+```
+from arr1 but not arr2
+```
+let difference = arr1.filter(x => !arr2.includes(x));
+```
+https://stackoverflow.com/questions/1187518/how-to-get-the-difference-between-two-arrays-in-javascript
+
