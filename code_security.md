@@ -176,6 +176,21 @@ Another example is "reset password". On the page to reset password, it shall add
 	- Are secret question answers guessable based on limited answers or through social media research?
 	- Are passwords sent in cleartext to the user
 
+The solution is always inserting the password reset in the database for an Asynchronous process to decide if an email must be sent or not, and returning always the same message to the requester. There is no place in this code for username enumeration.
+
+
+## Username Enumeration
+```
+//user authentication
+UserInfo user=userService.getUserByName(username);
+if (user==null) {
+	redir.addFlashAttribute("errorMessage", AppConstants.MSG_BAD_LOGIN_INPUT);
+	return "redirect:"+AppConstants.URL_LOGIN;
+}
+```
+When user authentication failed, put infomration in request attribute can cause "Username Enumeration".  
+Explicit error message allows for username enumeration (and knowing whether it is admin or not). 
+
 ## Insufficient Session Expiration
 Web.xml session-timeout. 
 session-timeout in web.xml was set to 0, leaving the session open indefinitely
