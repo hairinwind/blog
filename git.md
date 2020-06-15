@@ -148,5 +148,11 @@ git config --global credential.helper osxkeychain
 ```
 In next git command like pull or push, git prompts username and password. 
 
+## error when doing git pull
+The error is like "Cannot lock ref 'refs/remotes/origin/master...' "
+```
+git remote prune origin
+```
+This command remove the local branch which has already been removed on remote
 
 
