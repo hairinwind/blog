@@ -471,4 +471,5 @@ The solution is in MyFeignConfig.class, put in this bean
 		return new Contract.Default();
 	}
 ```
-
+Note: dynamic URL is using Feign annotation, like @RequestLine("GET"), @HeaderMap 
+They are different with the spring ones: @RequestMapping(method = RequestMethod.GET, value = "/accounts/domestic"), @RequestHeader
