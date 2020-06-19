@@ -443,4 +443,32 @@ POST to 'http://<spring_boot_app>:<port>/acutator/refresh', it can refresh
 By default, the property coming from class annotated with @ConfigurationProperties has been updated but the property annotated with @Value has not been updated. To update property annotated with @Value, we need to annotate the class with @RefreshScope.  
 https://www.devglan.com/spring-cloud/refresh-property-config-runtime
 
+## Feign dynamic URL in spring boot 
+If feign dynamci URL is need, like the API below
+```
+@FeignClient(name = "myFeignClient", url = "runtimePassedIn", configuration = MyFeignConfig.class)
+public interface MyFeignClient {
+
+	//This is to test dynamic URL
+	@RequestLine("GET")
+    public Object getConfigHealthCheck(URI uri, @HeaderMap Map<String, String> headers);
+	
+}
+```
+The first parameter of the method is the target rest service URI.  
+I saw this error when starting the application.
+```
+Caused by: java.lang.IllegalStateException: Method getAccountsDomestic not annotated with HTTP method type (ex. GET, POST)
+	at feign.Util.checkState(Util.java:127)
+	at feign.Contract$BaseContract.parseAndValidateMetadata(Contract.java:99)
+	at org.springframework.cloud.openfeign.support.SpringMvcContract.parseAndValidateMetadata(SpringMvcContract.java:147)
+```
+The solution is in MyFeignConfig.class, put in this bean
+```
+        // This is important when you try to call feign with pass in URI parameter
+	@Bean
+	public Contract feignContract() {
+		return new Contract.Default();
+	}
+```
 
