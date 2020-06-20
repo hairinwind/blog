@@ -472,4 +472,5 @@ The solution is in MyFeignConfig.class, put in this bean
 	}
 ```
 Note: dynamic URL is using Feign annotation, like @RequestLine("GET"), @HeaderMap  
-They are different with the spring ones: @RequestMapping(method = RequestMethod.GET, value = "/accounts/domestic"), @RequestHeader
+They are different with the spring ones: @RequestMapping(method = RequestMethod.GET, value = "/accounts/domestic"), @RequestHeader  
+https://github.com/hairinwind/mySpringBoot/blob/master/myfeign/src/main/java/my/springboot/feign/DynamicUrlFeignClient.java  
