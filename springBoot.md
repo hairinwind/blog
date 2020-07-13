@@ -474,3 +474,6 @@ The solution is in MyFeignConfig.class, put in this bean
 Note: dynamic URL is using Feign annotation, like @RequestLine("GET"), @HeaderMap  
 They are different with the spring ones: @RequestMapping(method = RequestMethod.GET, value = "/accounts/domestic"), @RequestHeader  
 https://github.com/hairinwind/mySpringBoot/blob/master/myfeign/src/main/java/my/springboot/feign/DynamicUrlFeignClient.java  
+
+## using Shedlock to run scheduler task only once if multiple instances of the service are running
+https://stackoverflow.com/questions/45561558/shedlock-running-multiple-instances-runs-scheduler-tasks-multiple-times
