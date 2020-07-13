@@ -476,4 +476,6 @@ They are different with the spring ones: @RequestMapping(method = RequestMethod.
 https://github.com/hairinwind/mySpringBoot/blob/master/myfeign/src/main/java/my/springboot/feign/DynamicUrlFeignClient.java  
 
 ## using Shedlock to run scheduler task only once if multiple instances of the service are running
-https://stackoverflow.com/questions/45561558/shedlock-running-multiple-instances-runs-scheduler-tasks-multiple-times
+https://stackoverflow.com/questions/45561558/shedlock-running-multiple-instances-runs-scheduler-tasks-multiple-times  
+https://www.baeldung.com/shedlock-spring  
+
