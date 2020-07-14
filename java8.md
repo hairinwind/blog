@@ -441,3 +441,13 @@ or Gson, convert to json string then convert back to object
 
 https://www.baeldung.com/java-deep-copy
 
+## java 8 lamada exception
+The functional interface provided by JDK does not throw any exception. So, if your code throw Checked exception, it would genreate compile error.  
+```
+List<Integer> integers = Arrays.asList(3, 9, 7, 0, 10, 20);
+integers.forEach(i -> writeToFile(i)); //writeToFile throws IOException
+```
+You either create your own functional interface to throw Checked exception or throw runtime exception.  
+
+https://www.baeldung.com/java-lambda-exceptions
+
