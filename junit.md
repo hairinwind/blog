@@ -114,3 +114,11 @@ https://www.baeldung.com/spring-tests-override-properties
 ```
 @SpringBootTest(properties = { "example.firstProperty=annotation" })
 ```
+
+## mockito deep stubs
+Sometimes, need create deep object, it might be easy to use Mockito RETURNS_DEEP_STUBS
+```
+Target target = Mockito.mock(target.class, Mockito.RETURNS_DEEP_STUBS);
+when(target.getA().getB().getC()).thenReturn(expect_return);
+```
+
