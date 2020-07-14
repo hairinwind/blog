@@ -429,3 +429,15 @@ Basically, for each curry, you need create an Interface.
 
 another doc  
 [http://sloanseaman.com/wordpress/2011/08/11/pgp-encryptiondecryption-in-java/](http://sloanseaman.com/wordpress/2011/08/11/pgp-encryptiondecryption-in-java/)
+
+
+## Java Deep copy
+using serialization/deserialization  
+Apache Commons Lang has SerializationUtils#clone, which performs a deep copy when all classes in the object graph implement the Serializable interface.
+```
+SerializationUtils.clone(pm);
+```
+or Gson, convert to json string then convert back to object
+
+https://www.baeldung.com/java-deep-copy
+
