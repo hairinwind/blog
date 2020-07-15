@@ -479,3 +479,12 @@ https://github.com/hairinwind/mySpringBoot/blob/master/myfeign/src/main/java/my/
 https://stackoverflow.com/questions/45561558/shedlock-running-multiple-instances-runs-scheduler-tasks-multiple-times  
 https://www.baeldung.com/shedlock-spring  
 
+## schedule job 
+```
+@Scheduled(cron = "${schedule.cron}", zone = "${schedule.zone}")
+@SchedulerLock(name = "ao-dive-pending-process", lockAtLeastForString = "5000", lockAtMostForString = "14400000")
+public void processPendingApplication() {
+    ...
+}
+```
+
