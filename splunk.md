@@ -3,7 +3,7 @@
 ### clear drill down selection when filter is changed
 ### job.resultCount
 ### join 2 query into one table
-### escape, field <text>
+### escape, field &lt;text&gt;
 ### makeresults to create static table
 
 ```
