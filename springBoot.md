@@ -403,6 +403,14 @@ Within limits matching to join points of certain types
 ```
 @Pointcut("within(org.baeldung..*)")
 ```
+pointcut include multiple packages
+```
+@Pointcut("within(com.package1..*) || within(com.package2..*)")
+```
+pointcut exclue packages
+```
+@Pointcut("within(com.package1..*) && !within(com.package2..*)")
+```
 
 In the around advice, here is one example. I need the reference of the arguments to do joinPoint.proceed(new Object[]{jobName, jobParameters}); in the try/catch. 
 ```
