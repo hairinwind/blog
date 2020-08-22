@@ -4,7 +4,9 @@ this command can be used to ensure you have all of your dependencies installed l
 mvn dependency:go-offline
 ```
 ## maven download source jar and javadoc
-```mvn dependency:sources dependency:resolve -Dclassifier=javadoc```
+```
+mvn dependency:sources dependency:resolve -Dclassifier=javadoc
+```
 https://www.baeldung.com/maven-download-sources-javadoc 
 
 ## run Test
