@@ -112,3 +112,12 @@ https://stackoverflow.com/questions/8276233/is-it-recommended-to-sign-and-encryp
 
 ## online tools
 https://www.samltool.com/sign_response.php
+
+## how is the big number be converted to the text in certificate
+The certificate is the public key. We know the key is a big number. 
+The text in the certificate is a base64 encoded text. It is encoded from DER, which is the binary serialization of ASN.1 format.  
+https://www.shangyang.me/2017/05/24/encrypt-rsa-keyformat/  
+Here is the online tool to convert the certifcate to the ASN.1
+https://lapo.it/asn1js/  
+After converting, you can see "INTEGER (1024 bit)" which is the big number. 
+The number contains about 309 digits. 1024 is the binary bit, you can convert it to binary here https://codebeautify.org/decimal-binary-converter and the number after converting is 1024 bit. 
