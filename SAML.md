@@ -120,4 +120,13 @@ https://www.shangyang.me/2017/05/24/encrypt-rsa-keyformat/
 Here is the online tool to convert the certifcate to the ASN.1
 https://lapo.it/asn1js/  
 After converting, you can see "INTEGER (1024 bit)" which is the big number. 
-The number contains about 309 digits. 1024 is the binary bit, you can convert it to binary here https://codebeautify.org/decimal-binary-converter and the number after converting is 1024 bit. 
+The number contains about 309 digits. 1024 is the binary bit, you can convert it to binary here https://codebeautify.org/decimal-binary-converter and the number after converting is 1024 bit.  
+The java code to get publicKey from X509 certificate
+```
+    public static PublicKey getPublicKeyFromX509(InputStream x509InputStream)
+			throws FileNotFoundException, CertificateException {
+		X509Certificate x509 = X509Certificate.getInstance(x509InputStream);
+		return x509.getPublicKey();
+	}
+```
+Print the publicKey, the modulus is the big number in the certificate.
