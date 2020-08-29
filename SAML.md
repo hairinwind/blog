@@ -791,3 +791,44 @@ public class SamlUtils {
 	}
 }
 ```
+
+sample saml 
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<Response xmlns="urn:oasis:names:tc:SAML:2.0:protocol" Destination=" [[FD_SSO_URI]]" 
+    ID=" [[RESPONSE_ID]]" IssueInstant="[[RESPONSE_ISSUE_INSTANT]]" Version="2.0">
+    <ns1:Issuer xmlns:ns1="urn:oasis:names:tc:SAML:2.0:assertion" 
+        Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">[[ISSUER_ID]]< /ns1:Issuer>
+        <ns2:Assertion xmlns:ns2="urn:oasis:names:tc:SAML:2.0:assertion" ID="[[ASSERTION_ID]]" 
+            IssueInstant="[[ASSERTION_ISSUE_INSTANT]]" Version="2.0">
+            <ns2:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">[[ISSUER_ID]]< /ns2:Issuer>
+                <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">[[DIGITAL_SIGNATURE]]</Signature>
+                <ns2:Subject>
+                    <ns2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">[[USERNAM E_STRING]]</ns2:NameID>
+                    <ns2:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+                        <ns2:SubjectConfirmationData NotOnOrAfter="[[SUBJECT_NOT_ON_OR_AFTER]]" Recipient="[[SUBJECT_RECIPIENT]]" />
+                    </ns2:SubjectConfirmation>
+                </ns2:Subject>
+                <ns2:Conditions NotBefore="[[CONDITIONS_NOT_BEFORE]]" NotOnOrAfter="[[CONDITIONS_NOT_ON_OR_AFTER]]">
+                    <ns2:AudienceRestriction>
+                        <ns2:Audience>[[AUDIENCE]]</ns2:Audience>
+                    </ns2:AudienceRestriction>
+                </ns2:Conditions>
+                <ns2:AuthnStatement AuthnInstant="[[AUTHN_INSTANT]]" SessionIndex="10181041564941SSONINDX" 
+                    SessionNotOnOrAfter="2010-10-18T21:46:56.261Z">
+                    <ns2:AuthnContext>
+                        <ns2:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:Password</ns2:AuthnContextClassRef>
+                    </ns2:AuthnContext>
+                </ns2:AuthnStatement>
+                <ns2:AttributeStatement>
+                    <ns2:Attribute Name="[[ATTR1]]"NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+                        <ns2:AttributeValuexmlns:xs="http://www.w3.org/2001/XMLSchema"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                            xsi:type="xs:string">[[ATTR1_VALUE]]</ns2:AttributeValue>
+                    </ns2:Attribute>
+                    ...
+                </ns2:AttributeStatement>
+        </ns2:Assertion>
+    </ns1:Issuer>
+</Response>
+```
