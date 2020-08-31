@@ -381,6 +381,12 @@ class Test {
   }
 }
 ```
+or in eclipse debug shell
+```
+javax.crypto.Cipher.getMaxAllowedKeyLength("AES")
+then 
+ctrl + shift + D
+```
 if output is 128, it is limited. If the output is 2147483647, it is unlimited.
 
 ## jackson serialize enum
