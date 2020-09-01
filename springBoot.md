@@ -496,3 +496,10 @@ public void processPendingApplication() {
 }
 ```
 
+## spring boot import legacy spring bean xml
+add annotation on the spring boot main class
+```
+@ImportResource("classpath:spring.xml")
+```
+
+
