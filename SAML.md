@@ -100,7 +100,10 @@ To make sure the assertion integrity, the SAML assertion shall be signed.
 This video explained the assertion signature. https://www.youtube.com/watch?v=UYQPkWDaHHM  
 - Hash the <saml:assertion>...</saml:assertion> using SHA-1 to create the DigestValue (Base64 encoding step was omitted here)
 - Insert <ds:Signature>...</ds:Signature> with the DigestValue created in the previous step into <saml:assertion>
-- encrypted the whole <saml:assertion> and put the encrypted data into <ds:SignatureValue>
+- encrypted the whole <saml:assertion> ??? <ds:SignedInfo> and put the encrypted data into <ds:SignatureValue>
+
+Here is more details about how the signature is generated https://zhuanlan.zhihu.com/p/62461749
+
 
 ## java code to do the SAML signature
 https://github.com/onelogin/java-saml  
