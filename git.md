@@ -27,6 +27,17 @@ git reset HEAD
 ## rename local and remote branch 
 https://multiplestates.wordpress.com/2015/02/05/rename-a-local-and-remote-branch-in-git/
 
+## git push a branch not exist on remote
+to work on a branch not exist on remote  
+create a branch on local 
+```
+git checkout -b local_branch_name
+```
+once the changes are checked in local branch
+```
+git push origin local_branch_name:remote_branch_name
+```
+
 ## revert/undo last commit before push
 ```
 git reset --soft d93bd7879ca0f8e8bc0866660022b43098b63390
