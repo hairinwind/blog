@@ -157,7 +157,10 @@ To reset that
 ```
 git config --global credential.helper osxkeychain
 ```
-In next git command like pull or push, git prompts username and password. 
+In next git command like pull or push, git prompts username and password.
+
+In windows, it is using "Credential Manager"
+https://stackoverflow.com/questions/15381198/remove-credentials-from-git
 
 ## error when doing git pull
 The error is like "Cannot lock ref 'refs/remotes/origin/master...' "
