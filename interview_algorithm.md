@@ -4,10 +4,10 @@ https://github.com/labuladong/fucking-algorithm
 
 ## pre order traverse (前序遍历)， middle order traverse(中序遍历) and post order traverse(后序遍历)
 https://zhuanlan.zhihu.com/p/38603548
-前序遍历：根节点，左节点，右节点 (从根节点开始)
-中序遍历：左节点，根节点，右节点（从左叶节点开始）
-后序遍历：左节点，右节点，根节点（从左叶节点开始）
-层序遍历：根节点，第一层叶节点(从左到右), 第二层叶节点(从左到右)
+- 前序遍历：根节点，左节点，右节点 (从根节点开始)
+- 中序遍历：左节点，根节点，右节点（从左叶节点开始）
+- 后序遍历：左节点，右节点，根节点（从左叶节点开始）
+- 层序遍历：根节点，第一层叶节点(从左到右), 第二层叶节点(从左到右)
 
 
 ##  BST: binary search tree
