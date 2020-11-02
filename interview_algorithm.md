@@ -103,3 +103,6 @@ The basic idea is like this
 - if the node is matching the target node, return itself to the caller 
 - if the node des not match the target node, check its sub-nodes recursively. If matched node found, return the sub-nodes path and it self to the caller. If no matched nnode found in sub-nodes, go to the next node. 
 
+## 时间复杂度
+递归算法的时间复杂度怎么计算？就是用子问题个数乘以解决一个子问题需要的时间。
+https://github.com/labuladong/fucking-algorithm/blob/master/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%B3%BB%E5%88%97/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E8%AF%A6%E8%A7%A3%E8%BF%9B%E9%98%B6.md
