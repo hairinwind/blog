@@ -169,4 +169,17 @@ git remote prune origin
 ```
 This command remove the local branch which has already been removed on remote
 
+## git mode diff
+After copy the workspace from the old machine, the file permission was changed from 644 to 755
+
+Run git status, all files were marked changed. 
+Run git diff one_file, 
+```
+old mode 100644
+new mode 100755
+```
+Actually, most files do not need 755, 644 is enough
+To change them back, just run 
+
+find . -type f -exec chmod 644 {} \; 
 
