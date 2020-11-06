@@ -78,6 +78,24 @@ http://localhost:8888/master/config-client-development.properties
 ```
 The sample code git is here https://github.com/hairinwind/springCloud  
 
+## spring profile include
+```
+spring.profiles: prod
+spring.profiles.include: proddb,prodmq
+```
+In YML format, it is 
+```
+spring
+  profiles: prod
+  porfiles.include: proddb,prodmq
+```
+It means the "prod" profile also includes proddb and prodmq.  
+I found if the included files are on config-server, these setting shall also in a file on config-server.  
+https://docs.spring.io/spring-boot/docs/1.1.x/reference/html/boot-features-profiles.html . 
+https://reflectoring.io/spring-boot-profiles/ 
+https://www.baeldung.com/spring-profiles  
+
+
 ## configure two datasources
 https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#howto-two-datasources
 mark one of the DataSource instances as @Primary
