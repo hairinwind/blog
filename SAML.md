@@ -138,3 +138,17 @@ Print the publicKey, the modulus is the big number in the certificate.
 JWT token is kind of "the jason version of SAML". 
 https://www.jianshu.com/p/576dbf44b2ae
 
+## SAML and RSA
+RSA is an encryption/decryption algorithm using public key/private key. It is asymmetry. 
+
+We can use public key to do the encryption and private key to do the decryption. Or vise vera.
+
+Usually, we say public key to encrypt and private key to decrypt. It happens in SSL hand shake.  
+And we say private key to sign and public key to verify. It happens in SAML.
+
+When using public key to do the encryption, each time the encrypted result is different for the same source data.
+https://stackoverflow.com/questions/16325057/why-does-rsa-encrypted-text-give-me-different-results-for-the-same-text
+But when using private key to do the encryption, each time the encrypted result is the same.  
+https://blog.csdn.net/heqiang2015/article/details/83586937  
+https://blog.csdn.net/defonds/article/details/42775183
+
