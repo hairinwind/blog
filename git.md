@@ -180,6 +180,6 @@ new mode 100755
 ```
 Actually, most files do not need 755, 644 is enough
 To change them back, just run 
-
+```
 find . -type f -exec chmod 644 {} \; 
-
+```
