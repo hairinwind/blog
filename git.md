@@ -195,7 +195,7 @@ git diff a0921c77d107df99bd89877c0d708fb5ec27074e 29ae7af8bc04c3749806575e7f3486
 ```
 if only needs the file name changed between two commits
 ```
-c --name-only
+git diff a0921c77d107df99bd89877c0d708fb5ec27074e 29ae7af8bc04c3749806575e7f3486895a211b52 --name-only
 ```
 if need see diff for one specific file between two commits
 ```
