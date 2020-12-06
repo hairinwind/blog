@@ -481,3 +481,9 @@ You either create your own functional interface to throw Checked exception or th
 
 https://www.baeldung.com/java-lambda-exceptions
 
+## servlet or filter code to get request uri without context
+in spring, this works 
+```
+String path = new UrlPathHelper().getPathWithinApplication(request);
+```
+https://stackoverflow.com/questions/4278083/how-to-get-request-uri-without-context-path
