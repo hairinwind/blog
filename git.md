@@ -63,6 +63,10 @@ git rm --cached [file]
 ```
 git log -10
 ```
+or by author
+```
+git log -10 --author=Jon
+```
 
 ## git stash 
 ```
