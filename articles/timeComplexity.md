@@ -27,7 +27,8 @@ int function2(int x, int n) {
         return 1; // return 1 同样是因为0次方是等于1的
     }
     return function2(x, n - 1) * x;
-}```
+}
+```
 面试官问：那么这份代码的时间复杂度是多少？
 
 有的同学可能一看到递归就想到了logn，其实并不是这样
