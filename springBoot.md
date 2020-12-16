@@ -520,4 +520,12 @@ add annotation on the spring boot main class
 @ImportResource("classpath:spring.xml")
 ```
 
+## EnableAutoConfiguration
+I created a spring boot jar as a library. It has the configuration class (MyConfig.class) to initialize the bean. But the other spring boot projects have to use "@Import(MyConfig.class)" if they depend on that jar. How to avoid the "@import" to make it seamlessly.  
+Add file src/mian/resources/META-INF/spring.factories in the library jar with the content
+```
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=my.spring.MyConfig
+```
+Then the spring boot project can automalically load MyConfig.   
 
+Note: don't use "@EnableAutoConfiguration" on MyConfig if it is configured in spring.factories. Otherwise, you would get a "cycle dependency" error

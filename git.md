@@ -63,6 +63,10 @@ git rm --cached [file]
 ```
 git log -10
 ```
+or by author
+```
+git log -10 --author=Jon
+```
 
 ## git stash 
 ```
@@ -180,6 +184,24 @@ new mode 100755
 ```
 Actually, most files do not need 755, 644 is enough
 To change them back, just run 
-
+```
 find . -type f -exec chmod 644 {} \; 
+```
 
+## git checkout file from a specific commit
+```
+git checkout f08a63ff4fa7b8479f8c698e5998ee1afcac3a4e Gemfile
+```
+
+## git compare all changes from two commits
+```
+git diff a0921c77d107df99bd89877c0d708fb5ec27074e 29ae7af8bc04c3749806575e7f3486895a211b52
+```
+if only needs the file name changed between two commits
+```
+git diff a0921c77d107df99bd89877c0d708fb5ec27074e 29ae7af8bc04c3749806575e7f3486895a211b52 --name-only
+```
+if need see diff for one specific file between two commits
+```
+git diff a0921c77d107df99bd89877c0d708fb5ec27074e 29ae7af8bc04c3749806575e7f3486895a211b52 <file_name>
+```
