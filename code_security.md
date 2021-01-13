@@ -389,3 +389,6 @@ if (found==null || !found.equals(expected)) {
     throw new SecurityException("Possible CSRF attack identified. [found "+found+" , expected "+expected+"]" );
 }
 ```
+
+## CORS vs CSRF vs XSS
+https://zhuanlan.zhihu.com/p/92255672
