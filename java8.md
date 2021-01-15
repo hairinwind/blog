@@ -202,6 +202,11 @@ Use Optional can make it neat.
 Optional.ofNullable(a).map(A::getB).map(B::getC).map(C::getD).orElse(null)
 ```
 
+## Optional Transforming an Empty String into an Empty Optional
+```
+Optional<String> opt = Optional.ofNullable(str).filter(s -> !s.isEmpty());
+```
+
 ## var to declare local variables
 https://dzone.com/articles/finally-java-10-has-var-to-declare-local-variables
 
