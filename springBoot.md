@@ -562,7 +562,7 @@ Now the annotation is like this
 public ResponseEntity<Object> doScreeningWithoutCustomerId(@RequestBody @Valid OsdDomainRequest request,
             @RequestHeader Map<String, String> headers) {
 ```
-`#headers is the argument on the function. 
+#headers is the argument on the function. 
 @securityConfiguration is a bean in the context
 ```
 @Data
