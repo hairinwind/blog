@@ -129,6 +129,12 @@ public Step processTransactionLines(...) {
     ...
 }
 ```
+Another example, I want to create the bean instance either the property is not explicitly defined (provide default value by annotation) or it is explicitly defined as true
+```
+@Bean
+@ConditionalOnExpression("${dsp.dspTokenFilter.enable:true}")
+```
+
 
 ## @ConfigurationProperties
 This is an alternative of @Value on each properties. 
