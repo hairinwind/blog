@@ -529,3 +529,18 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=my.spring.MyConfi
 Then the spring boot project can automalically load MyConfig.   
 
 Note: don't use "@EnableAutoConfiguration" on MyConfig if it is configured in spring.factories. Otherwise, you would get a "cycle dependency" error
+
+## org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.cloud.netflix.feign.FeignContext' available
+The project is a spring boot library, not an application. It starts from auto loading one configuration class.  
+Although the configuration class has annotation "@EnableFeignClients()", the junit test class in the same project throws out "NoSuchBeanDefinitionException".  
+Found this online: https://stackoverflow.com/questions/43093968/enablefeignclients-and-feignclient-fail-on-autowiring-feigncontext-nosuchbea  
+Adding  either annotation on junit class can make it work.
+```
+@ImportAutoConfiguration({RibbonAutoConfiguration.class, FeignRibbonClientAutoConfiguration.class, FeignAutoConfiguration.class})
+```
+OR 
+```
+@EnableAutoConfiguration
+```
+
+
