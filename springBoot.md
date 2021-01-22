@@ -549,7 +549,7 @@ OR
 @EnableAutoConfiguration
 ```
 
-## Spring Expression Language
+## refer a bean in Spring Expression Language
 In spring security, PreAuthorize annotation is like this 
 ```
 @PreAuthorize("hasAuthority(<expected_AD_group>)"
@@ -562,8 +562,36 @@ Now the annotation is like this
 public ResponseEntity<Object> doScreeningWithoutCustomerId(@RequestBody @Valid OsdDomainRequest request,
             @RequestHeader Map<String, String> headers) {
 ```
-#headers is the argument on the function. 
-@securityConfiguration is a bean in the context
+#headers is the argument on the function.  
+@securityConfiguration.getCommonAdGroup() is spring expression language. @securityConfiguration is a bean in the context. The hasPermission need parse the expression language
+```
+@Component("checksPermissionEvaluator")
+public class ChecksPermissionEvaluator implements PermissionEvaluator, BeanFactoryAware. {
+	...
+	
+	private BeanFactory beanFactory;
+
+	@Override
+	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+		this.beanFactory = beanFactory;
+	}
+	
+	@Override
+	// the first argument authentication, spring would inject that automatically
+	// the second argument targetDomainObject is actually #headers
+	// the third argument permission is @securityConfiguration.getCommonAdGroup()
+	public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
+		...
+		// parse the expression language
+		final ExpressionParser parser = new SpelExpressionParser();
+		StandardEvaluationContext context = new StandardEvaluationContext();
+		context.setBeanResolver(new BeanFactoryResolver(beanFactory));
+		context.addPropertyAccessor(new BeanExpressionContextAccessor());
+		Expression expression = parser.parseExpression((String)permission);
+		final String value = expression.getValue(context, String.class);
+		LOGGER.debug("EL {} evaluate result {}", permission, value);
+```
+The SecurityConfiguration bean
 ```
 @Data
 @Component("securityConfiguration")
