@@ -605,3 +605,9 @@ And it would pick up the property value from yml
 authority.commonAdGroup: 'the expected AD group'
 ```
 
+BTW, the expression language can use combined expressions, for example 
+```
+@PreAuthorize("hasAuthority('A') or hasAuthority('B')")
+```
+
+
