@@ -549,4 +549,31 @@ OR
 @EnableAutoConfiguration
 ```
 
+## Spring Expression Language
+In spring security, PreAuthorize annotation is like this 
+```
+@PreAuthorize("hasAuthority(<expected_AD_group>)"
+```
+But I found I could not externalize the expected_AD_group. I put in '${ad_group_from_yml}' but it did not work.  
+I have to implemented a Custom Security Expression "hasPermission". See example here https://www.baeldung.com/spring-security-create-new-custom-security-expression  
+Now the annotation is like this 
+```
+@PreAuthorize("hasPermission(#headers,'@securityConfiguration.getCommonAdGroup()')")
+public ResponseEntity<Object> doScreeningWithoutCustomerId(@RequestBody @Valid OsdDomainRequest request,
+            @RequestHeader Map<String, String> headers) {
+```
+`#headers is the argument on the function. 
+@securityConfiguration is a bean in the context
+```
+@Data
+@Component("securityConfiguration")
+@ConfigurationProperties(prefix = "authority")
+public class SecurityConfiguration {
+	private String commonAdGroup;
+}
+```
+And it would pick up the property value from yml 
+```
+authority.commonAdGroup: 'the expected AD group'
+```
 
