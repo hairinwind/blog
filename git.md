@@ -209,3 +209,6 @@ git diff a0921c77d107df99bd89877c0d708fb5ec27074e 29ae7af8bc04c3749806575e7f3486
 ## git sparse-checkout subdirectories from repo
 todo
 https://stackoverflow.com/questions/600079/how-do-i-clone-a-subdirectory-only-of-a-git-repository
+
+https://github.blog/2020-01-17-bring-your-monorepo-down-to-size-with-sparse-checkout/ 
+

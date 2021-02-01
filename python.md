@@ -285,6 +285,9 @@ cd myproject
 python -m pipenv --rm
 ```
 
+## 3 env comparison
+https://medium.com/@krishnaregmi/pipenv-vs-virtualenv-vs-conda-environment-3dde3f6869ed
+
 ## return first item or None
 https://stackoverflow.com/questions/363944/python-idiom-to-return-first-item-or-none
 ```
