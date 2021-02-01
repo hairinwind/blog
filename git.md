@@ -207,10 +207,24 @@ git diff a0921c77d107df99bd89877c0d708fb5ec27074e 29ae7af8bc04c3749806575e7f3486
 ```
 
 ## git sparse-checkout subdirectories from repo
-todo
-https://stackoverflow.com/questions/600079/how-do-i-clone-a-subdirectory-only-of-a-git-repository
-
 https://github.blog/2020-01-17-bring-your-monorepo-down-to-size-with-sparse-checkout/ 
-
+```
+git clone --depth 1 --no-checkout https://GIT_REPO
+cd DIR_FROM_REPO
+git sparse-checkout init --cone
+git sparse-checkout set THE_CHECKOUT_PATTERN
+```
 the generated sparse-checkout is here .git/info/sparse-checkout 
 
+the sparse checkout command above need git 2.25 or newer. The company I am working for is using git 2.9. The commands below is working for old git version. 
+```
+git clone --depth 1 --no-checkout https://GIT_REPO
+cd DIR_FROM_REPO
+git config core.sparseCheckout true
+echo "global-checks-*/*" > .git/info/sparse-checkout
+git checkout master
+```
+```
+--depth 1 is to get a shallow history
+```
+global-checks-*/* is the pattern for the folders you want to checkout. 
