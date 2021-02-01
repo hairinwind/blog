@@ -212,3 +212,5 @@ https://stackoverflow.com/questions/600079/how-do-i-clone-a-subdirectory-only-of
 
 https://github.blog/2020-01-17-bring-your-monorepo-down-to-size-with-sparse-checkout/ 
 
+the generated sparse-checkout is here .git/info/sparse-checkout 
+
