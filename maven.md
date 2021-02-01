@@ -64,3 +64,15 @@ The assembly config file is "assembly/dep.xml"
 </assembly>
 ```
 
+## only build specific modules
+Multiple modules, but to build one specific module, you may not need to build all modules. 
+```
+mvn install -pl B -am
+```
+```
+-pl, --projects
+        Build specified reactor projects instead of all projects
+-am, --also-make
+        If project list is specified, also build projects required by the list
+```
+https://stackoverflow.com/questions/1114026/maven-modules-building-a-single-specific-module
