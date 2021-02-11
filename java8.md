@@ -107,6 +107,13 @@ It iterates fileNamePatterns, for each fileNamePattern, the getFiles function re
 ```
 The faltMap is dealing with Stream of Stream, like Stream<Stream<List<>>>. I need convert the return of getFiles() to stream. And then flatMap it would combine all those returned list into one. 
 
+## two list cross join each elements
+```
+xValues.stream()
+    .flatMap(x -> yValues.stream().map(y -> new ABC(x, y)))
+    .collect(toList());
+```
+
 ## collection groupby
 https://www.baeldung.com/java-groupingby-collector
 
