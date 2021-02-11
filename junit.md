@@ -122,3 +122,23 @@ Target target = Mockito.mock(target.class, Mockito.RETURNS_DEEP_STUBS);
 when(target.getA().getB().getC()).thenReturn(expect_return);
 ```
 
+## junit 5 @ParameterizedTest
+https://www.baeldung.com/parameterized-tests-junit-5  
+@ValueSource or @EnumSource only support one argument. When multiple arguments are needed, use @MethodSource to refer a method to prepare the arguments. 
+```
+@ParameterizedTest
+@MethodSource("provideStringsForIsBlank")
+void isBlank_ShouldReturnTrueForNullOrBlankStrings(String input, boolean expected) {
+    assertEquals(expected, Strings.isBlank(input));
+}
+...
+private static Stream<Arguments> provideStringsForIsBlank() {
+    return Stream.of(
+      Arguments.of(null, true),
+      Arguments.of("", true),
+      Arguments.of("  ", true),
+      Arguments.of("not blank", false)
+    );
+}
+
+```
