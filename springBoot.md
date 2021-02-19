@@ -610,4 +610,9 @@ BTW, the expression language can use combined expressions, for example
 @PreAuthorize("hasAuthority('A') or hasAuthority('B')")
 ```
 
-
+## componentScan exclude filter
+https://www.concretepage.com/spring/spring-component-scan-include-and-exclude-filter-example  
+```@ComponentScan(basePackages = "com.concretepage",
+     includeFilters = @Filter(type = FilterType.REGEX, pattern="com.concretepage.*.*Util"),
+     excludeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = IUserService.class))
+```
