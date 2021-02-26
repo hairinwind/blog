@@ -228,3 +228,11 @@ git checkout master
 --depth 1 is to get a shallow history
 ```
 global-checks-*/* is the pattern for the folders you want to checkout. 
+
+## revert a merge commit 
+for this error "commit dd8d6f587fa24327d5f5afd6fa8c3e604189c8d4 is a merge but no -m option was given."
+```
+git revert -m 1 dd8d6f587fa24327d5f5afd6fa8c3e604189c8d4
+```
+The -m followed by the 1 indicates that we want to keep the parent side of the merge (the branch we are merging into).
+
