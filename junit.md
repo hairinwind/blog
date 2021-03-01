@@ -142,3 +142,46 @@ private static Stream<Arguments> provideStringsForIsBlank() {
 }
 
 ```
+
+## Mockito RandonAnswer for mock
+In my test cases, I need a mock bean with random value populated. I don't care the value. I just need one random value.  
+The class RandomAnswer is created for this 
+```
+/**
+ * 
+ * This is a stateful object, so don't use the same Answer instance for different mock object
+ * 
+ */
+public class RandomAnswer implements Answer {
+	
+	Map<Method, Object> methodReturnMap = new HashMap<>();
+	
+	@Override
+	public Object answer(InvocationOnMock invocation) throws Throwable {
+		Method method = invocation.getMethod();
+		
+		Object returnObject = methodReturnMap.get(method);
+		if (returnObject == null) {
+			returnObject = getRandomReturn(method);
+			methodReturnMap.put(method, returnObject);
+		}
+		
+		return returnObject;
+	}
+
+	private Object getRandomReturn(Method method) {
+		if (method.getReturnType().equals(String.class)) {
+			return RandomStringUtils.randomAlphabetic(6,10);
+		} else if (method.getReturnType().equals(Boolean.class)) {
+			return RandomUtils.nextBoolean();
+		}else {
+			throw new RuntimeException("the mock return type is not supported in RandomAnswer");
+		}
+	}
+
+}
+```
+To use it
+```
+TargetConfig targetConfig = Mockito.mock(TargetConfig.class, new RandomAnswer());
+```
