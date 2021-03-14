@@ -236,3 +236,11 @@ git revert -m 1 dd8d6f587fa24327d5f5afd6fa8c3e604189c8d4
 ```
 The -m followed by the 1 indicates that we want to keep the parent side of the merge (the branch we are merging into).
 
+## detached head
+detached head means it is not connected to any branch.  
+To keep the change or the commit, create a temporary branch to keep the change 
+```git branch temp fef4501```
+then merge it to the working branch
+```git checkout target_branch
+git merge temp```
+
