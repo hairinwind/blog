@@ -244,3 +244,40 @@ then merge it to the working branch
 ```git checkout target_branch
 git merge temp```
 
+## git submodules
+Working with microservice, you will face a lot of git repos and they are related to each other. Git submodules is one solution.
+### create git repos
+- create each git repo separatly
+- in the parent project, run 
+    - git submodule add https://submodule-git-repo-url. Now, you shall see the .gitmodule file is created. 
+
+### clone git repo with submodules
+```
+git clone --recurse-submodules https://submodule-git-repo-url
+```
+
+### git add and commit 
+when files are changed either in parent module or submodule, you need do "git add" and "git commit" separately as they are different repo. 
+
+### git status
+if you run "git status" at parent project, you can see which submodule is changed or which submodule has new commit. 
+
+### git push with submodules
+you can do "git push" in parent module, which push all the commits in parents and sub modules. 
+```
+git push --recurse-submodules=on-demand
+```
+
+### pull requests
+Pull requests shall be created separately on each repo.  
+It does not matter the parent module pull request is merged first or the sub module pull request is merged first. The parent is pointing to a commit of the submodule, not to a specific branch. 
+
+### git pull with submodules
+```
+git pull --recurse-submodules
+```
+You would find the submodule is not on any branch. It is a detached head pointing to a specific commit. 
+
+
+
+
