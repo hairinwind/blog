@@ -78,6 +78,24 @@ http://localhost:8888/master/config-client-development.properties
 ```
 The sample code git is here https://github.com/hairinwind/springCloud  
 
+## spring profile include
+```
+spring.profiles: prod
+spring.profiles.include: proddb,prodmq
+```
+In YML format, it is 
+```
+spring
+  profiles: prod
+  porfiles.include: proddb,prodmq
+```
+It means the "prod" profile also includes proddb and prodmq.  
+I found if the included files are on config-server, these setting shall also in a file on config-server.  
+https://docs.spring.io/spring-boot/docs/1.1.x/reference/html/boot-features-profiles.html . 
+https://reflectoring.io/spring-boot-profiles/ 
+https://www.baeldung.com/spring-profiles  
+
+
 ## configure two datasources
 https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#howto-two-datasources
 mark one of the DataSource instances as @Primary
@@ -111,6 +129,12 @@ public Step processTransactionLines(...) {
     ...
 }
 ```
+Another example, I want to create the bean instance either the property is not explicitly defined (provide default value by annotation) or it is explicitly defined as true
+```
+@Bean
+@ConditionalOnExpression("${dsp.dspTokenFilter.enable:true}")
+```
+
 
 ## @ConfigurationProperties
 This is an alternative of @Value on each properties. 
@@ -217,8 +241,9 @@ This actually injects the bean when it needed. The previous one may have the iss
 https://www.baeldung.com/circular-dependencies-in-spring
 
 ## spring unit test dirtyContext
-DirtiesContext.classMode  
-https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.ClassMode.html
+DirtiesContext.classMode, usually used on unit test to guarantee a brand new context
+https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.ClassMode.html  
+https://www.baeldung.com/spring-dirtiescontext
 
 ## spring boot display sql with argument
 put this in pom
@@ -402,6 +427,14 @@ Within limits matching to join points of certain types
 ```
 @Pointcut("within(org.baeldung..*)")
 ```
+pointcut include multiple packages
+```
+@Pointcut("within(com.package1..*) || within(com.package2..*)")
+```
+pointcut exclue packages
+```
+@Pointcut("within(com.package1..*) && !within(com.package2..*)")
+```
 
 In the around advice, here is one example. I need the reference of the arguments to do joinPoint.proceed(new Object[]{jobName, jobParameters}); in the try/catch. 
 ```
@@ -431,9 +464,156 @@ public Object aroundCreateJob(ProceedingJoinPoint joinPoint, String jobName, Job
 ```
 For more pointcut, like pointcut for annotation, look into this https://www.baeldung.com/spring-aop-pointcut-tutorial
 
+## prevent bean overriding
+```
+spring.main.allow-bean-definition-overriding: false
+```
 
+## refresh properties by actuator
+enable actuator, add dependency in pom.xml 
+POST to 'http://<spring_boot_app>:<port>/acutator/refresh', it can refresh 
+By default, the property coming from class annotated with @ConfigurationProperties has been updated but the property annotated with @Value has not been updated. To update property annotated with @Value, we need to annotate the class with @RefreshScope.  
+https://www.devglan.com/spring-cloud/refresh-property-config-runtime
 
+## Feign dynamic URL in spring boot 
+If feign dynamci URL is need, like the API below
+```
+@FeignClient(name = "myFeignClient", url = "runtimePassedIn", configuration = MyFeignConfig.class)
+public interface MyFeignClient {
 
+	//This is to test dynamic URL
+	@RequestLine("GET")
+    public Object getConfigHealthCheck(URI uri, @HeaderMap Map<String, String> headers);
+	
+}
+```
+The first parameter of the method is the target rest service URI.  
+I saw this error when starting the application.
+```
+Caused by: java.lang.IllegalStateException: Method getAccountsDomestic not annotated with HTTP method type (ex. GET, POST)
+	at feign.Util.checkState(Util.java:127)
+	at feign.Contract$BaseContract.parseAndValidateMetadata(Contract.java:99)
+	at org.springframework.cloud.openfeign.support.SpringMvcContract.parseAndValidateMetadata(SpringMvcContract.java:147)
+```
+The solution is in MyFeignConfig.class, put in this bean
+```
+        // This is important when you try to call feign with pass in URI parameter
+	@Bean
+	public Contract feignContract() {
+		return new Contract.Default();
+	}
+```
+Note: dynamic URL is using Feign annotation, like @RequestLine("GET"), @HeaderMap  
+They are different with the spring ones: @RequestMapping(method = RequestMethod.GET, value = "/accounts/domestic"), @RequestHeader  
+https://github.com/hairinwind/mySpringBoot/blob/master/myfeign/src/main/java/my/springboot/feign/DynamicUrlFeignClient.java  
 
+## using Shedlock to run scheduler task only once if multiple instances of the service are running
+https://stackoverflow.com/questions/45561558/shedlock-running-multiple-instances-runs-scheduler-tasks-multiple-times  
+https://www.baeldung.com/shedlock-spring  
 
+## schedule job 
+```
+@Scheduled(cron = "${schedule.cron}", zone = "${schedule.zone}")
+@SchedulerLock(name = "ao-dive-pending-process", lockAtLeastForString = "5000", lockAtMostForString = "14400000")
+public void processPendingApplication() {
+    ...
+}
+```
 
+## spring boot import legacy spring bean xml
+add annotation on the spring boot main class
+```
+@ImportResource("classpath:spring.xml")
+```
+
+## EnableAutoConfiguration
+I created a spring boot jar as a library. It has the configuration class (MyConfig.class) to initialize the bean. But the other spring boot projects have to use "@Import(MyConfig.class)" if they depend on that jar. How to avoid the "@import" to make it seamlessly.  
+Add file src/mian/resources/META-INF/spring.factories in the library jar with the content
+```
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=my.spring.MyConfig
+```
+Then the spring boot project can automalically load MyConfig.   
+
+Note: don't use "@EnableAutoConfiguration" on MyConfig if it is configured in spring.factories. Otherwise, you would get a "cycle dependency" error
+
+## org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.cloud.netflix.feign.FeignContext' available
+The project is a spring boot library, not an application. It starts from auto loading one configuration class.  
+Although the configuration class has annotation "@EnableFeignClients()", the junit test class in the same project throws out "NoSuchBeanDefinitionException".  
+Found this online: https://stackoverflow.com/questions/43093968/enablefeignclients-and-feignclient-fail-on-autowiring-feigncontext-nosuchbea  
+Adding  either annotation on junit class can make it work.
+```
+@ImportAutoConfiguration({RibbonAutoConfiguration.class, FeignRibbonClientAutoConfiguration.class, FeignAutoConfiguration.class})
+```
+OR 
+```
+@EnableAutoConfiguration
+```
+
+## refer a bean in Spring Expression Language
+In spring security, PreAuthorize annotation is like this 
+```
+@PreAuthorize("hasAuthority(<expected_AD_group>)"
+```
+But I found I could not externalize the expected_AD_group. I put in '${ad_group_from_yml}' but it did not work.  
+I have to implemented a Custom Security Expression "hasPermission". See example here https://www.baeldung.com/spring-security-create-new-custom-security-expression  
+Now the annotation is like this 
+```
+@PreAuthorize("hasPermission(#headers,'@securityConfiguration.getCommonAdGroup()')")
+public ResponseEntity<Object> doScreeningWithoutCustomerId(@RequestBody @Valid OsdDomainRequest request,
+            @RequestHeader Map<String, String> headers) {
+```
+#headers is the argument on the function.  
+@securityConfiguration.getCommonAdGroup() is spring expression language. @securityConfiguration is a bean in the context. The hasPermission need parse the expression language
+```
+@Component("checksPermissionEvaluator")
+public class ChecksPermissionEvaluator implements PermissionEvaluator, BeanFactoryAware. {
+	...
+	
+	private BeanFactory beanFactory;
+
+	@Override
+	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+		this.beanFactory = beanFactory;
+	}
+	
+	@Override
+	// the first argument authentication, spring would inject that automatically
+	// the second argument targetDomainObject is actually #headers
+	// the third argument permission is @securityConfiguration.getCommonAdGroup()
+	public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
+		...
+		// parse the expression language
+		final ExpressionParser parser = new SpelExpressionParser();
+		StandardEvaluationContext context = new StandardEvaluationContext();
+		context.setBeanResolver(new BeanFactoryResolver(beanFactory));
+		context.addPropertyAccessor(new BeanExpressionContextAccessor());
+		Expression expression = parser.parseExpression((String)permission);
+		final String value = expression.getValue(context, String.class);
+		LOGGER.debug("EL {} evaluate result {}", permission, value);
+```
+The SecurityConfiguration bean
+```
+@Data
+@Component("securityConfiguration")
+@ConfigurationProperties(prefix = "authority")
+public class SecurityConfiguration {
+	private String commonAdGroup;
+}
+```
+And it would pick up the property value from yml 
+```
+authority.commonAdGroup: 'the expected AD group'
+```
+
+BTW, the expression language can use combined expressions, for example 
+```
+@PreAuthorize("hasAuthority('A') or hasAuthority('B')")
+```
+
+## componentScan exclude filter
+https://www.concretepage.com/spring/spring-component-scan-include-and-exclude-filter-example  
+```
+@ComponentScan(basePackages = "com.concretepage",
+     includeFilters = @Filter(type = FilterType.REGEX, pattern="com.concretepage.*.*Util"),
+     excludeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = IUserService.class))
+```

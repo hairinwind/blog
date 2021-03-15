@@ -10,3 +10,24 @@ serialVersionUID=[10020120822], name=[EMT], description=[eTransfer Payments]
 The text below has the match, name=[ABC]
 serialVersionUID=[10020120822], name=[ABC], description=[eTransfer Payments]
 
+Here is the regex to match the xml section, which is self closed and does not have attribute na="true" 
+```
+regex=<((?!na=\"true\")[^>])+\/>  
+```
+Here is the text   
+```
+<a>a</a><10020120822/><aEMT na="true" /><abc efg/>  
+```
+The matched section is 
+```
+<10020120822/> 
+and 
+<abc efg/>
+```  
+
+## search something not end with specific text
+I need search the text which contains "cipher" but not ends with "PFEv2"
+Here is the reg ex to do the search
+```
+cipher.*(?<!PFEv2)$
+```

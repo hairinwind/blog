@@ -71,7 +71,7 @@ DNS2=8.8.4.4
 ```
 
 ## setup DNS server
-add below into /etc/sysconfig/network-scripts/ifcfg-<YOUR Adapter>
+add below into ```/etc/sysconfig/network-scripts/ifcfg-<YOUR Adapter>```
 
 DNS1="127.0.0.1"
 DNS2="8.8.8.8"
@@ -81,6 +81,7 @@ DNS3="8.8.4.4"
 ```
 sudo systemctl restart network.service
 ```
+This is the same file to change ip address
 
 ## port listening
 ```

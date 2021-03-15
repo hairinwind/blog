@@ -81,7 +81,7 @@ Terminal operations include:
 - ...
 https://www.leveluplunch.com/java/examples/stream-terminal-operations-example/  
 
-## faltten nested collection
+## flat nested collection
 ```
 public <T> List<T> flattenListOfListsStream(List<List<T>> list) {
     return list.stream()
@@ -90,6 +90,29 @@ public <T> List<T> flattenListOfListsStream(List<List<T>> list) {
 }
 ```
 https://www.baeldung.com/java-flatten-nested-collections
+
+Another example here. 
+```
+		List<File> files = new ArrayList<>();
+		for (String fileNamePatten : fileNamePatterns) {
+			files.addAll(getFiles(fileNamePatten));
+		}
+		return files;
+```
+It iterates fileNamePatterns, for each fileNamePattern, the getFiles function returns a list of files. The code above can be converted stream code like this 
+```
+		fileNamePatterns.stream()
+				.flatMap(fileNamePattern -> getFiles(fileNamePattern).stream())
+				.collect(Collectors.toList());
+```
+The faltMap is dealing with Stream of Stream, like Stream<Stream<List<>>>. I need convert the return of getFiles() to stream. And then flatMap it would combine all those returned list into one. 
+
+## two list cross join each elements
+```
+xValues.stream()
+    .flatMap(x -> yValues.stream().map(y -> new ABC(x, y)))
+    .collect(toList());
+```
 
 ## collection groupby
 https://www.baeldung.com/java-groupingby-collector
@@ -173,6 +196,23 @@ if (a != null) {
 ```
 https://www.baeldung.com/java-9-optional
 
+## Optinal to replace null check
+Java null sometimes is quite annoying. For example, if I want to get a.b.c.d and a,b,c can be null. The code is ugly
+```
+if (a != null) {
+    if(a.b != null) {
+        if(a.b.c != null) {
+	    ....
+```
+Use Optional can make it neat. 
+```
+Optional.ofNullable(a).map(A::getB).map(B::getC).map(C::getD).orElse(null)
+```
+
+## Optional Transforming an Empty String into an Empty Optional
+```
+Optional<String> opt = Optional.ofNullable(str).filter(s -> !s.isEmpty());
+```
 
 ## var to declare local variables
 https://dzone.com/articles/finally-java-10-has-var-to-declare-local-variables
@@ -331,3 +371,131 @@ Collection<List<BankTransaction>> byTypeBankTransactions =
 ```
 https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html
 
+## how to check JRE is unlimited
+https://gist.github.com/evaryont/6786915
+by command
+```
+jrunscript -e 'print(javax.crypto.Cipher.getMaxAllowedKeyLength("RC5"))'
+```
+OR
+```
+unzip -c ${JAVA_HOME}/jre/lib/security/local_policy.jar default_local.policy | grep -q javax.crypto.CryptoAllPermission && echo "unlimited JCE" || echo "vanilla JCE"
+```
+or by java class
+```
+import javax.crypto.Cipher;
+
+class Test {
+  public static void main(String[] args) {
+    try {
+      System.out.println("Hello World!");
+      int maxKeyLen = Cipher.getMaxAllowedKeyLength("AES");
+      System.out.println(maxKeyLen);
+    } catch (Exception e){
+      System.out.println("Sad world :(");
+    }
+  }
+}
+```
+or in eclipse debug shell
+```
+javax.crypto.Cipher.getMaxAllowedKeyLength("AES")
+```
+then press ctrl + shift + D  
+if output is 128, it is limited. If the output is 2147483647, it is unlimited.
+
+## list JCE providers
+```
+import java.security.Provider;
+import java.security.Security;
+import java.util.Enumeration;
+
+public class ProviderHelper {
+	public static void main(String[] args) throws Exception {
+		try {
+			Provider p[] = Security.getProviders();
+			for (int i = 0; i < p.length; i++) {
+				for (Enumeration e = p[i].keys(); e.hasMoreElements();)
+					System.out.println(p[i] + " -- " + e.nextElement());
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+}
+```
+
+## jackson serialize enum
+By default, jackson is using the enum name when serializing object to json.  
+If you want a different value to be used when serializing, use the annotation @JsonValue  
+https://www.baeldung.com/jackson-serialize-enums 
+```
+public enum Distance { 
+    ... 
+    @JsonValue
+    public String getMeters() {
+        return meters;
+    }
+}
+```
+
+## use scanner to get text by regex
+```
+try (Scanner scanner = new Scanner("abc'{cipher}1234'xyz")) {
+	return scanner.findInLine(Pattern.compile("'\\{cipher\\}.*'"));
+}finally {}
+```
+The output would be '{cipher}1234' . 
+Remember Scanner need to be closed.
+
+## JsonNode vs JsonObject
+JsonNode is the object from Jackson API while JsonObject is from Java.   
+The JsonNode can be instanciated by json string or java bean...   
+Here is the ref  
+[https://attacomsian.com/blog/jackson-json-node-tree-model](https://attacomsian.com/blog/jackson-json-node-tree-model)
+
+## print string into byte array
+```
+System.out.println(Arrays.toString("Hello World".getBytes()));
+```
+## Currying in Java
+It is quite hard for Java using Currying. Here is one example  
+[https://www.baeldung.com/java-currying](https://www.baeldung.com/java-currying) 
+
+Let's say we have one function need 3 arguments. Curry allows us to partially feed the arguments, like step by step.  
+For example, we feed in first argument, it returns us a function which expects the rest 2 arguments. Then if we feed the 2nd argument. It returns the function which expects the 3rd argument and the first two arguments are already fed.  
+Basically, for each curry, you need create an Interface. 
+
+## pgp encrypt byte array example
+[https://github.com/payneteasy/superfly/blob/master/superfly-crypto/src/main/java/com/payneteasy/superfly/crypto/pgp/PGPUtils.java](https://github.com/payneteasy/superfly/blob/master/superfly-crypto/src/main/java/com/payneteasy/superfly/crypto/pgp/PGPUtils.java)
+
+another doc  
+[http://sloanseaman.com/wordpress/2011/08/11/pgp-encryptiondecryption-in-java/](http://sloanseaman.com/wordpress/2011/08/11/pgp-encryptiondecryption-in-java/)
+
+
+## Java Deep copy
+using serialization/deserialization  
+Apache Commons Lang has SerializationUtils#clone, which performs a deep copy when all classes in the object graph implement the Serializable interface.
+```
+SerializationUtils.clone(pm);
+```
+or Gson, convert to json string then convert back to object
+
+https://www.baeldung.com/java-deep-copy
+
+## java 8 lamada exception
+The functional interface provided by JDK does not throw any exception. So, if your code throw Checked exception, it would genreate compile error.  
+```
+List<Integer> integers = Arrays.asList(3, 9, 7, 0, 10, 20);
+integers.forEach(i -> writeToFile(i)); //writeToFile throws IOException
+```
+You either create your own functional interface to throw Checked exception or throw runtime exception.  
+
+https://www.baeldung.com/java-lambda-exceptions
+
+## servlet or filter code to get request uri without context
+in spring, this works 
+```
+String path = new UrlPathHelper().getPathWithinApplication(request);
+```
+https://stackoverflow.com/questions/4278083/how-to-get-request-uri-without-context-path

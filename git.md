@@ -27,6 +27,17 @@ git reset HEAD
 ## rename local and remote branch 
 https://multiplestates.wordpress.com/2015/02/05/rename-a-local-and-remote-branch-in-git/
 
+## git push a branch not exist on remote
+to work on a branch not exist on remote  
+create a branch on local 
+```
+git checkout -b local_branch_name
+```
+once the changes are checked in local branch
+```
+git push origin local_branch_name:remote_branch_name
+```
+
 ## revert/undo last commit before push
 ```
 git reset --soft d93bd7879ca0f8e8bc0866660022b43098b63390
@@ -51,6 +62,10 @@ git rm --cached [file]
 ## git log latest n commit
 ```
 git log -10
+```
+or by author
+```
+git log -10 --author=Jon
 ```
 
 ## git stash 
@@ -135,5 +150,97 @@ version=$(git symbolic-ref --short HEAD | cut -d '/' -f2)
 version=$(git describe --exact-match --tags)
 ```
 
+## git reset credential
+Somehow I found git remembered my credential and did not ask me to input the credential anymore. After 3 months, the company policy enforced to change the password. The remembered credential did not work any more. Git did not popup for re-inputting password. It just failed and was showing authorization failed.  
+Here is the command to list all git attributes 
+```
+git config -l
+```
+if you see "credential.helper=osxkeychain", it means git remembers your credential.  
+To reset that 
+```
+git config --global credential.helper osxkeychain
+```
+In next git command like pull or push, git prompts username and password.
 
+In windows, it is using "Credential Manager"
+https://stackoverflow.com/questions/15381198/remove-credentials-from-git
+
+## error when doing git pull
+The error is like "Cannot lock ref 'refs/remotes/origin/master...' "
+```
+git remote prune origin
+```
+This command remove the local branch which has already been removed on remote
+
+## git mode diff
+After copy the workspace from the old machine, the file permission was changed from 644 to 755
+
+Run git status, all files were marked changed. 
+Run git diff one_file, 
+```
+old mode 100644
+new mode 100755
+```
+Actually, most files do not need 755, 644 is enough
+To change them back, just run 
+```
+find . -type f -exec chmod 644 {} \; 
+```
+
+## git checkout file from a specific commit
+```
+git checkout f08a63ff4fa7b8479f8c698e5998ee1afcac3a4e Gemfile
+```
+
+## git compare all changes from two commits
+```
+git diff a0921c77d107df99bd89877c0d708fb5ec27074e 29ae7af8bc04c3749806575e7f3486895a211b52
+```
+if only needs the file name changed between two commits
+```
+git diff a0921c77d107df99bd89877c0d708fb5ec27074e 29ae7af8bc04c3749806575e7f3486895a211b52 --name-only
+```
+if need see diff for one specific file between two commits
+```
+git diff a0921c77d107df99bd89877c0d708fb5ec27074e 29ae7af8bc04c3749806575e7f3486895a211b52 <file_name>
+```
+
+## git sparse-checkout subdirectories from repo
+https://github.blog/2020-01-17-bring-your-monorepo-down-to-size-with-sparse-checkout/ 
+```
+git clone --depth 1 --no-checkout https://GIT_REPO
+cd DIR_FROM_REPO
+git sparse-checkout init --cone
+git sparse-checkout set THE_CHECKOUT_PATTERN
+```
+the generated sparse-checkout is here .git/info/sparse-checkout 
+
+the sparse checkout command above need git 2.25 or newer. The company I am working for is using git 2.9. The commands below is working for old git version. 
+```
+git clone --depth 1 --no-checkout https://GIT_REPO
+cd DIR_FROM_REPO
+git config core.sparseCheckout true
+echo "global-checks-*/*" > .git/info/sparse-checkout
+git checkout master
+```
+```
+--depth 1 is to get a shallow history
+```
+global-checks-*/* is the pattern for the folders you want to checkout. 
+
+## revert a merge commit 
+for this error "commit dd8d6f587fa24327d5f5afd6fa8c3e604189c8d4 is a merge but no -m option was given."
+```
+git revert -m 1 dd8d6f587fa24327d5f5afd6fa8c3e604189c8d4
+```
+The -m followed by the 1 indicates that we want to keep the parent side of the merge (the branch we are merging into).
+
+## detached head
+detached head means it is not connected to any branch.  
+To keep the change or the commit, create a temporary branch to keep the change 
+```git branch temp fef4501```
+then merge it to the working branch
+```git checkout target_branch
+git merge temp```
 
