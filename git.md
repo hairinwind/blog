@@ -239,10 +239,14 @@ The -m followed by the 1 indicates that we want to keep the parent side of the m
 ## detached head
 detached head means it is not connected to any branch.  
 To keep the change or the commit, create a temporary branch to keep the change 
-```git branch temp fef4501```
+```
+git branch temp fef4501
+```
 then merge it to the working branch
-```git checkout target_branch
-git merge temp```
+```
+git checkout target_branch
+git merge temp
+```
 
 ## git submodules
 Working with microservice, you will face a lot of git repos and they are related to each other. Git submodules is one solution.
